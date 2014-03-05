@@ -2,6 +2,7 @@ package org.ericsson.parser;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -15,6 +16,7 @@ public class ValidateDataTypes {
 	IterateThroughFile iterateThroughFile  = new IterateThroughFile();
 	SimpleDateFormat dataTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private XSSFSheet excelSheet;
+	private ArrayList<CellReference> invalidCellRef = new ArrayList<CellReference>();
 
 
 	public ValidateDataTypes(){
@@ -24,6 +26,14 @@ public class ValidateDataTypes {
 		ValidateUETAbleData();
 		ValidateMNCMCC_Data();
 
+	}
+
+	public ArrayList<CellReference> getInvlaidCellRef() {
+		return invalidCellRef;
+	}
+
+	public void setInvlaidCellRef(ArrayList<CellReference> invlaidCellRef) {
+		this.invalidCellRef = invlaidCellRef;
 	}
 
 	public XSSFSheet getExcelSheet() {
@@ -204,8 +214,8 @@ public class ValidateDataTypes {
 
 	public void getCellReference(Cell cell, Row row){
 		CellReference cellRef = new CellReference(row.getRowNum(), cell.getColumnIndex());
-		System.out.print(cellRef.formatAsString());
-		System.out.print(" - ");
+		
+		invalidCellRef.add(cellRef);
 	}
 
 	public void ChooseSheet(String sheetName){ 
@@ -216,6 +226,12 @@ public class ValidateDataTypes {
 
 	public void PrintSheetName(){
 		System.out.println(getExcelSheet().getSheetName() + "\n---------" );
+	}
+	
+	public void printArrayList(){
+		for (CellReference invalid:invalidCellRef){
+			System.out.println(invalid.formatAsString());
+		}
 	}
 
 }

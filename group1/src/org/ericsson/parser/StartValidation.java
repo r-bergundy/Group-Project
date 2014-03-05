@@ -2,15 +2,19 @@ package org.ericsson.parser;
 
 import java.util.Scanner;
 
-public class Main {
+public class StartValidation {
 
-	public static void main(String args[]){
+	//public static void main(String args[]){
+	//	new Main();
+	//}
 
-
-		new Main();
+	public StartValidation(){
+		new ValidatePKFields();
+		new ValidateForeignKeys();
+		new ImportData();
 	}
-
-	public Main(){
+	
+	public void Menu(){
 		Scanner option = new Scanner(System.in);
 		boolean quit = false;
 		int menuItem;		
@@ -30,6 +34,7 @@ public class Main {
 				new ValidateDataTypes();
 				break;
 			case 3:
+			
 				new ValidateForeignKeys();
 				break;
 			case 4:
@@ -41,6 +46,7 @@ public class Main {
 
 	}
 
+	
 }
 
 

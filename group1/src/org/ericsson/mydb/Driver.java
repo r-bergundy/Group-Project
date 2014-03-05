@@ -1,8 +1,10 @@
 package org.ericsson.mydb;
 
+import java.awt.Menu;
 import java.util.List;
 
 import org.ericsson.parser.ImportData;
+import org.ericsson.parser.StartValidation;
 
 import com.entities.*;
 
@@ -10,8 +12,9 @@ public class Driver {
 	
 	public Driver(){
 		
-		ImportData importData = new ImportData("datasets/dit group project - sample dataset.xlsx");
-		importData.populateDatabase();
+		//ImportData importData = new ImportData("datasets/dit group project - sample dataset.xlsx");
+		//importData.populateDatabase();
+		StartValidation startValidation = new StartValidation();
 
 		sampleQueries();
 		

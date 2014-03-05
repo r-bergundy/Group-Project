@@ -3,7 +3,6 @@ package org.ericsson.parser;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellReference;
@@ -24,15 +23,16 @@ public class ValidateForeignKeys {
 	private ArrayList<Double> causeCodes = new ArrayList<Double>();
 	private ArrayList<Double> mccValues = new ArrayList<Double>();
 	private ArrayList<Double> mncValues = new ArrayList<Double>();
+	private ArrayList<CellReference> invalidCellRef = new ArrayList<CellReference>();
 
 
 	public ValidateForeignKeys() {
-		//CheckFailureClassFK();
+		
 		populateArrayList(failureClassTable, failureClassValues, 0);
 		CompareValues(2, failureClassValues);
 				
 		populateArrayList(eventData, eventIDs, 1);
-		CompareValues(1, eventIDs);
+		CompareValues(1, eventIDs);		
 		
 		populateArrayList(ueType, TAC_Values, 0);
 		CompareValues(3, TAC_Values);		
@@ -48,11 +48,21 @@ public class ValidateForeignKeys {
 		
 		//CheckForFKNullValues(8, "Cause Code");
 		//CheckForFKNullValues(2, "Failure Class");
+		
+		printArrayList();
+	}	
+
+	public ArrayList<CellReference> getInvlaidCellRef() {
+		return invalidCellRef;
+	}
+
+	public void setInvlaidCellRef(ArrayList<CellReference> invlaidCellRef) {
+		this.invalidCellRef = invlaidCellRef;
 	}
 
 	public void CompareValues(int  baseDataColumnIndex, ArrayList<Double> foreignKeys){
 		Cell cell = null;
-		System.out.println("\tThe Following records are only found in Base Data");
+		
 		for (int rowNumber = 1; rowNumber < baseData.getLastRowNum(); rowNumber++)
 		{
 			Row row = baseData.getRow(rowNumber);
@@ -62,6 +72,7 @@ public class ValidateForeignKeys {
 					if(cell.getCellType() == Cell.CELL_TYPE_NUMERIC){
 						if (!foreignKeys.contains(cell.getNumericCellValue())){
 							getCellReference(cell, row);
+							
 						}
 					}
 				}
@@ -130,10 +141,19 @@ public class ValidateForeignKeys {
 
 	public void getCellReference(Cell cell, Row row){
 		CellReference cellRef = new CellReference(row.getRowNum(), cell.getColumnIndex());
-		System.out.print("\t- " + cellRef.formatAsString());
-		System.out.print("\n" );
+		//System.out.print("\t- " + cellRef.formatAsString());
+		//System.out.print("\n" );
+		invalidCellRef.add(cellRef);
 		//System.out.println("The following recording " + cell.getNumericCellValue() +" is not found elsewhere");
 		
+	}
+	
+	public void printArrayList(){
+		System.out.println("\tThe Following records are only found in Base Data and need to be removed!!");
+		for (CellReference invalid:invalidCellRef){
+			System.out.println(invalid.formatAsString());
+		}
+		System.out.println("Total Numbmer of Errors: " + invalidCellRef.size());
 	}
 
 

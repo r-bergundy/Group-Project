@@ -32,9 +32,12 @@ public class ImportData {
 	private ArrayList<String> eventCauses = new ArrayList<String>();
 	private HashMap<Integer, EventCause> hmpEventCauses = new HashMap<Integer, EventCause>();
 	private long startTime;
+	IterateThroughFile iterateThroughFile = new IterateThroughFile();
+	ReadFile readFile = new ReadFile();
 	
-	public ImportData(String filePath) {
-		CreateWorkBook(filePath);
+	public ImportData() {
+		//CreateWorkBook(filePath);
+		populateDatabase();
 
 	}
 	
@@ -51,7 +54,7 @@ public class ImportData {
 		populateDevice();
 		populateCallFailure();
 		try {
-			xlsxFile.close();
+			readFile.getXlsxfile().close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -215,6 +218,7 @@ public class ImportData {
 			Row row = currentSheet.getRow(i);
 			
 			String imsi = String.valueOf(((long)(row.getCell(10).getNumericCellValue())));	
+			//
 			device.setImsi(imsi);
 			
 			UserEquipment thisUE = (UserEquipment) PersistenceUtil.findEntityByIntPK
@@ -330,7 +334,7 @@ public class ImportData {
 	}
 
 	private void ChooseSheet(String sheetName) {
-		currentSheet = workbook.getSheet(sheetName);
+		currentSheet = iterateThroughFile.getWorkbook().getSheet(sheetName);
 	}
 
 	private void CreateWorkBook(String filePath) {
