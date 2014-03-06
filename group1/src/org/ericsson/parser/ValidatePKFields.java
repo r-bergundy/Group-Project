@@ -22,25 +22,24 @@ public class ValidatePKFields {
 	private ArrayList<CellReference> invalidCellRef = new ArrayList<CellReference>();
 	private boolean isValid;
 
-
-
-
 	public ValidatePKFields(){
 		CheckISFailureClassTableValid();
 		CheckIsIMSIValid();
 		CheckIsTACValid();
 		printArrayList();
+	}	
+
+	public ArrayList<CellReference> getInvalidCellRef() {
+		return invalidCellRef;
 	}
 
 
 
-	public boolean isValid() {
-		return isValid;
+	public void setInvalidCellRef(ArrayList<CellReference> invalidCellRef) {
+		this.invalidCellRef = invalidCellRef;
 	}
 
-	public void setValid(boolean isValid) {
-		this.isValid = isValid;
-	}
+
 
 	public void ChooseSheet(String sheetName){ 
 		String sheetN  = sheetName;

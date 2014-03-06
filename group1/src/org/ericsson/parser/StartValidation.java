@@ -7,10 +7,14 @@ public class StartValidation {
 	//public static void main(String args[]){
 	//	new Main();
 	//}
+	private int totalErrors;
+	ValidatePKFields pkfields = new ValidatePKFields();
+	ValidateForeignKeys fkfields = new ValidateForeignKeys();
 
 	public StartValidation(){
 		new ValidatePKFields();
 		new ValidateForeignKeys();
+		CalculateTotalNumberOfErrors();
 		new ImportData();
 	}
 	
@@ -44,6 +48,11 @@ public class StartValidation {
 		} 
 		System.out.println("Bye-bye!");
 
+	}
+	
+	public void CalculateTotalNumberOfErrors(){
+		totalErrors = pkfields.getInvalidCellRef().size() + fkfields.getInvlaidCellRef().size();
+		System.out.println("Total Numbmer of Errors: " + totalErrors);
 	}
 
 	

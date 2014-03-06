@@ -49,7 +49,7 @@ public class ValidateForeignKeys {
 		//CheckForFKNullValues(8, "Cause Code");
 		//CheckForFKNullValues(2, "Failure Class");
 		
-		printArrayList();
+		//printArrayList();
 	}	
 
 	public ArrayList<CellReference> getInvlaidCellRef() {
@@ -153,7 +153,7 @@ public class ValidateForeignKeys {
 		for (CellReference invalid:invalidCellRef){
 			System.out.println(invalid.formatAsString());
 		}
-		System.out.println("Total Numbmer of Errors: " + invalidCellRef.size());
+		
 	}
 
 

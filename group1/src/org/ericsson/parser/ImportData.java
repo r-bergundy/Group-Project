@@ -18,6 +18,7 @@ import com.entities.UserEquipment;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ericsson.mydb.PersistenceUtil;
@@ -111,16 +112,24 @@ public class ImportData {
 	private void populateEventCause() {
 
 		ChooseSheet("Event-Cause Table");
-
+		ArrayList<CellReference> valid = new ArrayList<CellReference>();
 		for (int i = 1; i < currentSheet.getLastRowNum(); i++) {
 			EventCause eventCause = new EventCause();
 			Row row = currentSheet.getRow(i);
-
+			
+			
 			eventCause.setCauseCode((int) row.getCell(0)
 					.getNumericCellValue());
+			CellReference cellref = new CellReference(row.getCell(0));
+			valid.add(cellref);
+
 			eventCause.setEventID((int) row.getCell(1)
 					.getNumericCellValue());
+			CellReference cellref2 = new CellReference(row.getCell(1));
+			valid.add(cellref);
 			eventCause.setDescription(row.getCell(2).getStringCellValue());
+			CellReference cellref3 = new CellReference(row.getCell(2));
+			valid.add(cellref3);
 			
 			PersistenceUtil.persist(eventCause);
 			

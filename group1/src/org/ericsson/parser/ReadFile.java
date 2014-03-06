@@ -18,7 +18,7 @@ public class ReadFile {
 	
 	public void LoadXLSXFile(){
 		try {
-			xlsxfile = new FileInputStream(new File("datasets/dit group project - sample dataset.xlsx"));
+			xlsxfile = new FileInputStream(new File("datasets/Dataset.xlsx"));
 			//xlsxfile = new FileInputStream(new File("Dataset.xlsx"));
 		} catch (FileNotFoundException e) {
 			System.out.println("File Not Found");
