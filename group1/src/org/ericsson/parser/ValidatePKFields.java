@@ -23,10 +23,10 @@ public class ValidatePKFields {
 	private boolean isValid;
 
 	public ValidatePKFields(){
-		CheckISFailureClassTableValid();
-		CheckIsIMSIValid();
-		CheckIsTACValid();
-		printArrayList();
+		//CheckISFailureClassTableValid();
+		//CheckIsIMSIValid();
+		//CheckIsTACValid();
+		//printArrayList();
 	}	
 
 	public ArrayList<CellReference> getInvalidCellRef() {
@@ -103,9 +103,7 @@ public class ValidatePKFields {
 			//System.out.print("\t" + cellRef.formatAsString());
 			//System.out.print(" - ");
 			//System.out.println("Invalid Record, Cannot be Blank");
-			invalidCellRef.add(cellRef);
-
-			
+			invalidCellRef.add(cellRef);			
 		}
 		
 	}

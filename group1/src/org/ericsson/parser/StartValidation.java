@@ -12,7 +12,10 @@ public class StartValidation {
 	ValidateForeignKeys fkfields = new ValidateForeignKeys();
 
 	public StartValidation(){
-		new ValidatePKFields();
+		pkfields.CheckISFailureClassTableValid();
+		pkfields.CheckIsIMSIValid();
+		pkfields.CheckIsTACValid(); 
+		pkfields.printArrayList();
 		new ValidateForeignKeys();
 		CalculateTotalNumberOfErrors();
 		new ImportData();

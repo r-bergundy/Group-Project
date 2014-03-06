@@ -14,7 +14,7 @@ public class Driver {
 		
 		//ImportData importData = new ImportData("datasets/dit group project - sample dataset.xlsx");
 		//importData.populateDatabase();
-		StartValidation startValidation = new StartValidation();
+		StartValidation main = new StartValidation();
 
 		sampleQueries();
 		
