@@ -24,10 +24,8 @@ public class EntityDAO {
 		for (Object ob : resultSet){
 			Object[] values = (Object[]) ob;
 			EventCause ec = (EventCause) values[1];
-			System.out.println(ec.getCauseCode());
-			causeCodes[counter]=ec.getCauseCode();
+			causeCodes[counter++]=ec.getCauseCode();
 		}
-    	
     	return causeCodes;
     }
     

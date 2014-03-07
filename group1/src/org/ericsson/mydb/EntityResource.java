@@ -28,7 +28,9 @@ public class EntityResource {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public int[] query6(@PathParam("imsi") String imsi) {
 		System.out.println("findUniqueCauseCodes");
+		
 		int[] resultSet = dao.findUniqueCauseCodesForImsi(imsi);
+		
 		return resultSet;
 	}
 
