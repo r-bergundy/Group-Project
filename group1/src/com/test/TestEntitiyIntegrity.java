@@ -14,7 +14,7 @@ public class TestEntitiyIntegrity {
 	public void testAccessCapabilityMerge() {
 
 		AccessCapability ac1 = (AccessCapability) 
-				PersistenceUtil.findEntityByIntPK(AccessCapability.class, 1);
+				PersistenceUtil.findEntityByPK(AccessCapability.class, 1);
 
 		//Test reference to parent table
 		assertNotNull(ac1.getUeaccesscapabilities());
@@ -24,7 +24,7 @@ public class TestEntitiyIntegrity {
 		ac1.setAccessName("test");		
 		PersistenceUtil.merge(ac1);	
 		AccessCapability ac2 = (AccessCapability) 
-				PersistenceUtil.findEntityByIntPK(AccessCapability.class, 1);
+				PersistenceUtil.findEntityByPK(AccessCapability.class, 1);
 		assertEquals("test", ac2.getAccessName());
 		
 		//Revert to original value
@@ -33,7 +33,7 @@ public class TestEntitiyIntegrity {
 		
 		//Ensure reverting back has worked properly
 		ac1 = (AccessCapability) 
-				PersistenceUtil.findEntityByIntPK(AccessCapability.class, 1);
+				PersistenceUtil.findEntityByPK(AccessCapability.class, 1);
 		assertEquals(accessCapabilityName, ac1.getAccessName());
 
 	}
@@ -44,14 +44,14 @@ public class TestEntitiyIntegrity {
 		//Test adding an object
 		AccessCapability ac1 = new AccessCapability();
 		PersistenceUtil.persist(ac1);
-		ac1 = (AccessCapability) PersistenceUtil.findEntityByIntPK(AccessCapability.class, 11);
+		ac1 = (AccessCapability) PersistenceUtil.findEntityByPK(AccessCapability.class, 11);
 		assertEquals(null, ac1.getAccessName());
 		
 		
 		//Test removing an object
 		PersistenceUtil.removeById(AccessCapability.class, 11);
 		AccessCapability ac3 = (AccessCapability) 
-				PersistenceUtil.findEntityByIntPK(AccessCapability.class, 11);
+				PersistenceUtil.findEntityByPK(AccessCapability.class, 11);
 		assertNull(ac3);
 		
 	}

@@ -38,7 +38,7 @@ public class ImportData {
 	ValidatePKFields validPK = new ValidatePKFields();
 
 	public ImportData() {
-		//CreateWorkBook(filePath);
+	//	CreateWorkBook(filePath);
 		populateDatabase();
 
 	}
@@ -83,12 +83,12 @@ public class ImportData {
 			if(row.getCell(2).getCellType() == Cell.CELL_TYPE_STRING){
 				continue;
 			}
-			FailureClass thisFC = (FailureClass) PersistenceUtil.findEntityByIntPK
+			FailureClass thisFC = (FailureClass) PersistenceUtil.findEntityByPK
 					(FailureClass.class, (int) row.getCell(2).getNumericCellValue());
 			callFailure.setFailureclass(thisFC);
 
 
-			Device thisDevice = (Device) PersistenceUtil.findEntityByIntPK
+			Device thisDevice = (Device) PersistenceUtil.findEntityByPK
 					(Device.class, String.valueOf(((long)(row.getCell(10).getNumericCellValue()))));
 			callFailure.setDevice(thisDevice);
 
@@ -240,7 +240,7 @@ public class ImportData {
 				device.setImsi(imsi);
 
 
-				UserEquipment thisUE = (UserEquipment) PersistenceUtil.findEntityByIntPK
+				UserEquipment thisUE = (UserEquipment) PersistenceUtil.findEntityByPK
 						(UserEquipment.class, (int) row.getCell(3).getNumericCellValue());
 				device.setUserequipment(thisUE);
 
@@ -249,7 +249,7 @@ public class ImportData {
 				for (int j = 0; j< operators.size() ; j++){
 					String s = operators.get(j);
 					if (s.equals(idInExcelSheet)){
-						Operator thisOp = (Operator) PersistenceUtil.findEntityByIntPK(Operator.class, 
+						Operator thisOp = (Operator) PersistenceUtil.findEntityByPK(Operator.class, 
 								j+1);
 						device.setOperator(thisOp);
 					}
@@ -289,7 +289,7 @@ public class ImportData {
 	private void populateArrayOperators(){
 		for(int i =1; i < currentSheet.getLastRowNum(); i++){
 			Operator op = (Operator) PersistenceUtil.
-					findEntityByIntPK(Operator.class,i);
+					findEntityByPK(Operator.class,i);
 			String concatID = String.valueOf(op.getMcc()) + "-" + String.valueOf(op.getMnc());
 			operators.add(concatID);
 		}
@@ -313,7 +313,7 @@ public class ImportData {
 
 				UEAccessCapability ueac = new UEAccessCapability();
 
-				UserEquipment thisUE = (UserEquipment) PersistenceUtil.findEntityByIntPK(UserEquipment.class, 
+				UserEquipment thisUE = (UserEquipment) PersistenceUtil.findEntityByPK(UserEquipment.class, 
 						(int) row.getCell(0).getNumericCellValue());
 				ueac.setUserequipment(thisUE);
 
@@ -331,7 +331,7 @@ public class ImportData {
 
 		for (int i = 1 ; i < currentSheet.getLastRowNum() ; i++){
 			AccessCapability ac = (AccessCapability) PersistenceUtil
-					.findEntityByIntPK(AccessCapability.class, i);
+					.findEntityByPK(AccessCapability.class, i);
 			accessCapabilities.add(ac.getAccessName());//NullPointerExc
 		}
 
@@ -344,7 +344,7 @@ public class ImportData {
 			String s = accessCapabilities.get(i);
 			if (s.equals(name)){
 				return (AccessCapability) PersistenceUtil
-						.findEntityByIntPK(AccessCapability.class, i+1);
+						.findEntityByPK(AccessCapability.class, i+1);
 			}
 		}
 

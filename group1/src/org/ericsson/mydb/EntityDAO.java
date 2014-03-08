@@ -11,7 +11,7 @@ import com.entities.UserEquipment;
 public class EntityDAO {
     
     public CallFailure findCallFailure(int id) {
-        return (CallFailure) PersistenceUtil.findEntityByIntPK(CallFailure.class, id);
+        return (CallFailure) PersistenceUtil.findEntityByPK(CallFailure.class, id);
     }
     
     public int[] findUniqueCauseCodesForImsi(String imsi){
@@ -28,5 +28,20 @@ public class EntityDAO {
 		}
     	return causeCodes;
     }
+    public String[] findEventIDCauseCodeForIMSI(String imsi){
+      	
+		List resultSet = PersistenceUtil.findEventIDCauseCodeForIMSI(imsi);
+		
+    	String[] eventIdsCauseCodes = new String[resultSet.size()];
+    	int counter = 0;
+		
+		for (Object ob : resultSet){
+			Object[] values = (Object[]) ob;
+			EventCause ec = (EventCause) values[1];
+			eventIdsCauseCodes[counter++]= ec.getEventID()+ "\t\t" + ec.getCauseCode();
+		}
+    	return eventIdsCauseCodes;
+    }
+    
     
 }

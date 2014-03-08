@@ -17,21 +17,34 @@ public class EntityResource {
 	@GET  @Path("findimsi/{id}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public String findCallFailure(@PathParam("id") String id) {
+		
 		System.out.println("findCallFailure");
 		CallFailure cf = dao.findCallFailure(Integer.parseInt(id));
 		String imsi = cf.getDevice().getImsi();
+		System.out.println("test" + imsi);
 		return imsi;
+		
 	}
 	
 	
 	@GET  @Path("findUniqueCauseCodes/{imsi}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public int[] query6(@PathParam("imsi") String imsi) {
-		System.out.println("findUniqueCauseCodes");
 		
-		int[] resultSet = dao.findUniqueCauseCodesForImsi(imsi);
-		
+		System.out.println("findUniqueCauseCodes");	
+		int[] resultSet = dao.findUniqueCauseCodesForImsi(imsi);	
 		return resultSet;
+		
+	}
+	
+	@GET  @Path("findEventIdsCauseCodes/{imsi}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public String[] findEventIdsCauseCodes(@PathParam("imsi") String imsi) {
+		
+		System.out.println("findEventIdsCauseCodes");	
+		String[] resultSet = dao.findEventIDCauseCodeForIMSI(imsi);	
+		return resultSet;
+		
 	}
 
 }

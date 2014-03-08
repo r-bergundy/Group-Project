@@ -14,25 +14,8 @@ public class Driver {
 		
 //		ImportData importData = new ImportData("datasets/dit group project - sample dataset.xlsx");
 //		importData.populateDatabase();
-//		sampleQueries();	
+		sampleQueries();	
 //		persistUser();
-		
-		
-		int[] resultSet = dao.findUniqueCauseCodesForImsi("344930000000011");
-		
-		while (resultSet.length < 10){
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		System.out.println("heow now");
-		for (Integer i : resultSet){
-			System.out.println(i.valueOf(i));
-		}
-		
 
 	}
 	

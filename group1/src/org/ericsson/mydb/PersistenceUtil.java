@@ -43,7 +43,7 @@ public class PersistenceUtil implements Serializable {
 	}
 	
 	public static void removeById(Class entityClass, Object PK){
-		remove(entityClass.cast(findEntityByIntPK(entityClass, PK)));
+		remove(entityClass.cast(findEntityByPK(entityClass, PK)));
 	}
 	
 	public static Object merge(Object entity) {
@@ -55,7 +55,7 @@ public class PersistenceUtil implements Serializable {
 		return entity;
 	}
 	
-	public static Object findEntityByIntPK(Class entityClass, Object PK){
+	public static Object findEntityByPK(Class entityClass, Object PK){
 		EntityManager em = createEM();
 		Object obj = em.find(entityClass, PK);
 		em.close();
@@ -94,6 +94,7 @@ public class PersistenceUtil implements Serializable {
 	
 	public static List findEventIDCauseCodeForIMSI(String IMSI){
 		EntityManager em = createEM();
+		System.out.println("findEventIDCauseCodeForIMSI method from PersistenceUtil class");
 		List resultSet = (List) em.createNamedQuery("Find EventID/Cause Code for IMSI").setParameter("paramIMSI", IMSI).setMaxResults(20).getResultList();
 		em.close();
 

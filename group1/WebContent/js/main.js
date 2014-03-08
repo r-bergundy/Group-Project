@@ -1,6 +1,7 @@
 // The root URL for the RESTful services
 var rootURL = "http://localhost:8080/group1/rest/custservrep";
 
+$('#tableColumns').hide();
 // ---------------------Find Call Failure with ID--------------------
 $('#btnFindImsi').click(function() {
 	findCallFailureById($('#txtCallFailureId').val());
@@ -41,11 +42,34 @@ function findCauseCodes(imsi) {
 	});
 
 }
+//-----------Find EventIds and Cause Codes for Given Imsi(UserStory 4)--------------------
+
+$('#btnEventIdCauseCode').click(function() {
+	findEventIdsCauseCodes($('#txtImsi').val());
+	$('#results').hide();
+	$('#tableColumns').show();
+	//how do i get the line below to stay at top of page-i used html
+	//$("#tblQueryData").append('Event ID' + "\t\t" + 'CauseCode');
+	return false;
+});
+
+function findEventIdsCauseCodes(imsi) {
+	$.ajax({
+		type : 'GET',
+		url : rootURL + '/findEventIdsCauseCodes/' + imsi,
+		dataType : "json", // data type of response
+		success : function(data) {
+			renderList(data);
+	
+		}
+	
+	});
+	
+}
 
 function renderList(data) {
 	var resultset = data == null ? [] : (data instanceof Array ? data
 			: [ data ]);
-
 	if($("#tblQueryData tr").length > 1) {
 		$(this).parent().parent("tr").remove(); }
 	var rowCount = 0;
