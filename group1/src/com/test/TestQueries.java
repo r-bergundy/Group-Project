@@ -15,16 +15,15 @@ import com.mysql.jdbc.Statement;
 
 public class TestQueries {
 	
-//	@BeforeClass
-//	public void init(){
-//		System.out.println("hi");
-//	}
-	private EntityDAO dao = new EntityDAO();		
+	private static EntityDAO dao;
 	
-	@Test
-	public void testQuery6() throws SQLException{	
-		
-		String imsi = "344930000000001";		
+	@BeforeClass
+	public static void init(){
+		dao = new EntityDAO();
+	}	
+	
+
+	public void testSingleQuery6(String imsi) throws SQLException{		
 		
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "toor");
 		Statement stmt = (Statement) conn.createStatement() ;
@@ -52,16 +51,18 @@ public class TestQueries {
 
 		
 	}
-	
-	
+
 	@Test
-	public void testQuery4() throws SQLException{	
+	public void testQuery6() throws SQLException{
 		
-		String imsi = "344930000000001";		
-
-		String[] actualResults = dao.findEventIDCauseCodeForIMSI(imsi);
-
+		testSingleQuery6("344930000000001");
+		testSingleQuery6("344930000000002");
+		testSingleQuery6("240210000000003");
+		testSingleQuery6("badImsi");
+		testSingleQuery6("badImsi");
+		
 		
 	}
+	
 
 }

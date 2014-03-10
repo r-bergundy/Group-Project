@@ -3,9 +3,11 @@ package org.ericsson.mydb;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.EntityManager;
+
+import org.hibernate.Session;
 
 public class PersistenceUtil implements Serializable {
 	
@@ -15,12 +17,13 @@ public class PersistenceUtil implements Serializable {
 	
 	public static void persist(Object entity) {
 		EntityManager em = emf.createEntityManager();
-//		Object primaryKey = emf.getPersistenceUnitUtil().getIdentifier(entity);
-//		if (em.find(entity.getClass(), primaryKey) == null){
+		Session session = (Session) em.getDelegate();
+		Object primaryKey  = session.getIdentifier(entity);
+		if (em.find(entity.getClass(), primaryKey) == null){
 			em.getTransaction().begin();
 			em.persist(entity);
 			em.getTransaction().commit();
-//		}
+		}
 		em.close();
 	}
 	
