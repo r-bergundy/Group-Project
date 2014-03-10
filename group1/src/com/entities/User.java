@@ -1,6 +1,7 @@
 package com.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="user")
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
-public class User implements Serializable {
+public class User implements Serializable, IEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -62,5 +63,10 @@ public class User implements Serializable {
 	public void setUserType(UserType userType) {
 		this.userType = userType;
 	}
+	
+	public Object getPrimaryKey(){
+		return userID;
+	};
+
 
 }

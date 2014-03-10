@@ -25,7 +25,7 @@ import org.codehaus.jackson.annotate.JsonManagedReference;
 @Entity
 @Table(name="device")
 @NamedQuery(name="Device.findAll", query="SELECT d FROM Device d")
-public class Device implements Serializable {
+public class Device implements Serializable, IEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -94,5 +94,9 @@ public class Device implements Serializable {
 	public void setOperator(Operator operator) {
 		this.operator = operator;
 	}
+	
+	public Object getPrimaryKey(){
+		return imsi;
+	};
 
 }

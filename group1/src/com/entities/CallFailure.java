@@ -35,7 +35,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 		@NamedQuery(name = "Find unique Cause Codes for IMSI", query = "SELECT cf, ec, d FROM "
 				+ "CallFailure cf, EventCause ec, Device d WHERE cf.eventcause = ec and cf.device = d"
 				+ " and d.imsi = :paramIMSI GROUP BY ec.causeCode") })
-public class CallFailure implements Serializable {
+public class CallFailure implements Serializable, IEntity{
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -169,5 +169,9 @@ public class CallFailure implements Serializable {
 	public void setEventcause(EventCause eventcause) {
 		this.eventcause = eventcause;
 	}
+	
+	public Object getPrimaryKey(){
+		return callFailureID;
+	};
 
 }

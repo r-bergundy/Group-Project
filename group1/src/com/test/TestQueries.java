@@ -59,7 +59,6 @@ public class TestQueries {
 		testSingleQuery6("344930000000002");
 		testSingleQuery6("240210000000003");
 		testSingleQuery6("badImsi");
-		testSingleQuery6("badImsi");
 		
 		
 	}

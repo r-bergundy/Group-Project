@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 @Table(name="eventcause")
 @NamedQuery(name="EventCause.findAll", query="SELECT e FROM EventCause e")
-public class EventCause implements Serializable {
+public class EventCause implements Serializable, IEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -93,5 +93,9 @@ public class EventCause implements Serializable {
 
 		return callfailure;
 	}
+	
+	public Object getPrimaryKey(){
+		return eventCauseID;
+	};
 
 }

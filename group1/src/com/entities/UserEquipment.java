@@ -21,7 +21,7 @@ import java.util.List;
 	@NamedQuery(name = "Find UE With UEType", query = "SELECT ue FROM "
 			+ "UserEquipment ue WHERE ue.UEType = :paramUEType")})
 
-public class UserEquipment implements Serializable {
+public class UserEquipment implements Serializable, IEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -166,5 +166,10 @@ public class UserEquipment implements Serializable {
 
 		return ueaccesscapability;
 	}
+	
+	public Object getPrimaryKey(){
+		return tac;
+	};
+
 
 }

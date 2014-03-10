@@ -21,7 +21,7 @@ import java.util.List;
 
 
 
-public class FailureClass implements Serializable {
+public class FailureClass implements Serializable, IEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -75,5 +75,9 @@ public class FailureClass implements Serializable {
 
 		return callfailure;
 	}
+	
+	public Object getPrimaryKey(){
+		return failureClassID;
+	};
 
 }

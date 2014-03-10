@@ -39,7 +39,7 @@ public class EntityDAO {
 			Object[] values = (Object[]) ob;
 			EventCause ec = (EventCause) values[1];
 			eventIdsCauseCodes[counter++]= ec.getEventID()+ "\t\t" + ec.getCauseCode();
-			System.out.println(ec.getEventID());
+			System.out.println(ec.getEventID() + ", " + ec.getCauseCode());
 		}
     	return eventIdsCauseCodes;
     }

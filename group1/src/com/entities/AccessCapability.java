@@ -15,7 +15,7 @@ import org.codehaus.jackson.annotate.JsonManagedReference;
 @Entity
 @Table(name="accesscapability")
 @NamedQuery(name="AccessCapability.findAll", query="SELECT a FROM AccessCapability a")
-public class AccessCapability implements Serializable {
+public class AccessCapability implements Serializable , IEntity{
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -70,5 +70,9 @@ public class AccessCapability implements Serializable {
 
 		return ueaccesscapability;
 	}
+	
+	public Object getPrimaryKey(){
+		return accessCapabilityID;
+	};
 
 }

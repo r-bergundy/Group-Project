@@ -37,8 +37,8 @@ public class ImportData {
 	ReadFile readFile = new ReadFile();
 	ValidatePKFields validPK = new ValidatePKFields();
 
-	public ImportData() {
-	//	CreateWorkBook(filePath);
+	public ImportData(String filePath) {
+		CreateWorkBook(filePath);
 		populateDatabase();
 
 	}

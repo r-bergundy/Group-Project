@@ -17,7 +17,7 @@ import java.util.List;
 @Entity
 @Table(name="operator")
 @NamedQuery(name="Operator.findAll", query="SELECT o FROM Operator o")
-public class Operator implements Serializable {
+public class Operator implements Serializable, IEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -105,5 +105,9 @@ public class Operator implements Serializable {
 
 		return device;
 	}
+	
+	public Object getPrimaryKey(){
+		return operatorID;
+	};
 
 }
