@@ -95,7 +95,8 @@ public class PersistenceUtil implements Serializable {
 	public static List findEventIDCauseCodeForIMSI(String IMSI){
 		EntityManager em = createEM();
 		System.out.println("findEventIDCauseCodeForIMSI method from PersistenceUtil class");
-		List resultSet = (List) em.createNamedQuery("Find EventID/Cause Code for IMSI").setParameter("paramIMSI", IMSI).setMaxResults(20).getResultList();
+		List resultSet = (List) em.createNamedQuery("Find EventID/Cause Code for IMSI").setParameter("paramIMSI", IMSI).getResultList();
+		System.out.println("hi");
 		em.close();
 
 		return resultSet;

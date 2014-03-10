@@ -52,5 +52,16 @@ public class TestQueries {
 
 		
 	}
+	
+	
+	@Test
+	public void testQuery4() throws SQLException{	
+		
+		String imsi = "344930000000001";		
+
+		String[] actualResults = dao.findEventIDCauseCodeForIMSI(imsi);
+
+		
+	}
 
 }
