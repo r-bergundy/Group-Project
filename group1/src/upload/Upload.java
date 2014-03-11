@@ -16,6 +16,8 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.ericsson.parser.ReadFile;
+import org.ericsson.parser.StartValidation;
 
 /**
  * Servlet implementation class Upload
@@ -23,7 +25,9 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 public class Upload extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private String FilePath;
+	private String FileName;
+	ReadFile fileLoader = new ReadFile();
 	private static final String UPLOAD_DIRECTORY = "upload";
 	private static final int THRESHOLD_SIZE     = 1024 * 1024 * 3;  // 3MB
 	private static final int MAX_FILE_SIZE      = 1024 * 1024 * 40; // 40MB
@@ -63,26 +67,37 @@ public class Upload extends HttpServlet {
 		try {
 			// parses the request's content to extract file data
 			List formItems = upload.parseRequest(request);
-			Iterator iter = formItems.iterator();
+			Iterator iterator = formItems.iterator();
 
 			// iterates over form's fields
-			while (iter.hasNext()) {
-				FileItem item = (FileItem) iter.next();
+			while (iterator.hasNext()) {
+				FileItem item = (FileItem) iterator.next();
 				// processes only fields that are not form fields
 				if (!item.isFormField()) {
 					String fileName = new File(item.getName()).getName();
 					String filePath = uploadPath + File.separator + fileName;
 					File storeFile = new File(filePath);
-
+					FileName = fileName;
+					FilePath = filePath;
 					// saves the file on disk
+					
+					System.out.println(FileName);
+					System.out.println(FilePath);
+					
+					
 					item.write(storeFile);
+		
 				}
 			}
-			request.setAttribute("message", "Upload has been done successfully!");
+			request.setAttribute("message", "Upload has been successfully Completed!\nFile Path = " + FileName
+					+ "\nFile Name = " + FileName);
 		} catch (Exception ex) {
 			request.setAttribute("message", "There was an error: " + ex.getMessage());
 		}
 		getServletContext().getRequestDispatcher("/message.jsp").forward(request, response);
+		fileLoader.LoadXLSXFile(FileName, FilePath);
+		//System.out.println(FileName);
+		//System.out.println(FilePath);
 	}
 
 }

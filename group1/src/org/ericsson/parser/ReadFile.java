@@ -13,20 +13,22 @@ public class ReadFile {
 	private XSSFWorkbook workbook;
 	
 	public ReadFile(){
-		LoadXLSXFile();
+		
 	}
 	
-	public void LoadXLSXFile(){
+	public void LoadXLSXFile(String fileName, String filePath){
 		try {
 			System.out.println("reading");
 			//xlsxfile = new FileInputStream(new File("datasets/Dataset.xlsx"));
-			xlsxfile = new FileInputStream(new File("datasets/DIT Group Project - Dataset 3A 2014.xlsx"));
+			xlsxfile = new FileInputStream(new File(filePath));
 		} catch (FileNotFoundException e) {
 			System.out.println("File Not Found");
 		} catch (IOException e) {
 			System.out.println("In correct file passed to create workbook");
 		}
 		
+		System.out.println(getXlsxfile().toString() + "             " + filePath);		
+		new IterateThroughFile().CreateWorkBook(xlsxfile);
 	}
 
 	public FileInputStream getXlsxfile() {

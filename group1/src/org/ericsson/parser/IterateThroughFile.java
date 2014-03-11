@@ -30,33 +30,28 @@ public class IterateThroughFile {
 	public void setExcelSheet(XSSFSheet excelSheet) {
 		this.excelSheet = excelSheet;
 	}
-
-
-
 	public XSSFWorkbook getWorkbook() {
 		return workbook;
 	}
-
 	public void setWorkbook(XSSFWorkbook workbook) {
 		this.workbook = workbook;
 	}
-
 	public IterateThroughFile(){
-		CreateWorkBook();
+		//CreateWorkBook();
 
 	}
-
 	public void ChooseSheet(String sheetName){ 
 		String sheetN  = sheetName;
 		setExcelSheet(workbook.getSheet(sheetName));
 	}
 
-	public void CreateWorkBook(){
-		xlsxFile = readXLSXFile.getXlsxfile();
+	public void CreateWorkBook(FileInputStream file){
+		//readXLSXFile.LoadXLSXFile();
+		xlsxFile = file;
 		try {
 			setWorkbook(new XSSFWorkbook(xlsxFile));
-
-
+			System.out.println("WORKBOOK CREATED");
+			System.out.println(getWorkbook().getSheetName(0));
 		} catch (IOException e) {
 			System.out.println("IO Exception");
 		}

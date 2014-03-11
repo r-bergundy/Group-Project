@@ -4,21 +4,22 @@ import java.util.Scanner;
 
 public class StartValidation {
 
-	//public static void main(String args[]){
-	//	new Main();
-	//}
+	public static void main(String args[]){
+		new StartValidation();
+	}
 	private int totalErrors;
 	ValidatePKFields pkfields = new ValidatePKFields();
 	ValidateForeignKeys fkfields = new ValidateForeignKeys();
 
 	public StartValidation(){
-		pkfields.CheckISFailureClassTableValid();
-		pkfields.CheckIsIMSIValid();
-		pkfields.CheckIsTACValid(); 
-		pkfields.printArrayList();
-		new ValidateForeignKeys();
-		CalculateTotalNumberOfErrors();
+		//pkfields.CheckISFailureClassTableValid();
+		//pkfields.CheckIsIMSIValid();
+		//pkfields.CheckIsTACValid(); 
+		//pkfields.printArrayList();
+		//new ValidateForeignKeys();
+		//CalculateTotalNumberOfErrors();
 		//new ImportData();
+		Menu();
 	}
 	
 	public void Menu(){
@@ -35,7 +36,9 @@ public class StartValidation {
 			menuItem = option.nextInt();
 			switch (menuItem) {
 			case 1:
-				new ValidatePKFields();
+				pkfields.CheckISFailureClassTableValid();
+				pkfields.CheckIsIMSIValid();
+				pkfields.CheckIsTACValid(); 
 				break;
 			case 2:
 				new ValidateDataTypes();
