@@ -6,48 +6,56 @@
 </head>
 
 <body>
-<div class="header">
-<table border="1">
-<tr>
-<td><img src="images/Ericsson_logo.png" height="95" width="110"></td>
-<td>&nbsp;<font face="Arial Black" size="6" color="white">Group One Dataset Application Server</font>&nbsp;&nbsp;&nbsp;</td>
-<td>&nbsp;<font color="white">User = $USER</td>
-<td>&nbsp;<font color="white">View = $VIEW</td>
-</tr>
-</table>
-</div>
-<div class="header2">
-<br>
-<a href="#" id="btn_import_dataset" class="buttons">Import Dataset</a>
-<a href="#" id="btn_check_connectivity" class="buttons">Check Connectivity</a>
-<a href="#" id="btn_refresh_page" class="buttons">Refresh Page</a>
-<a href="#" id="btn_import_dataset" class="buttons">Execute Query</a>
-<a href="#" id="btn_set_variables" class="buttons">Set Variables</a>
-&nbsp;
+	<div class="header">
+		<table border="1">
+			<tr>
+				<td><img src="images/Ericsson_logo.png" height="95" width="110"></td>
+				<td>&nbsp;<font face="Arial Black" size="6" color="white">Group
+						One Dataset Application Server</font>&nbsp;&nbsp;&nbsp;
+				</td>
+				<td>&nbsp;<font color="white">User = $USER</td>
+				<td>&nbsp;<font color="white">View = $VIEW</td>
+			</tr>
+		</table>
+	</div>
+	<div class="header2">
+		<br> <a href="#" id="btn_import_dataset" class="buttons">Import
+			Dataset</a> <a href="#" id="btn_check_connectivity" class="buttons">Check
+			Connectivity</a> <a href="#" id="btn_refresh_page" class="buttons">Refresh
+			Page</a> <a href="#" id="btn_import_dataset" class="buttons">Execute
+			Query</a> <a href="#" id="btn_set_variables" class="buttons">Set
+			Variables</a> &nbsp;
 
 
-</p></div>
-<div class="cssBody">
-	<label>Call Failure ID</label>
-	<input type="text" id="txtCallFailureId"/>
-	<button id="btnFindImsi">Find IMSI</button>
+		</p>
+	</div>
+	<div class="cssBody">
+		<h3>File Upload:</h3>
+		Select a file to upload: <br />
+		<form action="Upload" method="post" enctype="multipart/form-data">
+			<input type="file" name="file" size="50" /> <br /> <input
+				type="submit" value="Upload File" />
+		</form>
+		<label>Call Failure ID</label> <input type="text"
+			id="txtCallFailureId" />
+		<button id="btnFindImsi">Find IMSI</button>
 
-	<input type="text" id="txtImsi"/>
-	<button id="btnCauseCodes">Unique cause codes</button>
-	<button id="btnEventIdCauseCode">EventId&CauseCode</button>
-	<input type="text" id="txtCauseCodes"/>
+		<input type="text" id="txtImsi" />
+		<button id="btnCauseCodes">Unique cause codes</button>
+		<button id="btnEventIdCauseCode">EventId&CauseCode</button>
+		<input type="text" id="txtCauseCodes" />
 
 		<table id="tblQueryData">
 			<col width="200px">
 			<tr>
-			<th id = "results">Results Table</th>
-			<th id = "tableColumns">Event ID	Cause Code</th>
+				<th id="results">Results Table</th>
+				<th id="tableColumns">Event ID Cause Code</th>
 			</tr>
 		</table>
 
-</div>
+	</div>
 
-<script src="js/jquery-2.1.0.js"></script>
-<script src="js/main.js"></script>
+	<script src="js/jquery-2.1.0.js"></script>
+	<script src="js/main.js"></script>
 
 </body>
