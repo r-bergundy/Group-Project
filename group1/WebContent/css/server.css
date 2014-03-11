@@ -1,30 +1,56 @@
 html, body, {
     height: 100%;
+	background-color:grey;
 }
 
 .header {
     position:   absolute;
-    top:        0px;
+    top:        2%;
     height:     15%;
-    width:      100%;
+    width:      97.5%;
     background: #00275E;
+	padding: 5px;
+	border-style: ridge;
+	border-color:#000000;
+	border-width: 5px;
 }
 
 .header2 {
     position:   absolute;
-	top:		15%;
-    height:     15%;
-    width:      100%;
+	top:		20%;
+    height:     8%;
+    width:      97.5%;
     background: #4671DB;
+	padding: 5px;
+	border-style: ridge;
+	border-color:#000000;
+	border-width: 5px;
+}
+
+.queries {
+    position:   absolute;
+	top:		31%;
+    height:     3%;
+    width:      97.5%;
+    background: #C0C0C0;
+	padding: 5px;
+	border-style: ridge;
+	border-color:#000000;
+	border-width: 5px;
 }
 
 .cssBody {
     position:   absolute;
-    top:        30%;
-    bottom:     0px;
-    width:      100%;
+    top:        37%;
+    bottom:     5px;
+    width:      97.5%;
     background: #6C8CD5;
+	padding: 5px;
+	border-style: ridge;
+	border-color:#000000;
+	border-width: 5px;
 }
+
 
 .buttons {
 	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
