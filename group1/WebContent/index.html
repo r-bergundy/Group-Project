@@ -19,9 +19,12 @@
 		</table>
 	</div>
 	<div class="header2">
-		<br> <a href="#" id="btn_import_dataset" class="buttons">Import
-			Dataset</a> <a href="#" id="btn_check_connectivity" class="buttons">Check
-			Connectivity</a> <a href="#" id="btn_refresh_page" class="buttons">Refresh
+		<br> 
+		<a href="import.html" id="btn_import_dataset" class="buttons" onclick="return popitup('import.html')">Import Dataset</a> 
+		
+		
+			<a href="#" id="btn_check_connectivity" class="buttons">Check Connectivity</a> 
+			<a href="#" id="btn_refresh_page" class="buttons">Refresh
 			Page</a> <a href="#" id="btn_import_dataset" class="buttons">Execute
 			Query</a> <a href="#" id="btn_set_variables" class="buttons">Set
 			Variables</a> &nbsp;
@@ -30,12 +33,10 @@
 		</p>
 	</div>
 	<div class="cssBody">
-		<h3>File Upload:</h3>
-		Select a file to upload: <br />
-		<form action="Upload" method="post" enctype="multipart/form-data">
-			<input type="file" name="file" size="50" /> <br /> <input
-				type="submit" value="Upload File" />
-		</form>
+		
+		
+		
+		
 		<label>Call Failure ID</label> <input type="text"
 			id="txtCallFailureId" />
 		<button id="btnFindImsi">Find IMSI</button>
@@ -55,7 +56,25 @@
 
 	</div>
 
+	
+	
 	<script src="js/jquery-2.1.0.js"></script>
 	<script src="js/main.js"></script>
 
+	<script language="javascript" type="text/javascript">
+	
+	
+	//This will need to go into main.js at some point...
+<!--
+function popitup(url) {
+	newwindow=window.open(url,'name','height=200,width=250,toolbar=0,location=0,top=200,left=100');
+	if (window.focus) {newwindow.focus()}
+	return false;
+}
+
+// -->
+</script>
+	
+	
+	
 </body>
