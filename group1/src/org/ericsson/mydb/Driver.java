@@ -12,45 +12,12 @@ public class Driver {
 	
 	public Driver(){
 		
-//		ImportData importData = new ImportData("datasets/dit group project - sample dataset.xlsx");
-//		importData.populateDatabase();
+		ImportData importData = new ImportData("datasets/dit group project - sample dataset.xlsx");
+		importData.populateDatabase();
 //		sampleQueries();	
 //		persistUser();
-		
-		
-		List resultSet = PersistenceUtil.findEventIDCauseCodeForIMSI("344930000000011");
-		
-    	String[] eventIdsCauseCodes = new String[resultSet.size()];
-    	int counter = 0;
-		
-		for (Object ob : resultSet){
-			Object[] values = (Object[]) ob;
-			EventCause ec = (EventCause) values[1];
-			eventIdsCauseCodes[counter++]= ec.getEventID()+ "\t\t" + ec.getCauseCode();
-			System.out.println(ec.getEventID() + ", " + ec.getCauseCode());
-		}
-    	
-		for (String s: eventIdsCauseCodes){
-			System.out.println(s);
-		}
 
 	}
-	
-	
-/*	List resultSet = PersistenceUtil.findEventIDCauseCodeForIMSI("344930000000011");
-	
-	List<String> eventIdsCauseCodes = new ArrayList<String>();
-	int counter = 0;
-	
-	for (Object ob : resultSet){
-		Object[] values = (Object[]) ob;
-		EventCause ec = (EventCause) values[1];
-		eventIdsCauseCodes.add(ec.getEventID()+ "\t\t" + ec.getCauseCode());
-	}
-	
-	for (String s : eventIdsCauseCodes){
-		System.out.println(s);
-	}*/
 	
 	/**
 	 * Four sample queries:

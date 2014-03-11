@@ -18,7 +18,7 @@ public class StartValidation {
 		pkfields.printArrayList();
 		new ValidateForeignKeys();
 		CalculateTotalNumberOfErrors();
-		new ImportData();
+		//new ImportData();
 	}
 	
 	public void Menu(){

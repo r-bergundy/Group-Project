@@ -63,76 +63,7 @@ public class IterateThroughFile {
 
 	}
 
-	public void PrintColumnInFile(XSSFSheet sheet, int columnNumber){
-
-		for(Row row: sheet)
-		{
-
-			for(Cell cell : row)
-			{				
-				//cell = row.getCell(0);
-				if(cell == row.getCell(columnNumber)){
-					SwitchCellTypes(cell);
-				}
-				//System.out.println("\n");
-			}
-		}
-		try {
-			readXLSXFile.getXlsxfile().close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public void PrintAllItemsInFile(XSSFSheet sheet){
-
-		for(Row row: sheet)
-		{
-
-			for(Cell cell : row)
-			{				
-				SwitchCellTypes(cell);
-			}
-		}
-		try {
-			readXLSXFile.getXlsxfile().close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public void SwitchCellTypes(Cell cell){
-		switch (cell.getCellType()) 
-		{
-
-		case Cell.CELL_TYPE_NUMERIC:
-			if (DateUtil.isCellDateFormatted(cell))
-			{
-				System.out.println(cell.getDateCellValue() + " |\n ");
-			}
-
-			else {
-				System.out.print(cell.getNumericCellValue() + " |\n ");
-			}
-
-			break;
-		case Cell.CELL_TYPE_STRING:
-			System.out.print(cell.getStringCellValue() + " |\n ");
-			break;
-
-		case Cell.CELL_TYPE_BLANK:
-			System.out.print(" |\n ");
-			break;
-
-
-		}
-	}
-
-	public void checkDateFormat(XSSFSheet sheet){
-
-	}
+	
 
 
 
