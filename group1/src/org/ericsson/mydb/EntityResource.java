@@ -32,7 +32,7 @@ public class EntityResource {
 	public int[] query6(@PathParam("imsi") String imsi) {
 		
 		System.out.println("findUniqueCauseCodes");	
-		int[] resultSet = dao.findUniqueCauseCodesForImsi(imsi);	
+		int[] resultSet = dao.findUniqueCauseCodesForImsi(imsi);	 
 		return resultSet;
 		
 	}
