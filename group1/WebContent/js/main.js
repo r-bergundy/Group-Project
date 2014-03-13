@@ -24,7 +24,7 @@ function renderImsi(imsi) {
 	$('#txtImsi').val(imsi);
 }
 
-// ---------------------Find unique Cause Codes for Imsi--------------------
+// ---------------------Find unique Cause Codes for Imsi (query 6) --------------------
 
 $('#btnCauseCodes').click(function() {
 	findCauseCodes($('#txtImsi').val());
@@ -42,6 +42,7 @@ function findCauseCodes(imsi) {
 	});
 
 }
+
 //-----------Find EventIds and Cause Codes for Given Imsi(UserStory 4)--------------------
 
 $('#btnEventIdCauseCode').click(function() {
@@ -81,4 +82,31 @@ function renderList(data) {
 
 	}
 	
+}
+
+
+
+//---------------------Find count of failures in given time for a tac (query 6) --------------------
+queryCountFailuresForTacInTime('21060800', '2013-01-11T17:15', '2013-01-11T17:18');
+
+$('#btn???').click(function() {
+	queryCountFailuresForTacInTime($('#txtTac').val(), $('#dltStartTime').val(), $('#dltEndTime').val());
+	return false;
+});
+
+function queryCountFailuresForTacInTime(tac, startTime, endTime) {
+	alert('ec')
+	$.ajax({
+		type : 'GET',
+		url : rootURL + '/query8/' + tac + "|" + startTime + "|" + endTime,
+		dataType : "json", // data type of response
+		success : function(data) {
+
+			renderQuery8(data);
+		}
+	});
+}
+
+function renderQuery8(data) {
+	alert(data);
 }

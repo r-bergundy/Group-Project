@@ -1,5 +1,6 @@
 package org.ericsson.mydb;
 
+import java.util.Date;
 import java.util.List;
 
 import com.entities.CallFailure;
@@ -42,6 +43,10 @@ public class EntityDAO {
 			System.out.println(ec.getEventID() + ", " + ec.getCauseCode());
 		}
     	return eventIdsCauseCodes;
+    }
+    
+    public int findCountFailuresForTacInTime(String tac, Date startTime, Date endTime){
+    	return PersistenceUtil.findCountFailuresForTacInTime(tac, startTime, endTime);
     }
     
     

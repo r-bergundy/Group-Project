@@ -1,5 +1,9 @@
 package org.ericsson.mydb;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -46,5 +50,30 @@ public class EntityResource {
 		return resultSet;
 		
 	}
+	
+	@GET  @Path("query8/{tacTimes}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public int query8(@PathParam("tacTimes") String tacTimes) {
+		
+		System.out.println("query8!!");	
+		
+		String[] data = tacTimes.split("|");
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+		Date startDate=null, endDate = null;
+		try {
+			startDate = sdf.parse(data[1]);
+			endDate = sdf.parse(data[2]);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+		return  dao.findCountFailuresForTacInTime(data[0], startDate, endDate);	
+		
+		
+	}
+
 
 }
