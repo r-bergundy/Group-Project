@@ -6,17 +6,16 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class StartValidation {
-
-	public static void main(String args[]){
-		//new StartValidation();
-	}
+	
 	private int totalErrors;
 	XSSFWorkbook workbook;
 	ValidatePKFields pkfields = new ValidatePKFields();
 	ValidateForeignKeys fkfields = new ValidateForeignKeys();
-
+	
+	
 	public StartValidation(XSSFWorkbook workBook){
 		this.workbook = workBook;
+		
 		pkfields.setWorkBook(workbook);
 		pkfields.CheckISFailureClassTableValid();
 		pkfields.CheckIsIMSIValid();
@@ -25,7 +24,7 @@ public class StartValidation {
 		
 		
 		CalculateTotalNumberOfErrors(pkfields, fkfields);
-		ImportData importData = new ImportData(workbook, fkfields, pkfields);
+		
 		
 		System.out.println("PK Errors");
 		pkfields.printArrayList();
@@ -33,8 +32,11 @@ public class StartValidation {
 		System.out.println("\nFK ERRORS");
 		fkfields.printArrayList();
 		//fkfields.PrintFailures();
-		importData.populateDatabase();
-		//Menu();
+		
+		
+		//ImportData importData = new ImportData(workbook, fkfields, pkfields);
+		//importData.populateDatabase();
+		
 	}	
 	
 	public int getTotalErrors() {
@@ -49,6 +51,7 @@ public class StartValidation {
 	public void CalculateTotalNumberOfErrors(ValidatePKFields pkkeys, 	ValidateForeignKeys fkkeys){
 		setTotalErrors(pkkeys.getInvalidCellRef().size() + fkkeys.getInvlaidCellRef().size());
 		System.out.println("Total Numbmer of Errors: " + totalErrors);
+		
 	}
 
 	

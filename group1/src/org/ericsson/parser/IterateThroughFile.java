@@ -20,8 +20,21 @@ public class IterateThroughFile {
 	private XSSFWorkbook workbook;
 	private XSSFSheet excelSheet;
 	private XSSFSheet eventTypeSheet;
-	ReadFile readXLSXFile = new ReadFile();
+	private int totalNumberErrors;
+	StartValidation startValidationProcess;
 
+	public IterateThroughFile(){
+		//CreateWorkBook();
+
+	}	
+	
+	public int getTotalNumberErrors() {
+		return totalNumberErrors;
+	}
+
+	public void setTotalNumberErrors(int totalNumberErrors) {
+		this.totalNumberErrors = totalNumberErrors;
+	}
 
 	public XSSFSheet getExcelSheet() {
 		return excelSheet;
@@ -36,10 +49,7 @@ public class IterateThroughFile {
 	public void setWorkbook(XSSFWorkbook workbook) {
 		this.workbook = workbook;
 	}
-	public IterateThroughFile(){
-		//CreateWorkBook();
-
-	}
+	
 	public void ChooseSheet(String sheetName){ 
 		String sheetN  = sheetName;
 		setExcelSheet(workbook.getSheet(sheetName));
@@ -52,7 +62,8 @@ public class IterateThroughFile {
 			setWorkbook(new XSSFWorkbook(xlsxFile));
 			System.out.println("WORKBOOK CREATED");
 			System.out.println(getWorkbook().getSheetName(0));
-			new StartValidation(getWorkbook());		
+			startValidationProcess = new StartValidation(getWorkbook());
+			setTotalNumberErrors(startValidationProcess.getTotalErrors());
 			
 			xlsxFile.close();
 		} catch (IOException e) {

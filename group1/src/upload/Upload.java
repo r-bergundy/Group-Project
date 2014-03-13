@@ -27,6 +27,7 @@ public class Upload extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private String FilePath;
 	private String FileName;
+	private int totalErrors;
 	ReadFile fileLoader = new ReadFile();
 	private static final String UPLOAD_DIRECTORY = "upload";
 	private static final int THRESHOLD_SIZE     = 1024 * 1024 * 3;  // 3MB
@@ -86,16 +87,22 @@ public class Upload extends HttpServlet {
 					
 					
 					item.write(storeFile);
+					fileLoader.LoadXLSXFile(FileName, FilePath);
+					System.out.println(fileLoader.getTotalErrors());
+					totalErrors = fileLoader.getTotalErrors();
+					
 		
 				}
 			}
-			request.setAttribute("message", "Upload has been successfully Completed!" + "\nFile Name = " + FileName
-					+ "\nTotal Numbers of Errors found in Dataset = ");
+			request.setAttribute("messageSuccess", "Upload has been successfully Completed!");
+			request.setAttribute("messageFileName", "\nFile Name = " + FileName);
+			request.setAttribute("messageErrors", "\nTotal Numbers of Errors found in Dataset = " + totalErrors);
 		} catch (Exception ex) {
 			request.setAttribute("message", "There was an error: " + ex.getMessage());
 		}
+		
 		getServletContext().getRequestDispatcher("/message.jsp").forward(request, response);
-		fileLoader.LoadXLSXFile(FileName, FilePath);
+		
 		//System.out.println(FileName);
 		//System.out.println(FilePath);
 	}
