@@ -1,11 +1,12 @@
 package org.ericsson.mydb;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.EntityManager;
 
 import com.entities.IEntity;
 
@@ -101,13 +102,17 @@ public class PersistenceUtil implements Serializable {
 		return resultSet;
 	}
 	
-	public static List findUniqueCauseCodesForIMSI(String IMSI){
+	public static int findCountFailuresForTacInTime(String tac, Date startTime, Date endTime){
 		EntityManager em = createEM(); 
-		List resultSet = (List) em.createNamedQuery("Find unique Cause Codes for IMSI").setParameter("paramIMSI", IMSI).getResultList();
+		int result = (int) em.createNamedQuery("Find Count Failures For UE in TIme").setParameter("tac", tac)
+				.setParameter("startTime", startTime).setParameter("endTime", endTime).getResultList().size();
 		em.close();
 
-		return resultSet;
+		return result;
 	}
+	
+	
+	
 	
 }
 
