@@ -25,7 +25,7 @@ import org.ericsson.mydb.PersistenceUtil;
 
 public class ImportData {
 
-	private FileInputStream xlsxFile;
+	
 	private XSSFWorkbook workbook;
 	private XSSFSheet currentSheet;
 	private ArrayList<String> accessCapabilities = new ArrayList<String>();
@@ -34,10 +34,11 @@ public class ImportData {
 	private long startTime;
 //	private IterateThroughFile iterateThroughFile = new IterateThroughFile();
 //	private ReadFile readFile = new ReadFile();
-//	private ValidatePKFields validPK = new ValidatePKFields();
+	private ValidatePKFields validPK;
 
-	public ImportData(String filePath) {
-		CreateWorkBook(filePath);
+	public ImportData(XSSFWorkbook workBook, ValidateForeignKeys fkkeys, ValidatePKFields pkkeys) {
+		this.workbook = workBook;
+		this.validPK = pkkeys;
 
 	}
 
@@ -53,13 +54,7 @@ public class ImportData {
 		populateOperator();
 		populateDevice();
 		populateCallFailure();
-		try {
-			//readFile.getXlsxfile().close();
-			xlsxFile.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 
 	}
 
@@ -150,12 +145,12 @@ public class ImportData {
 			failureClass.setFailureClassID((int)row.getCell(0)
 					.getNumericCellValue());
 			CellReference cellRef = new CellReference(row.getCell(0));
-//			if(!validPK.getInvalidCellRef().contains(cellRef)){
+			if(!validPK.getInvalidCellRef().contains(cellRef)){
 				failureClass.setDescription(row.getCell(1)
 						.getStringCellValue());
 				PersistenceUtil.persist(failureClass);
 
-//			}
+			}
 		}
 		System.out.println((System.currentTimeMillis()-startTime)/1000 + "s: Populated FailureClass");
 	}
@@ -171,7 +166,7 @@ public class ImportData {
 
 			userEquipment.setTac((int)(row.getCell(0).getNumericCellValue()));
 			CellReference cellref = new CellReference(row.getCell(0));
-//			if (!validPK.getInvalidCellRef().contains(cellref)){
+			if (!validPK.getInvalidCellRef().contains(cellref)){
 				if (row.getCell(1).getCellType() == Cell.CELL_TYPE_NUMERIC){
 					userEquipment.setMarketingName(String.valueOf(row.getCell(1).getNumericCellValue()));
 
@@ -192,7 +187,7 @@ public class ImportData {
 				userEquipment.setOperatingSystem(row.getCell(7).getStringCellValue());
 				userEquipment.setInputMode(row.getCell(8).getStringCellValue());
 				PersistenceUtil.persist(userEquipment);
-//			}
+			}
 		}
 		System.out.println((System.currentTimeMillis()-startTime)/1000 + "s: Populated UserEquipment");
 
@@ -234,8 +229,8 @@ public class ImportData {
 
 			String imsi = String.valueOf(((long)(row.getCell(10).getNumericCellValue())));	
 			CellReference cellref = new CellReference(row.getCell(10));
-//			if(!validPK.getInvalidCellRef().contains(cellref))
-//			{
+			if(!validPK.getInvalidCellRef().contains(cellref))
+			{
 				device.setImsi(imsi);
 
 
@@ -259,15 +254,13 @@ public class ImportData {
 					PersistenceUtil.persist(device);
 				}
 
-//			}
+			}
 
 		}
 		System.out.println((System.currentTimeMillis()-startTime)/1000 + "s: Populated Device");
 	}
 	private void populateOperator(){
 		ChooseSheet("MCC - MNC Table");
-
-
 		for (int i = 1; i < currentSheet.getLastRowNum(); i++) {
 			Operator operator = new Operator();
 			Row row = currentSheet.getRow(i);       
@@ -337,7 +330,7 @@ public class ImportData {
 	}
 
 	private AccessCapability findAccessCapabilityByName(String name){
-		AccessCapability ac = new AccessCapability();
+		AccessCapability accessCapability = new AccessCapability();
 
 		for (int i = 0; i < accessCapabilities.size() ; i++){
 			String s = accessCapabilities.get(i);
@@ -347,7 +340,7 @@ public class ImportData {
 			}
 		}
 
-		return ac;
+		return accessCapability;
 
 	}
 
@@ -356,17 +349,6 @@ public class ImportData {
 		currentSheet = workbook.getSheet(sheetName);
 	}
 
-	private void CreateWorkBook(String filePath) {
-
-		try {
-			xlsxFile = new FileInputStream(new File(filePath));
-			workbook = new XSSFWorkbook(xlsxFile);
-		} catch (FileNotFoundException e) {
-			System.out.println("File Not Found");
-		} catch (IOException e) {
-			System.out.println("In correct file passed to create workbook");
-		}
-
-	}
+	
 
 }

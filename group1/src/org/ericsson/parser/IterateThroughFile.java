@@ -52,6 +52,9 @@ public class IterateThroughFile {
 			setWorkbook(new XSSFWorkbook(xlsxFile));
 			System.out.println("WORKBOOK CREATED");
 			System.out.println(getWorkbook().getSheetName(0));
+			new StartValidation(getWorkbook());		
+			
+			xlsxFile.close();
 		} catch (IOException e) {
 			System.out.println("IO Exception");
 		}

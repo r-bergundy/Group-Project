@@ -89,8 +89,8 @@ public class Upload extends HttpServlet {
 		
 				}
 			}
-			request.setAttribute("message", "Upload has been successfully Completed!\nFile Path = " + FileName
-					+ "\nFile Name = " + FileName);
+			request.setAttribute("message", "Upload has been successfully Completed!" + "\nFile Name = " + FileName
+					+ "\nTotal Numbers of Errors found in Dataset = ");
 		} catch (Exception ex) {
 			request.setAttribute("message", "There was an error: " + ex.getMessage());
 		}

@@ -12,8 +12,8 @@ public class Driver {
 	
 	public Driver(){
 		
-		ImportData importData = new ImportData("datasets/dit group project - sample dataset.xlsx");
-		importData.populateDatabase();
+		//ImportData importData = new ImportData("datasets/dit group project - sample dataset.xlsx");
+		//importData.populateDatabase();
 //		sampleQueries();	
 //		persistUser();
 

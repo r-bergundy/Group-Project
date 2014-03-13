@@ -2,62 +2,52 @@ package org.ericsson.parser;
 
 import java.util.Scanner;
 
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 public class StartValidation {
 
 	public static void main(String args[]){
-		new StartValidation();
+		//new StartValidation();
 	}
 	private int totalErrors;
+	XSSFWorkbook workbook;
 	ValidatePKFields pkfields = new ValidatePKFields();
 	ValidateForeignKeys fkfields = new ValidateForeignKeys();
 
-	public StartValidation(){
-		//pkfields.CheckISFailureClassTableValid();
-		//pkfields.CheckIsIMSIValid();
-		//pkfields.CheckIsTACValid(); 
-		//pkfields.printArrayList();
-		//new ValidateForeignKeys();
-		//CalculateTotalNumberOfErrors();
-		//new ImportData();
-		Menu();
-	}
+	public StartValidation(XSSFWorkbook workBook){
+		this.workbook = workBook;
+		pkfields.setWorkBook(workbook);
+		pkfields.CheckISFailureClassTableValid();
+		pkfields.CheckIsIMSIValid();
+		pkfields.CheckIsTACValid(); 
+		fkfields = new ValidateForeignKeys(workbook);
+		
+		
+		CalculateTotalNumberOfErrors(pkfields, fkfields);
+		ImportData importData = new ImportData(workbook, fkfields, pkfields);
+		
+		System.out.println("PK Errors");
+		pkfields.printArrayList();
+		
+		System.out.println("\nFK ERRORS");
+		fkfields.printArrayList();
+		//fkfields.PrintFailures();
+		importData.populateDatabase();
+		//Menu();
+	}	
 	
-	public void Menu(){
-		Scanner option = new Scanner(System.in);
-		boolean quit = false;
-		int menuItem;		
-		System.out.print("Choose menu item: \n---------------\n");		
-		System.out.println("1)Validate Primary Keys\n" +
-				"2)Validate Data Types\n" + 
-				"3)Validate Foreign Key Fields\n" +
-				"4)Quit");
-
-		while (!quit) {
-			menuItem = option.nextInt();
-			switch (menuItem) {
-			case 1:
-				pkfields.CheckISFailureClassTableValid();
-				pkfields.CheckIsIMSIValid();
-				pkfields.CheckIsTACValid(); 
-				break;
-			case 2:
-				new ValidateDataTypes();
-				break;
-			case 3:
-			
-				new ValidateForeignKeys();
-				break;
-			case 4:
-				quit = true;
-				break;
-			}
-		} 
-		System.out.println("Bye-bye!");
-
+	public int getTotalErrors() {
+		return totalErrors;
 	}
-	
-	public void CalculateTotalNumberOfErrors(){
-		totalErrors = pkfields.getInvalidCellRef().size() + fkfields.getInvlaidCellRef().size();
+
+	public void setTotalErrors(int totalErrors) {
+		this.totalErrors = totalErrors;
+	}
+
+
+	public void CalculateTotalNumberOfErrors(ValidatePKFields pkkeys, 	ValidateForeignKeys fkkeys){
+		setTotalErrors(pkkeys.getInvalidCellRef().size() + fkkeys.getInvlaidCellRef().size());
 		System.out.println("Total Numbmer of Errors: " + totalErrors);
 	}
 

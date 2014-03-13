@@ -29,6 +29,7 @@ public class ReadFile {
 		
 		System.out.println(getXlsxfile().toString() + "             " + filePath);		
 		new IterateThroughFile().CreateWorkBook(xlsxfile);
+		//new StartValidation();
 	}
 
 	public FileInputStream getXlsxfile() {
