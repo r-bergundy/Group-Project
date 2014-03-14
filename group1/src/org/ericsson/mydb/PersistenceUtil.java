@@ -108,6 +108,11 @@ public class PersistenceUtil implements Serializable {
 
 		return resultSet;
 	}
+
+	public static void switchTestDatabase() {
+		emf = Persistence.createEntityManagerFactory("testdb"); 	
+		
+	}
 	
 }
 

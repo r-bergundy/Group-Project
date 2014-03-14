@@ -81,30 +81,32 @@ public class Upload extends HttpServlet {
 					FileName = fileName;
 					FilePath = filePath;
 					// saves the file on disk
-					
+
 					System.out.println(FileName);
 					System.out.println(FilePath);
-					
-					
+
+
 					item.write(storeFile);
-					fileLoader.LoadXLSXFile(FileName, FilePath);
+					fileLoader.LoadXLSXFile(FilePath);
 					System.out.println(fileLoader.getTotalErrors());
 					totalErrors = fileLoader.getTotalErrors();
-					
-		
 				}
 			}
 			request.setAttribute("messageSuccess", "Upload has been successfully Completed!");
 			request.setAttribute("messageFileName", "\nFile Name = " + FileName);
 			request.setAttribute("messageErrors", "\nTotal Numbers of Errors found in Dataset = " + totalErrors);
+			request.setAttribute("messageFail", "No File/Wrong Fileformat Selected. Please select .xlsx files only");
+
+
 		} catch (Exception ex) {
 			request.setAttribute("message", "There was an error: " + ex.getMessage());
 		}
-		
-		getServletContext().getRequestDispatcher("/message.jsp").forward(request, response);
-		
-		//System.out.println(FileName);
-		//System.out.println(FilePath);
+		if(fileLoader.getValidFormat()){
+			getServletContext().getRequestDispatcher("/successMessage.jsp").forward(request, response);
+		}
+		else if(!fileLoader.getValidFormat()){
+			getServletContext().getRequestDispatcher("/failedMessage.jsp").forward(request, response);
+		}
 	}
 
 }
