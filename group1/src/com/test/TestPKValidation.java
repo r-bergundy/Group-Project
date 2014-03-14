@@ -62,6 +62,36 @@ public class TestPKValidation {
 		Row row = testsheet.getRow(0);
 		testValidation.SearchColumn(7);
 		assertTrue(testValidation.getInvalidCellRef().isEmpty());
+		
 	}
+	
+	@Test
+	public void TestIsFailureClassVALID(){
+		XSSFSheet testsheet = testWorkbook.getSheetAt(2);
+		testValidation.setWorkBook(testWorkbook);
+		testValidation.ChooseSheet(testsheet.getSheetName());
+		testValidation.SearchColumn(0);
+		assertTrue(testValidation.getInvalidCellRef().size() == 1);
+	}
+
+	
+	@Test
+	public void TestIsIMSIVALID(){
+		XSSFSheet testsheet = testWorkbook.getSheetAt(0);
+		testValidation.setWorkBook(testWorkbook);
+		testValidation.ChooseSheet(testsheet.getSheetName());
+		testValidation.SearchColumn(10);
+		assertTrue(testValidation.getInvalidCellRef().size() == 2);
+	}
+	
+	@Test
+	public void TestIsTACVALID(){
+		XSSFSheet testsheet = testWorkbook.getSheetAt(3);
+		testValidation.setWorkBook(testWorkbook);
+		testValidation.ChooseSheet(testsheet.getSheetName());
+		testValidation.SearchColumn(0);
+		assertTrue(testValidation.getInvalidCellRef().isEmpty());
+	}
+	
 
 }

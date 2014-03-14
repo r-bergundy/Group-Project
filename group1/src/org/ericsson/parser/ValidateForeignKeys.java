@@ -26,6 +26,14 @@ public class ValidateForeignKeys {
 	private ArrayList<Double> mccValues = new ArrayList<Double>();
 	private ArrayList<Double> mncValues = new ArrayList<Double>();
 
+	public ArrayList<Double> getMccValues() {
+		return mccValues;
+	}
+
+	public void setMccValues(ArrayList<Double> mccValues) {
+		this.mccValues = mccValues;
+	}
+
 	public XSSFSheet getBaseData() {
 		return baseData;
 	}
@@ -150,13 +158,16 @@ public class ValidateForeignKeys {
 			Row row = workbookSheet.getRow(rowNumber);
 			for (int colunmNumber = 0; colunmNumber <= row.getLastCellNum(); colunmNumber++) {
 				if (colunmNumber == columnIndex){
-					cell = row.getCell(colunmNumber);					
-					if(cell.getCellType() == Cell.CELL_TYPE_NUMERIC){
-						arr.add(cell.getNumericCellValue());					
-					}					
+					cell = row.getCell(colunmNumber);
+					if(!(cell == null)){
+						if(cell.getCellType() == Cell.CELL_TYPE_NUMERIC){
+							arr.add(cell.getNumericCellValue());					
+						}
+					}
 				}
 			}
 		}
+		System.out.println("ArrayList Size = " + getInvlaidCellRef().size());
 		System.out.println("\nComparing BaseData to " + workbookSheet.getSheetName() + "\n--------------");
 
 
@@ -167,36 +178,12 @@ public class ValidateForeignKeys {
 			System.out.println(d);
 		}
 	}
-
-	public void CheckForFKNullValues(int  baseDataColumnIndex, String columnDescription){
-
-		Cell cell = null;
-		System.out.println("\nChecking if Foriegn Key: " + columnDescription+ ", in Base Data is NULL/Blank\n--------------");
-		for (int rowNumber = 1; rowNumber <= baseData.getLastRowNum(); rowNumber++)
-		{
-			Row row = baseData.getRow(rowNumber);
-			for (int colunmNumber = 0; colunmNumber <= row.getLastCellNum(); colunmNumber++) {
-				if (colunmNumber == baseDataColumnIndex){
-					cell = row.getCell(colunmNumber);					
-					if(cell.getCellType() == Cell.CELL_TYPE_STRING){
-						if(cell.getStringCellValue().equals("(null)")){					
-							getCellReference(cell, row);
-						}
-					}
-					else if (cell.getCellType() == Cell.CELL_TYPE_BLANK){
-						getCellReference(cell, row);
-					}
-				}
-			}
-		}
-
-
-	}
+	
 
 	public void getCellReference(Cell cell, Row row){
 		CellReference cellRef = new CellReference(row.getRowNum(), cell.getColumnIndex());
-		//System.out.print("\t- " + cellRef.formatAsString());
-		//System.out.print("\n" );
+		System.out.print("\t- " + cellRef.formatAsString());
+		System.out.print("\n" );
 		invalidCellRef.add(cellRef);
 		//System.out.println("The following recording " + cell.getNumericCellValue() +" is not found elsewhere");
 
@@ -209,18 +196,8 @@ public class ValidateForeignKeys {
 		}
 
 	}
+
 	
-	public void PrintFailures(){
-		System.out.println("All the failure causes in Failure Table");
-		for(Double cell : failureClassValues){
-			System.out.println(cell);
-		}
-		
-		System.out.println("All the UE TYPES in UE Table");
-		for( Double ue: TAC_Values){
-			System.out.println(ue);
-		}
-	}
 
 
 

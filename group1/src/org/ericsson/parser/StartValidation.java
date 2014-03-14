@@ -24,17 +24,15 @@ public class StartValidation {
 		pkfields.CheckISFailureClassTableValid();
 		pkfields.CheckIsIMSIValid();
 		pkfields.CheckIsTACValid(); 
-		//fkfields = new ValidateForeignKeys(workbook);		
+		fkfields = new ValidateForeignKeys(workbook);		
 		
 		CalculateTotalNumberOfErrors(pkfields, fkfields);
 		
 		System.out.println("PK Errors");
 		pkfields.printArrayList();
 		
-		//System.out.println("\nFK ERRORS");
-		//fkfields.printArrayList();
-		//fkfields.PrintFailures();
-		
+		System.out.println("\nFK ERRORS");
+		fkfields.printArrayList();		
 		
 		//ImportData importData = new ImportData(workbook, fkfields, pkfields);
 		//importData.populateDatabase();

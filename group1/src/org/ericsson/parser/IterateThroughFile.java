@@ -49,10 +49,6 @@ public class IterateThroughFile {
 		this.workbook = workbook;
 	}
 	
-	public void ChooseSheet(String sheetName){ 
-		String sheetN  = sheetName;
-		setExcelSheet(workbook.getSheet(sheetName));
-	}
 
 	public void CreateWorkBook(FileInputStream file){
 		//readXLSXFile.LoadXLSXFile();
