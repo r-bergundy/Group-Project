@@ -3,6 +3,7 @@ package org.ericsson.mydb;
 import java.util.List;
 
 import org.ericsson.parser.ImportData;
+import org.ericsson.parser.ReadFile;
 
 import com.entities.*;
 
@@ -16,6 +17,10 @@ public class Driver {
 		//importData.populateDatabase();
 //		sampleQueries();	
 //		persistUser();
+		ReadFile fileLoader = new ReadFile();
+		fileLoader.LoadXLSXFile("datasets/ronansTestDataset.xlsx");
+		//fileLoader.LoadXLSXFile("datasets/dit group project - sample dataset.xlsx");
+		
 
 	}
 	

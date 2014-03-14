@@ -81,6 +81,7 @@ public class ReadFile {
 			setValidFormat(true);
 			workbookCreater.CreateWorkBook(xlsxfile);
 			setTotalErrors(workbookCreater.getTotalNumberErrors());
+			setWorkbook(workbookCreater.getWorkbook());
 		}
 		else{
 			System.out.println("Wrong File Format");

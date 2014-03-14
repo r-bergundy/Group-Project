@@ -25,7 +25,6 @@ public class IterateThroughFile {
 
 	public IterateThroughFile(){
 		//CreateWorkBook();
-
 	}	
 	
 	public int getTotalNumberErrors() {

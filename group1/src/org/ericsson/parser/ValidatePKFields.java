@@ -77,29 +77,37 @@ public class ValidatePKFields {
 	}
 
 	public void SearchColumn(int columnNumber){
-
+		Cell cell;
+		System.out.println("Column NUMBER FOR TESTING = " + columnNumber);
 		for (int rowIndex = 1; rowIndex <= excelsheet.getLastRowNum(); rowIndex++)
 		{
 			Row row = excelsheet.getRow(rowIndex);
-			for (int columnIndex = columnNumber; columnIndex < row.getLastCellNum(); columnIndex++) {
-				if (columnIndex == columnNumber){
-					Cell cell = row.getCell(columnIndex);	  
-					CheckForNULLorBlanks(row, cell);					
-
+			for (int columnIndex = 0; columnIndex <= row.getLastCellNum(); columnIndex++) {
+				if (columnIndex == columnNumber){					
+					cell = row.getCell(columnIndex);//in here lies the problem..cell is null					
+					if(cell == null){
+						System.out.println("Picking up null CELL");
+					}
+					//pass in blank null cell
+					CheckForNULLorBlanks(row, cell, columnIndex);
 				}
 
 			}
 		}
 	}
 
-	public void CheckForNULLorBlanks(Row row, Cell cell){
-		if ( cell.equals(null) || cell.getCellType() == Cell.CELL_TYPE_BLANK){
-			CellReference cellRef = new CellReference(row.getRowNum(), cell.getColumnIndex());
-			//System.out.print("\t" + cellRef.formatAsString());
-			//System.out.print(" - ");
-			//System.out.println("Invalid Record, Cannot be Blank");
-			invalidCellRef.add(cellRef);			
-		}		
+	public void CheckForNULLorBlanks(Row row, Cell cell, int columnNumber){
+		
+		if (cell == null || cell.getCellType() == Cell.CELL_TYPE_BLANK){
+			System.out.println("ERROR");
+			System.out.println("ROW = " + row.getRowNum());
+			//System.out.println("CELL = " +  cell.getColumnIndex());
+			CellReference cellRef = new CellReference(row.getRowNum(), columnNumber);	
+			System.out.print("\t- " + cellRef.formatAsString());
+			System.out.print("\n" );
+			invalidCellRef.add(cellRef);
+		}
+		
 	}
 	public void PrintSheetName(){
 		System.out.println("\n" + excelsheet.getSheetName() + "\n" + "--------------------");
