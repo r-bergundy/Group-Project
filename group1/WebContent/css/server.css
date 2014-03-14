@@ -107,4 +107,10 @@ html, body, {
       width: 100px;            /    *Width of select dropdown to give space for arrow image*/
       text-indent: 0.01px;          /* Removes default arrow from firefox*/
       text-overflow: "";               /*Removes default arrow from firefox*/
+}#btnlogout
+{
+position:fixed;
+top:30px;
+right:20px;
+text-decoration: none
 }

@@ -111,7 +111,13 @@ public class PersistenceUtil implements Serializable {
 		return result;
 	}
 	
-	
+	public static List findUniqueCauseCodesForIMSI(String IMSI){ 
+		EntityManager em = createEM(); 
+		List resultSet = 
+				(List) em.createNamedQuery("Find unique Cause Codes for IMSI")
+				.setParameter("paramIMSI", IMSI).getResultList();
+		em.close(); 
+		return resultSet; }
 	
 	
 }

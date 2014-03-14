@@ -7,57 +7,66 @@
 
 
 
-<body bgcolor="#E6E6FA">
+<body bgcolor="#E6E6FA" onload="function(){$('#tableColumns').hide();}">
 	<div class="header">
-		<center><table border="0">
-			<tr>
-				<td><img src="images/Ericsson_logo.png" height="122" width="137"></td>
-				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font face="Arial Black" size="6" color="white">Group
-						One Dataset Application Server</font>&nbsp;&nbsp;&nbsp;
-				</td>
-				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="white">User = $USER</td>
-				<td>&nbsp;<font color="white">View = $VIEW</td>
-			</tr>
-		</table></center>
+		<center>
+			<table border="0">
+				<tr>
+					<td><img src="images/Ericsson_logo.png" height="122"
+						width="137"></td>
+					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font
+						face="Arial Black" size="6" color="white">Group One Dataset
+							Application Server</font>&nbsp;&nbsp;&nbsp;
+					</td>
+					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font
+						color="white">User = $USER</td>
+					<td>&nbsp;<font color="white">View = $VIEW</td>
+					<a href="http://localhost:8080/group1/login.html" id="btnlogout">&nbsp;<font color="white">Logout</a>
+				</tr>
+			</table>
+		</center>
 	</div>
 	<div class="header2" id="header2">
 		<br>
-<center>		
-		<a href="import.html" id="btn_import_dataset" class="buttons" onclick="return popitup('import.html')">Import Dataset</a> 
-		
-		
-			<a href="#" id="btn_check_connectivity" class="buttons"  onclick="this.style.color='#04B404'" >Check Connectivity</a> 
-			<a href="#" id="btn_refresh_page" class="buttons" onClick="window.location.reload()">Refresh
-			Page</a> <a href="#" id="btn_import_dataset" class="buttons">Execute
-			Query</a> <a href="#" id="btn_set_variables" class="buttons">Set
-			Variables</a> &nbsp;
-			<a href="javascript:hideshow(document.getElementById('querybar'))" id="btn_v" class="buttons" onClick="showQueryDiv();">Show/Hide</a> &nbsp;
-			<a href="javascript:document.getElementById('header2').setAttribute('height:90px')" id="btn_v1" class="buttons" onClick="showQueryDiv();">Expand</a> &nbsp;
+		<center>
+			<a href="import.html" id="btn_import_dataset" class="buttons"
+				onclick="return popitup('import.html')">Import Dataset</a> <a
+				href="#" id="btn_check_connectivity" class="buttons"
+				onclick="this.style.color='#04B404'">Check Connectivity</a> <a
+				href="#" id="btn_refresh_page" class="buttons"
+				onClick="window.location.reload()">Refresh Page</a> <a href="#"
+				id="btn_import_dataset" class="buttons">Execute Query</a> <a
+				href="#" id="btn_set_variables" class="buttons">Set Variables</a>
+			&nbsp; <a
+				href="javascript:hideshow(document.getElementById('querybar'))"
+				id="btn_v" class="buttons" onClick="showQueryDiv();">Show/Hide</a>
+			&nbsp; <a
+				href="javascript:document.getElementById('header2').setAttribute('height:90px')"
+				id="btn_v1" class="buttons" onClick="showQueryDiv();">Expand</a>
+			&nbsp; <a href="javascript:hide(document.getElementById('mainBody'))"
+				id="btn_v1" class="buttons" onClick="showQueryDiv();">Add User</a>
+			&nbsp;
 
 
-</center>
+		</center>
 		</p>
 	</div>
-	
-	<div class="queries" id="querybar" style="display:block">
-	<center>
-	<label>Call Failure ID</label> <input type="text"
-			id="txtCallFailureId" />
-		<button id="btnFindImsi">Find IMSI</button>
 
-		<input type="text" id="txtImsi" />
-		<button id="btnCauseCodes">Unique cause codes</button>
-		<button id="btnEventIdCauseCode">EventId&CauseCode</button>
-		<input type="text" id="txtCauseCodes" />
-	</center>
+	<div class="queries" id="querybar" style="display: block">
+		<center>
+			<label>Call Failure ID</label> <input type="text"
+				id="txtCallFailureId" />
+			<button id="btnFindImsi">Find IMSI</button>
+
+			<input type="text" id="txtImsi" />
+			<button id="btnCauseCodes">Unique cause codes</button>
+			<button id="btnEventIdCauseCode">EventId&CauseCode</button>
+			<input type="text" id="txtCauseCodes" />
+		</center>
 	</div>
-	
-	<div class="cssBody">
-		
-		
-		
-		
-		
+
+	<div class="cssBody" id="mainBody">
+
 
 		<table id="tblQueryData">
 			<col width="200px">
@@ -69,8 +78,29 @@
 
 	</div>
 
-	
-	
+
+	<div class="cssBody" id="regDisplay">
+
+		<form id="addUser">
+			<label id="uname">Username:</label> <input id="username"
+				class="register" placeholder="username" type="text"><br>
+			<label id="lblUserType">User Type:</label> <select id="cbxUserType">
+				<option value="CUSTOMER_SERVICE_REP">Customer Service
+					Representative</option>
+				<option value="SUPPORT_ENGINEER">Support Engineer</option>
+				<option value="SYSTEM_ADMINISTRATOR">System Administrator</option>
+			</select> <br> <label for="password">Password:</label> <input
+				id="regPassword" class="register" placeholder="******"
+				type="password"><br> <label for="confirmPassword">Confirm
+				Password:</label> <input id="confirmPassword" class="register"
+				placeholder="******" type="password"><br> <input
+				value="Add" id="btnregister" type="button">
+		</form>
+
+	</div>
+
+
+
 	<script src="js/jquery-2.1.0.js"></script>
 	<script src="js/main.js"></script>
 
@@ -95,9 +125,16 @@ else
 which.style.display="block"
 }
 
+function hide(element){
+	element.style.display="none"
+	$('#regDisplay').show();
+}
+
+$('#regDisplay').hide();
 
 </script>
-	
-	
-	
+
+
+
 </body>
+</html>

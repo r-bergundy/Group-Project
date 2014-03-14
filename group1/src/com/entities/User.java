@@ -3,6 +3,7 @@ package com.entities;
 import java.io.Serializable;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
@@ -12,17 +13,19 @@ import javax.persistence.*;
 @Entity
 @Table(name="user")
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+@XmlRootElement
 public class User implements Serializable, IEntity {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="UserID")
-	private int userID;
+//	@Id
+//	@GeneratedValue(strategy=GenerationType.AUTO)
+//	@Column(name="UserID")
+//	private int userID;
 
 	@Column(name="Password")
 	private String password;
 
+	@Id
 	@Column(name="UserName")
 	private String userName;
 
@@ -32,13 +35,13 @@ public class User implements Serializable, IEntity {
 	public User() {
 	}
 
-	public int getUserID() {
-		return this.userID;
-	}
-
-	public void setUserID(int userID) {
-		this.userID = userID;
-	}
+//	public int getUserID() {
+//		return this.userID;
+//	}
+//
+//	public void setUserID(int userID) {
+//		this.userID = userID;
+//	}
 
 	public String getPassword() {
 		return this.password;
@@ -65,7 +68,7 @@ public class User implements Serializable, IEntity {
 	}
 	
 	public Object getPrimaryKey(){
-		return userID;
+		return userName;
 	};
 
 

@@ -4,19 +4,47 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.security.auth.login.LoginException;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.entities.CallFailure;
+import com.entities.User;
 
 @Path("/custservrep")
 public class EntityResource {
 
 	private EntityDAO dao = new EntityDAO();
 	
+	@GET  @Path("findUser/{uname}")
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public User findUser(@PathParam("uname") String userName) throws LoginException {
+        System.out.println(":( :(");
+        User user = (User) PersistenceUtil.findEntityByPK(User.class, userName);
+        if (user == null){
+            System.out.println("Blah blah");
+            throw new LoginException("User '" + userName + "' not found");
+            }
+        else {
+            System.out.println(user.getPassword());
+            return user;
+        }
+	}
+	
+	@POST @Path("addUser/")
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public User create(User user) {
+		System.out.println(user.getUserName());
+		System.out.println(user.getUserType()+"worked");
+        PersistenceUtil.persistTrust(user);
+        return user;
+    }
 	
 	@GET  @Path("findimsi/{id}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
