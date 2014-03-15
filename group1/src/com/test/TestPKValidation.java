@@ -33,7 +33,7 @@ public class TestPKValidation {
 	public static void setup() throws SQLException {
 		
 		//readFile.LoadXLSXFile("datasets/dit group project - sample dataset.xlsx");
-		readFile.LoadXLSXFile("datasets/ronansTestDataset.xlsx");
+		readFile.LoadXLSXFile("datasets/testDataset.xlsx");
 		testWorkbook = readFile.getWorkbook();
 
 	}

@@ -16,7 +16,8 @@ import org.codehaus.jackson.annotate.JsonBackReference;
 		@NamedQuery(name = "UEAccesscCpability.findAll", query = "SELECT u FROM UEAccessCapability u"),
 		@NamedQuery(name = "Find UE With UEType and AccessCapability", query = "SELECT ue, ueac, ac FROM "
 				+ "UserEquipment ue, UEAccessCapability ueac, AccessCapability ac WHERE ue.UEType = :paramUEType and "
-				+ "ue = ueac.userequipment and ueac.accesscapability = ac and ac.accessName = :paramAC")})
+				+ "ue = ueac.userequipment and ueac.accesscapability = ac and ac.accessName = :paramAC")
+		})
 public class UEAccessCapability implements Serializable, IEntity{
 	private static final long serialVersionUID = 1L;
 
