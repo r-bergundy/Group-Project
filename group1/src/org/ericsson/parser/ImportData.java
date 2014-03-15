@@ -32,8 +32,6 @@ public class ImportData {
 	private ArrayList<String> operators = new ArrayList<String>();
 	private HashMap<Integer, EventCause> hmpEventCauses = new HashMap<Integer, EventCause>();
 	private long startTime;
-//	private IterateThroughFile iterateThroughFile = new IterateThroughFile();
-//	private ReadFile readFile = new ReadFile();
 	private ValidatePKFields validPK;
 
 	public ImportData(XSSFWorkbook workBook, ValidateForeignKeys fkkeys, ValidatePKFields pkkeys) {
@@ -323,7 +321,6 @@ public class ImportData {
 	}
 
 	public void ChooseSheet(String sheetName) {
-		// currentSheet = iterateThroughFile.getWorkbook().getSheet(sheetName);
 		currentSheet = workbook.getSheet(sheetName);
 	}
 
