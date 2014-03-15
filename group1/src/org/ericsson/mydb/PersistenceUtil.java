@@ -14,7 +14,12 @@ public class PersistenceUtil implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	protected static EntityManagerFactory emf = Persistence.createEntityManagerFactory("mydb"); 	
+	protected static EntityManagerFactory emf = Persistence.createEntityManagerFactory("mydb"); 
+	
+	public static boolean switchTestDatabase(){
+		emf = Persistence.createEntityManagerFactory("testdb"); 
+		return true;
+	}
 	
 	public static void persist(IEntity entity) {
 		EntityManager em = emf.createEntityManager();
@@ -68,56 +73,29 @@ public class PersistenceUtil implements Serializable {
 		return emf.createEntityManager();
 	}	
 	
-	public static List findAllInTable(String className){
-		EntityManager em = createEM();
-		List resultSet = (List) em.createNamedQuery(className + ".findAll").getResultList();
-		em.close();
-
-		return resultSet;
-	}
-	
-	public static List findUEWithUEType(String UEType){
-		EntityManager em = createEM();
-		List resultSet = (List) em.createNamedQuery("Find UE With UEType").setParameter("paramUEType", UEType).getResultList();
-		em.close();
-
-		return resultSet;
-	}
-	
-	public static List findUEWithUETypeAndAccessCapability(String UEType, String accessCapability){
-		EntityManager em = createEM();
-		List resultSet = (List) em.createNamedQuery("Find UE With UEType and AccessCapability").setParameter("paramUEType", UEType)
-				.setParameter("paramAC", accessCapability).getResultList();
-		em.close();
-
-		return resultSet;
-	}
-	
-	
 	public static List findEventIDCauseCodeForIMSI(String IMSI){
 		EntityManager em = createEM();
-		List resultSet = (List) em.createNamedQuery("Find EventID/Cause Code for IMSI").setParameter("paramIMSI", IMSI).setMaxResults(20).getResultList();
+		List resultSet = (List) em.createNamedQuery("Find EventID/Cause Code for IMSI").setParameter("paramIMSI", IMSI).getResultList();
+		em.close();
+
+		return resultSet;
+		}
+	
+	public static int findCountFailuresForTacInTime(int tac, Date startTime, Date endTime){
+		EntityManager em = createEM(); 	
+		int result = em.createNamedQuery("Find Count Failures For UE in Time").setParameter("tac", tac)
+				.setParameter("startTime", startTime).setParameter("endTime", endTime).getResultList().size();
+		em.close();
+		return result;
+	}
+
+	public static List findUniqueCauseCodesForIMSI(String IMSI){
+		EntityManager em = createEM();
+		List resultSet = (List) em.createNamedQuery("Find unique Cause Codes for IMSI").setParameter("paramIMSI", IMSI).getResultList();
 		em.close();
 
 		return resultSet;
 	}
-	
-	public static int findCountFailuresForTacInTime(String tac, Date startTime, Date endTime){
-		EntityManager em = createEM(); 
-		int result = (int) em.createNamedQuery("Find Count Failures For UE in TIme").setParameter("tac", tac)
-				.setParameter("startTime", startTime).setParameter("endTime", endTime).getResultList().size();
-		em.close();
-
-		return result;
-	}
-	
-	public static List findUniqueCauseCodesForIMSI(String IMSI){ 
-		EntityManager em = createEM(); 
-		List resultSet = 
-				(List) em.createNamedQuery("Find unique Cause Codes for IMSI")
-				.setParameter("paramIMSI", IMSI).getResultList();
-		em.close(); 
-		return resultSet; }
 	
 	
 }

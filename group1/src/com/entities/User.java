@@ -17,11 +17,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class User implements Serializable, IEntity {
 	private static final long serialVersionUID = 1L;
 
-//	@Id
-//	@GeneratedValue(strategy=GenerationType.AUTO)
-//	@Column(name="UserID")
-//	private int userID;
-
 	@Column(name="Password")
 	private String password;
 
@@ -34,14 +29,6 @@ public class User implements Serializable, IEntity {
 
 	public User() {
 	}
-
-//	public int getUserID() {
-//		return this.userID;
-//	}
-//
-//	public void setUserID(int userID) {
-//		this.userID = userID;
-//	}
 
 	public String getPassword() {
 		return this.password;

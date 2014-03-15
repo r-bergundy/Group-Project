@@ -20,7 +20,7 @@ import java.util.List;
 	@NamedQuery(name="UserEquipment.findAll", query="SELECT u FROM UserEquipment u"),
 	@NamedQuery(name = "Find UE With UEType", query = "SELECT ue FROM "
 			+ "UserEquipment ue WHERE ue.UEType = :paramUEType"),
-			@NamedQuery(name = "Find Count Failures For UE in TIme", query = "SELECT cf, ue, d from CallFailure "
+			@NamedQuery(name = "Find Count Failures For UE in Time", query = "SELECT cf, ue, d from CallFailure "
 					+ "cf, UserEquipment ue, Device d WHERE cf.device = d AND d.userequipment = ue AND ue.tac = :tac "
 					+ "AND cf.dateTime >= :startTime AND cf.dateTime <= :endTime")})
 

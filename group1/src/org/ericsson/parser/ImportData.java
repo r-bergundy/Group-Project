@@ -32,16 +32,21 @@ public class ImportData {
 	private ArrayList<String> operators = new ArrayList<String>();
 	private HashMap<Integer, EventCause> hmpEventCauses = new HashMap<Integer, EventCause>();
 	private long startTime;
-//	private IterateThroughFile iterateThroughFile = new IterateThroughFile();
-//	private ReadFile readFile = new ReadFile();
-//	private ValidatePKFields validPK = new ValidatePKFields();
+
+	// private IterateThroughFile iterateThroughFile = new IterateThroughFile();
+	// private ReadFile readFile = new ReadFile();
+	// private ValidatePKFields validPK = new ValidatePKFields();
 
 	public ImportData(String filePath) {
 		CreateWorkBook(filePath);
 
 	}
 
-	public void populateDatabase(){
+	public ImportData() {
+
+	}
+
+	public void populateDatabase() {
 
 		startTime = System.currentTimeMillis();
 
@@ -54,7 +59,7 @@ public class ImportData {
 		populateDevice();
 		populateCallFailure();
 		try {
-			//readFile.getXlsxfile().close();
+			// readFile.getXlsxfile().close();
 			xlsxFile.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -63,7 +68,7 @@ public class ImportData {
 
 	}
 
-	private void populateCallFailure(){
+	public void populateCallFailure() {
 		ChooseSheet("Base Data");
 
 		for (int i = 1; i < currentSheet.getLastRowNum(); i++) {
@@ -71,45 +76,47 @@ public class ImportData {
 
 			Row row = currentSheet.getRow(i);
 
-			callFailure.setDuration((int)row.getCell(7).getNumericCellValue());
+			callFailure.setDuration((int) row.getCell(7).getNumericCellValue());
 			callFailure.setNEVersion(row.getCell(9).getStringCellValue());
 			callFailure.setDateTime(row.getCell(0).getDateCellValue());
-			callFailure.setCellID((int)row.getCell(6).getNumericCellValue());
-			callFailure.setHier3id(String.valueOf((int)row.getCell(11).getNumericCellValue()));
-			callFailure.setHier32id(String.valueOf((int)row.getCell(12).getNumericCellValue()));
-			callFailure.setHier321id(String.valueOf((int)row.getCell(13).getNumericCellValue()));
+			callFailure.setCellID((int) row.getCell(6).getNumericCellValue());
+			row.getCell(11).setCellType(Cell.CELL_TYPE_STRING);
+			callFailure.setHier3id(row.getCell(11).getStringCellValue());
+			row.getCell(12).setCellType(Cell.CELL_TYPE_STRING);
+			callFailure.setHier32id(row.getCell(12).getStringCellValue());
+			row.getCell(13).setCellType(Cell.CELL_TYPE_STRING);
+			callFailure.setHier321id(row.getCell(13).getStringCellValue());
 
-			if(row.getCell(2).getCellType() == Cell.CELL_TYPE_STRING){
+			if (row.getCell(2).getCellType() == Cell.CELL_TYPE_STRING) {
 				continue;
 			}
-			FailureClass thisFC = (FailureClass) PersistenceUtil.findEntityByPK
-					(FailureClass.class, (int) row.getCell(2).getNumericCellValue());
+			FailureClass thisFC = (FailureClass) PersistenceUtil.findEntityByPK(FailureClass.class, (int) row
+					.getCell(2).getNumericCellValue());
 			callFailure.setFailureclass(thisFC);
 
-
-			Device thisDevice = (Device) PersistenceUtil.findEntityByPK
-					(Device.class, String.valueOf(((long)(row.getCell(10).getNumericCellValue()))));
+			Device thisDevice = (Device) PersistenceUtil.findEntityByPK(Device.class,
+					String.valueOf(((long) (row.getCell(10).getNumericCellValue()))));
 			callFailure.setDevice(thisDevice);
 
-			if (row.getCell(2).getCellType() == Cell.CELL_TYPE_NUMERIC){
-				String idInExcelSheet = String.valueOf((int)row.getCell(8).getNumericCellValue()) +
-						"-" + String.valueOf((int)row.getCell(1).getNumericCellValue());
+			if (row.getCell(2).getCellType() == Cell.CELL_TYPE_NUMERIC) {
+				String idInExcelSheet = String.valueOf((int) row.getCell(8).getNumericCellValue()) + "-"
+						+ String.valueOf((int) row.getCell(1).getNumericCellValue());
 
-				EventCause thisEC = hmpEventCauses.get(idInExcelSheet.hashCode());			
+				EventCause thisEC = hmpEventCauses.get(idInExcelSheet.hashCode());
 				callFailure.setEventcause(thisEC);
 
-			}else if(row.getCell(2).getCellType() == Cell.CELL_TYPE_STRING){
+			} else if (row.getCell(2).getCellType() == Cell.CELL_TYPE_STRING) {
 				continue;
 			}
 
 			PersistenceUtil.persistTrust(callFailure);
 		}
 
-		System.out.println((System.currentTimeMillis()-startTime)/1000 + "s: Populated CallFailure");
+		System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated CallFailure");
 
 	}
 
-	private void populateEventCause() {
+	public void populateEventCause() {
 
 		ChooseSheet("Event-Cause Table");
 		ArrayList<CellReference> valid = new ArrayList<CellReference>();
@@ -117,14 +124,11 @@ public class ImportData {
 			EventCause eventCause = new EventCause();
 			Row row = currentSheet.getRow(i);
 
-
-			eventCause.setCauseCode((int) row.getCell(0)
-					.getNumericCellValue());
+			eventCause.setCauseCode((int) row.getCell(0).getNumericCellValue());
 			CellReference cellref = new CellReference(row.getCell(0));
 			valid.add(cellref);
 
-			eventCause.setEventID((int) row.getCell(1)
-					.getNumericCellValue());
+			eventCause.setEventID((int) row.getCell(1).getNumericCellValue());
 			CellReference cellref2 = new CellReference(row.getCell(1));
 			valid.add(cellref);
 			eventCause.setDescription(row.getCell(2).getStringCellValue());
@@ -133,80 +137,74 @@ public class ImportData {
 
 			PersistenceUtil.persist(eventCause);
 
-			String concatID = String.valueOf(eventCause.getCauseCode()) 
-					+ "-" + String.valueOf(eventCause.getEventID());
+			String concatID = String.valueOf(eventCause.getCauseCode()) + "-" + String.valueOf(eventCause.getEventID());
 			hmpEventCauses.put(concatID.hashCode(), eventCause);
 		}
-		System.out.println((System.currentTimeMillis()-startTime)/1000 + "s: Populated EventCause");
+		System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated EventCause");
 
 	}
-	private void populateFailureClass(){
+
+	public void populateFailureClass() {
 		ChooseSheet("Failure Class Table");
 
-		for (int i =1; i< currentSheet.getLastRowNum(); i++){
+		for (int i = 1; i < currentSheet.getLastRowNum(); i++) {
 			FailureClass failureClass = new FailureClass();
 			Row row = currentSheet.getRow(i);
 
-			failureClass.setFailureClassID((int)row.getCell(0)
-					.getNumericCellValue());
+			failureClass.setFailureClassID((int) row.getCell(0).getNumericCellValue());
 			CellReference cellRef = new CellReference(row.getCell(0));
-//			if(!validPK.getInvalidCellRef().contains(cellRef)){
-				failureClass.setDescription(row.getCell(1)
-						.getStringCellValue());
-				PersistenceUtil.persist(failureClass);
+			// if(!validPK.getInvalidCellRef().contains(cellRef)){
+			failureClass.setDescription(row.getCell(1).getStringCellValue());
+			PersistenceUtil.persist(failureClass);
 
-//			}
+			// }
 		}
-		System.out.println((System.currentTimeMillis()-startTime)/1000 + "s: Populated FailureClass");
+		System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated FailureClass");
 	}
 
-	private void populateUserEquipment() {
+	public void populateUserEquipment() {
 
 		ChooseSheet("UE Table");
-
 
 		for (int i = 1; i < currentSheet.getLastRowNum(); i++) {
 			UserEquipment userEquipment = new UserEquipment();
 			Row row = currentSheet.getRow(i);
 
-			userEquipment.setTac((int)(row.getCell(0).getNumericCellValue()));
+			userEquipment.setTac((int) (row.getCell(0).getNumericCellValue()));
 			CellReference cellref = new CellReference(row.getCell(0));
-//			if (!validPK.getInvalidCellRef().contains(cellref)){
-				if (row.getCell(1).getCellType() == Cell.CELL_TYPE_NUMERIC){
-					userEquipment.setMarketingName(String.valueOf(row.getCell(1).getNumericCellValue()));
+			// if (!validPK.getInvalidCellRef().contains(cellref)){
+			if (row.getCell(1).getCellType() == Cell.CELL_TYPE_NUMERIC) {
+				userEquipment.setMarketingName(String.valueOf(row.getCell(1).getNumericCellValue()));
 
-				}
-				else if(row.getCell(1).getCellType() == Cell.CELL_TYPE_STRING){
-					userEquipment.setMarketingName(row.getCell(1).getStringCellValue());
-				}
-				userEquipment.setManufacturer(row.getCell(2).getStringCellValue());
-				if (row.getCell(4).getCellType() == Cell.CELL_TYPE_NUMERIC){
-					userEquipment.setModel(String.valueOf(row.getCell(4).getNumericCellValue()));
+			} else if (row.getCell(1).getCellType() == Cell.CELL_TYPE_STRING) {
+				userEquipment.setMarketingName(row.getCell(1).getStringCellValue());
+			}
+			userEquipment.setManufacturer(row.getCell(2).getStringCellValue());
+			if (row.getCell(4).getCellType() == Cell.CELL_TYPE_NUMERIC) {
+				userEquipment.setModel(String.valueOf(row.getCell(4).getNumericCellValue()));
 
-				}
-				else if(row.getCell(4).getCellType() == Cell.CELL_TYPE_STRING){
-					userEquipment.setModel(row.getCell(4).getStringCellValue());
-				}
-				userEquipment.setVenderName(row.getCell(5).getStringCellValue());
-				userEquipment.setUEType(row.getCell(6).getStringCellValue());
-				userEquipment.setOperatingSystem(row.getCell(7).getStringCellValue());
-				userEquipment.setInputMode(row.getCell(8).getStringCellValue());
-				PersistenceUtil.persist(userEquipment);
-//			}
+			} else if (row.getCell(4).getCellType() == Cell.CELL_TYPE_STRING) {
+				userEquipment.setModel(row.getCell(4).getStringCellValue());
+			}
+			userEquipment.setVenderName(row.getCell(5).getStringCellValue());
+			userEquipment.setUEType(row.getCell(6).getStringCellValue());
+			userEquipment.setOperatingSystem(row.getCell(7).getStringCellValue());
+			userEquipment.setInputMode(row.getCell(8).getStringCellValue());
+			PersistenceUtil.persist(userEquipment);
+			// }
 		}
-		System.out.println((System.currentTimeMillis()-startTime)/1000 + "s: Populated UserEquipment");
+		System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated UserEquipment");
 
 	}
 
-	private void populateAccessCapability() {
+	public void populateAccessCapability() {
 		ChooseSheet("UE Table");
 		accessCapabilities = new ArrayList<String>();
 
 		for (int i = 1; i < currentSheet.getLastRowNum(); i++) {
 
 			Row row = currentSheet.getRow(i);
-			String[] accessCapabilitiesForRow = row.getCell(3)
-					.getStringCellValue().split(", ");
+			String[] accessCapabilitiesForRow = row.getCell(3).getStringCellValue().split(", ");
 
 			for (String s : accessCapabilitiesForRow) {
 				if (!accessCapabilities.contains(s)) {
@@ -221,99 +219,83 @@ public class ImportData {
 			accessCapability.setAccessName(s);
 			PersistenceUtil.persist(accessCapability);
 		}
-		System.out.println((System.currentTimeMillis()-startTime)/1000 + "s: Populated AccessCapability");
+		System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated AccessCapability");
 	}
 
-	private void populateDevice(){
+	public void populateDevice() {
 		ChooseSheet("Base Data");
 
 		ArrayList<String> alreadyPersisted = new ArrayList<String>();
-		for(int i =1; i < currentSheet.getLastRowNum(); i++){
+		for (int i = 1; i < currentSheet.getLastRowNum(); i++) {
 			Device device = new Device();
 			Row row = currentSheet.getRow(i);
 
-			String imsi = String.valueOf(((long)(row.getCell(10).getNumericCellValue())));	
+			String imsi = String.valueOf(((long) (row.getCell(10).getNumericCellValue())));
 			CellReference cellref = new CellReference(row.getCell(10));
-//			if(!validPK.getInvalidCellRef().contains(cellref))
-//			{
-				device.setImsi(imsi);
+			// if(!validPK.getInvalidCellRef().contains(cellref))
+			// {
+			device.setImsi(imsi);
 
+			UserEquipment thisUE = (UserEquipment) PersistenceUtil.findEntityByPK(UserEquipment.class, (int) row
+					.getCell(3).getNumericCellValue());
+			device.setUserequipment(thisUE);
 
-				UserEquipment thisUE = (UserEquipment) PersistenceUtil.findEntityByPK
-						(UserEquipment.class, (int) row.getCell(3).getNumericCellValue());
-				device.setUserequipment(thisUE);
-
-				String idInExcelSheet = String.valueOf((int)row.getCell(4).getNumericCellValue()) +
-						"-" + String.valueOf((int)row.getCell(5).getNumericCellValue());
-				for (int j = 0; j< operators.size() ; j++){
-					String s = operators.get(j);
-					if (s.equals(idInExcelSheet)){
-						Operator thisOp = (Operator) PersistenceUtil.findEntityByPK(Operator.class, 
-								j+1);
-						device.setOperator(thisOp);
-					}
+			String idInExcelSheet = String.valueOf((int) row.getCell(4).getNumericCellValue()) + "-"
+					+ String.valueOf((int) row.getCell(5).getNumericCellValue());
+			for (int j = 0; j < operators.size(); j++) {
+				String s = operators.get(j);
+				if (s.equals(idInExcelSheet)) {
+					Operator thisOp = (Operator) PersistenceUtil.findEntityByPK(Operator.class, j + 1);
+					device.setOperator(thisOp);
 				}
+			}
 
-				if (! alreadyPersisted.contains(device.getImsi())){
-					alreadyPersisted.add(device.getImsi());
-					PersistenceUtil.persist(device);
-				}
+			if (!alreadyPersisted.contains(device.getImsi())) {
+				alreadyPersisted.add(device.getImsi());
+				PersistenceUtil.persist(device);
+			}
 
-//			}
+			// }
 
 		}
-		System.out.println((System.currentTimeMillis()-startTime)/1000 + "s: Populated Device");
+		System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated Device");
 	}
-	private void populateOperator(){
-		ChooseSheet("MCC - MNC Table");
 
+	public void populateOperator() {
+		ChooseSheet("MCC - MNC Table");
 
 		for (int i = 1; i < currentSheet.getLastRowNum(); i++) {
 			Operator operator = new Operator();
-			Row row = currentSheet.getRow(i);       
+			Row row = currentSheet.getRow(i);
 
-			operator.setMcc((int)row.getCell(0).getNumericCellValue());
-			operator.setMnc((int)row.getCell(1).getNumericCellValue());
+			operator.setMcc((int) row.getCell(0).getNumericCellValue());
+			operator.setMnc((int) row.getCell(1).getNumericCellValue());
 			operator.setCountry(row.getCell(2).getStringCellValue());
 			operator.setOperatorName(row.getCell(3).getStringCellValue());
 			PersistenceUtil.persist(operator);
 
-			//Populate operators
+			// Populate operators
 			String concatID = String.valueOf(operator.getMcc()) + "-" + String.valueOf(operator.getMnc());
 			operators.add(concatID);
 
 		}
-		System.out.println((System.currentTimeMillis()-startTime)/1000 + "s: Populated Operator");
+		System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated Operator");
 	}
-	private void populateArrayOperators(){
-		for(int i =1; i < currentSheet.getLastRowNum(); i++){
-			Operator op = (Operator) PersistenceUtil.
-					findEntityByPK(Operator.class,i);
-			String concatID = String.valueOf(op.getMcc()) + "-" + String.valueOf(op.getMnc());
-			operators.add(concatID);
-		}
-	}
-	private void populateUEAccessCapability() {
+
+	public void populateUEAccessCapability() {
 
 		ChooseSheet("UE Table");
-
-		if (accessCapabilities.size()==0){
-			populateArrayAccessCapabilities();
-		}
-
 		for (int i = 1; i < currentSheet.getLastRowNum(); i++) {
 
 			Row row = currentSheet.getRow(i);
 
-			String[] accessCapabilitiesForRow = row.getCell(3)
-					.getStringCellValue().split(", ");
-
+			String[] accessCapabilitiesForRow = row.getCell(3).getStringCellValue().split(", ");
 			for (String s : accessCapabilitiesForRow) {
 
 				UEAccessCapability ueac = new UEAccessCapability();
 
-				UserEquipment thisUE = (UserEquipment) PersistenceUtil.findEntityByPK(UserEquipment.class, 
-						(int) row.getCell(0).getNumericCellValue());
+				UserEquipment thisUE = (UserEquipment) PersistenceUtil.findEntityByPK(UserEquipment.class, (int) row
+						.getCell(0).getNumericCellValue());
 				ueac.setUserequipment(thisUE);
 
 				if (accessCapabilities.contains(s)) {
@@ -323,27 +305,16 @@ public class ImportData {
 			}
 
 		}
-		System.out.println((System.currentTimeMillis()-startTime)/1000 + "s: Populated UEAccessCapability");
+		System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated UEAccessCapability");
 	}
 
-	private void populateArrayAccessCapabilities(){
-
-		for (int i = 1 ; i < currentSheet.getLastRowNum() ; i++){
-			AccessCapability ac = (AccessCapability) PersistenceUtil
-					.findEntityByPK(AccessCapability.class, i);
-			accessCapabilities.add(ac.getAccessName());//NullPointerExc
-		}
-
-	}
-
-	private AccessCapability findAccessCapabilityByName(String name){
+	public AccessCapability findAccessCapabilityByName(String name) {
 		AccessCapability ac = new AccessCapability();
 
-		for (int i = 0; i < accessCapabilities.size() ; i++){
+		for (int i = 0; i < accessCapabilities.size(); i++) {
 			String s = accessCapabilities.get(i);
-			if (s.equals(name)){
-				return (AccessCapability) PersistenceUtil
-						.findEntityByPK(AccessCapability.class, i+1);
+			if (s.equals(name)) {
+				return (AccessCapability) PersistenceUtil.findEntityByPK(AccessCapability.class, i + 1);
 			}
 		}
 
@@ -351,12 +322,12 @@ public class ImportData {
 
 	}
 
-	private void ChooseSheet(String sheetName) {
-		//currentSheet = iterateThroughFile.getWorkbook().getSheet(sheetName);
+	public void ChooseSheet(String sheetName) {
+		// currentSheet = iterateThroughFile.getWorkbook().getSheet(sheetName);
 		currentSheet = workbook.getSheet(sheetName);
 	}
 
-	private void CreateWorkBook(String filePath) {
+	public void CreateWorkBook(String filePath) {
 
 		try {
 			xlsxFile = new FileInputStream(new File(filePath));
