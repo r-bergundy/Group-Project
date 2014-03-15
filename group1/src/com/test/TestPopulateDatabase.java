@@ -12,9 +12,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ericsson.mydb.EntityDAO;
 import org.ericsson.mydb.PersistenceUtil;
 import org.ericsson.parser.ImportData;
+import org.ericsson.parser.ReadFile;
+import org.ericsson.parser.ValidateForeignKeys;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -39,13 +42,16 @@ public class TestPopulateDatabase {
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:00");
 	private static Connection connection;
 	private static ImportData importData;
+	private static ReadFile readFile = new ReadFile();
+	private static ValidateForeignKeys testValidation;
+	static XSSFWorkbook testWorkbook;	
 
 	@BeforeClass
 	public static void setup() {
 		dao = new EntityDAO();
 
 		PersistenceUtil.switchTestDatabase();
-		importData = new ImportData("datasets/testdataset.xlsx");
+		importData = new ImportData();
 	}
 
 	@AfterClass

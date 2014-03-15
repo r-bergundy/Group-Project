@@ -1,17 +1,18 @@
 package org.ericsson.mydb;
 
-import java.util.List;
+import java.io.IOException;
 
-import org.ericsson.parser.ImportData;
+import org.ericsson.parser.Import;
 import org.ericsson.parser.ReadFile;
 
-import com.entities.*;
+import com.entities.User;
+import com.entities.UserType;
 
 public class Driver {
 	
 	private EntityDAO dao = new EntityDAO();
 	
-	public Driver(){
+	public Driver() throws IOException{
 
 //		ImportData importData = new ImportData("datasets/dit group project - sample dataset.xlsx");
 //		importData.populateDatabase();

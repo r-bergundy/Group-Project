@@ -79,6 +79,10 @@ public class ReadFile {
 		}
 	}
 
+	public XSSFWorkbook getWorkbook() {
+		return workbook;
+	}
+
 	
 
 }
