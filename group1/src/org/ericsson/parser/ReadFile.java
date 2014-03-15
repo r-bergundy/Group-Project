@@ -20,7 +20,7 @@ public class ReadFile {
 	public ReadFile(){
 
 	}	
-
+ 
 	public IterateThroughFile getWorkbookCreater() {
 		return workbookCreater;
 	}
@@ -47,15 +47,6 @@ public class ReadFile {
 		this.xlsxfile = xlsxfile;
 	}
 
-	public XSSFWorkbook getWorkbook() {
-		return workbook;
-	}
-
-	public void setWorkbook(XSSFWorkbook workbook) {
-		this.workbook = workbook;
-	}
-
-
 	public int getTotalErrors() {
 		return totalErrors;
 	}
@@ -81,7 +72,6 @@ public class ReadFile {
 			setValidFormat(true);
 			workbookCreater.CreateWorkBook(xlsxfile);
 			setTotalErrors(workbookCreater.getTotalNumberErrors());
-			setWorkbook(workbookCreater.getWorkbook());
 		}
 		else{
 			System.out.println("Wrong File Format");

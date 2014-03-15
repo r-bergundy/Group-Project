@@ -66,16 +66,13 @@ public class EntityResource{
 	@GET
 	@Path("findUniqueCauseCodes/{imsi}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public ServerResponse query6(@PathParam("imsi") String imsi) throws ApplicationException {
+	public int[] query6(@PathParam("imsi") String imsi) throws ApplicationException {
 		
 		System.out.println("findUniqueCauseCodesee");
 		int[] resultSet = dao.findUniqueCauseCodesForImsi(imsi);
+
 		
-		ServerResponse sr = new ServerResponse();		
-		sr.setValid(false);
-		sr.setResultData(resultSet);
-		
-		return sr;
+		return resultSet;
 
 	}
 

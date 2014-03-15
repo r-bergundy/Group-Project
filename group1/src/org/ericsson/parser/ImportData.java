@@ -24,8 +24,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ericsson.mydb.PersistenceUtil;
 
 public class ImportData {
+ 
 
-	
 	private XSSFWorkbook workbook;
 	private XSSFSheet currentSheet;
 	private ArrayList<String> accessCapabilities = new ArrayList<String>();
@@ -42,6 +42,10 @@ public class ImportData {
 
 	public ImportData() {
 
+	}
+
+	public ImportData(String filePath){
+		
 	}
 
 	public void populateDatabase() {
@@ -148,8 +152,9 @@ public class ImportData {
 				failureClass.setDescription(row.getCell(1)
 						.getStringCellValue());
 				PersistenceUtil.persist(failureClass);
+			}
+			System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated FailureClass");
 		}
-		System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated FailureClass");
 	}
 
 	public void populateUserEquipment() {
@@ -166,12 +171,12 @@ public class ImportData {
 				if (row.getCell(1).getCellType() == Cell.CELL_TYPE_NUMERIC){
 					userEquipment.setMarketingName(String.valueOf(row.getCell(1).getNumericCellValue()));
 
-			} else if (row.getCell(1).getCellType() == Cell.CELL_TYPE_STRING) {
-				userEquipment.setMarketingName(row.getCell(1).getStringCellValue());
-			}
-			userEquipment.setManufacturer(row.getCell(2).getStringCellValue());
-			if (row.getCell(4).getCellType() == Cell.CELL_TYPE_NUMERIC) {
-				userEquipment.setModel(String.valueOf(row.getCell(4).getNumericCellValue()));
+				} else if (row.getCell(1).getCellType() == Cell.CELL_TYPE_STRING) {
+					userEquipment.setMarketingName(row.getCell(1).getStringCellValue());
+				}
+				userEquipment.setManufacturer(row.getCell(2).getStringCellValue());
+				if (row.getCell(4).getCellType() == Cell.CELL_TYPE_NUMERIC) {
+					userEquipment.setModel(String.valueOf(row.getCell(4).getNumericCellValue()));
 				}
 				else if(row.getCell(4).getCellType() == Cell.CELL_TYPE_STRING){
 					userEquipment.setModel(row.getCell(4).getStringCellValue());
@@ -226,30 +231,32 @@ public class ImportData {
 			{
 				device.setImsi(imsi);
 
-			UserEquipment thisUE = (UserEquipment) PersistenceUtil.findEntityByPK(UserEquipment.class, (int) row
-					.getCell(3).getNumericCellValue());
-			device.setUserequipment(thisUE);
+				UserEquipment thisUE = (UserEquipment) PersistenceUtil.findEntityByPK(UserEquipment.class, (int) row
+						.getCell(3).getNumericCellValue());
+				device.setUserequipment(thisUE);
 
-			String idInExcelSheet = String.valueOf((int) row.getCell(4).getNumericCellValue()) + "-"
-					+ String.valueOf((int) row.getCell(5).getNumericCellValue());
-			for (int j = 0; j < operators.size(); j++) {
-				String s = operators.get(j);
-				if (s.equals(idInExcelSheet)) {
-					Operator thisOp = (Operator) PersistenceUtil.findEntityByPK(Operator.class, j + 1);
-					device.setOperator(thisOp);
+				String idInExcelSheet = String.valueOf((int) row.getCell(4).getNumericCellValue()) + "-"
+						+ String.valueOf((int) row.getCell(5).getNumericCellValue());
+				for (int j = 0; j < operators.size(); j++) {
+					String s = operators.get(j);
+					if (s.equals(idInExcelSheet)) {
+						Operator thisOp = (Operator) PersistenceUtil.findEntityByPK(Operator.class, j + 1);
+						device.setOperator(thisOp);
+					}
 				}
+
+				if (!alreadyPersisted.contains(device.getImsi())) {
+					alreadyPersisted.add(device.getImsi());
+					PersistenceUtil.persist(device);
+				}
+
+
 			}
-
-			if (!alreadyPersisted.contains(device.getImsi())) {
-				alreadyPersisted.add(device.getImsi());
-				PersistenceUtil.persist(device);
-			}
-
-
+			System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated Device");
 		}
-		System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated Device");
 	}
-	private void populateOperator(){
+
+	public void populateOperator(){
 		ChooseSheet("MCC - MNC Table");
 		for (int i = 1; i < currentSheet.getLastRowNum(); i++) {
 			Operator operator = new Operator();
@@ -293,16 +300,6 @@ public class ImportData {
 
 		}
 		System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated UEAccessCapability");
-	}
-	
-	private void populateArrayAccessCapabilities(){
-
-		for (int i = 1 ; i < currentSheet.getLastRowNum() ; i++){
-			AccessCapability ac = (AccessCapability) PersistenceUtil
-					.findEntityByPK(AccessCapability.class, i);
-			accessCapabilities.add(ac.getAccessName());//NullPointerExc
-		}
-
 	}
 
 	private AccessCapability findAccessCapabilityByName(String name){

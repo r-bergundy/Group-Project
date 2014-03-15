@@ -33,7 +33,7 @@ public class Upload extends HttpServlet {
 	private static final int THRESHOLD_SIZE     = 1024 * 1024 * 3;  // 3MB
 	private static final int MAX_FILE_SIZE      = 1024 * 1024 * 40; // 40MB
 	private static final int MAX_REQUEST_SIZE   = 1024 * 1024 * 50; // 50MB
-
+ 
 	/**
 	 * handles file upload via HTTP POST method
 	 */
