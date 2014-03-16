@@ -62,13 +62,8 @@ public class ReadFile {
 		//workbookCreater = new IterateThroughFile();
 		String fileExtension = FilenameUtils.getExtension(filePath);
 		if(fileExtension.equals("xlsx")){
-			setValidFormat(true);
-			//workbookCreater.CreateWorkBook(xlsxfile);
+			setValidFormat(true);			
 			CreateWorkBook(xlsxfile);
-			/*setWorkbook(workbookCreater.getWorkbook());
-			setTotalErrors(workbookCreater.getTotalNumberErrors());
-			setPkerror(workbookCreater.getPkerror());
-			setFkerrors(workbookCreater.getFkerrors());*/
 		}
 		else{
 			System.out.println("Wrong File Format");
@@ -82,11 +77,8 @@ public class ReadFile {
 		try {
 			setWorkbook(new XSSFWorkbook(file));
 			System.out.println("WORKBOOK CREATED");
-			System.out.println(getWorkbook().getSheetName(0));
-			startValidationProcess = new StartValidation(getWorkbook());
-			totalNumberErrors = startValidationProcess.getTotalErrors();
-			setPkerror(startValidationProcess.getPkfields());
-			setFkerrors(startValidationProcess.getFkfields());
+			System.out.println(getWorkbook().getSheetName(0));			
+			
 			
 			file.close();
 		} catch (IOException e) {
@@ -117,6 +109,13 @@ public class ReadFile {
 
 	public void setFkerrors(ValidateForeignKeys fkerrors) {
 		this.fkerrors = fkerrors;
+	}
+	
+	public void StartProcess(){
+		startValidationProcess = new StartValidation(getWorkbook());
+		totalNumberErrors = startValidationProcess.getTotalErrors();
+		setPkerror(startValidationProcess.getPkfields());
+		setFkerrors(startValidationProcess.getFkfields());
 	}
 
 	
