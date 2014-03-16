@@ -18,6 +18,7 @@ import org.ericsson.mydb.PersistenceUtil;
 import org.ericsson.parser.ImportData;
 import org.ericsson.parser.ReadFile;
 import org.ericsson.parser.ValidateForeignKeys;
+import org.ericsson.parser.ValidatePKFields;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -47,22 +48,26 @@ public class TestPopulateDatabase {
 	static XSSFWorkbook testWorkbook;	
 
 	@BeforeClass
-	public static void setup() {
+	public static void setup() throws SQLException, InterruptedException {
 		dao = new EntityDAO();
-		readFile.LoadXLSXFile("datasets/testDataset.xlsx");
+		
+//		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "");
+		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "toor");
+		Statement stmt = (Statement) connection.createStatement();
+		 stmt.execute("DROP DATABASE testdb");
+			Thread.sleep(5000);
+		 stmt.execute("CREATE DATABASE testdb");
+
+		readFile.LoadXLSXFile("datasets/testDataset2.xlsx");
 		testWorkbook = readFile.getWorkbook();
 		PersistenceUtil.switchTestDatabase();
-		importData = new ImportData(testWorkbook);
+		importData = new ImportData(testWorkbook,new ValidateForeignKeys(), new ValidatePKFields());
 	}
 
 	@AfterClass
 	public static void afterClass() throws SQLException {
 
-		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "");
-		//connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "toor");
-		Statement stmt = (Statement) connection.createStatement();
-		 stmt.execute("DROP DATABASE testdb");
-		 stmt.execute("CREATE DATABASE testdb");
+
 	}
 
 	@Test

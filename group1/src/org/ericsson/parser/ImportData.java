@@ -25,7 +25,6 @@ import org.ericsson.mydb.PersistenceUtil;
 
 public class ImportData {
 
-
 	private XSSFWorkbook workbook;
 	private XSSFSheet currentSheet;
 	private ArrayList<String> accessCapabilities = new ArrayList<String>();
@@ -37,17 +36,14 @@ public class ImportData {
 	public ImportData(XSSFWorkbook workBook, ValidateForeignKeys fkkeys, ValidatePKFields pkkeys) {
 		this.workbook = workBook;
 		this.validPK = pkkeys;
-		// for testdb<!-- <property name="hibernate.connection.password" value="toor" /> -->
-		// for mydb <property name="hibernate.connection.password" value="toor" />
-	}
-
-	public ImportData(XSSFWorkbook workBook) {
-
+		// for testdb<!-- <property name="hibernate.connection.password"
+		// value="toor" /> -->
+		// for mydb <property name="hibernate.connection.password" value="toor"
+		// />
 	}
 
 	public void populateDatabase() {
 
-		startTime = System.currentTimeMillis();
 
 		populateEventCause();
 		populateAccessCapability();
@@ -56,6 +52,7 @@ public class ImportData {
 		populateUEAccessCapability();
 		populateOperator();
 		populateDevice();
+		System.out.println("test");
 		populateCallFailure();
 
 	}
@@ -110,6 +107,8 @@ public class ImportData {
 
 	public void populateEventCause() {
 
+		startTime = System.currentTimeMillis();
+
 		ChooseSheet("Event-Cause Table");
 		ArrayList<CellReference> valid = new ArrayList<CellReference>();
 		for (int i = 1; i < currentSheet.getLastRowNum(); i++) {
@@ -129,7 +128,8 @@ public class ImportData {
 
 			PersistenceUtil.persist(eventCause);
 
-			String concatID = String.valueOf(eventCause.getCauseCode()) + "-" + String.valueOf(eventCause.getEventID());
+			String concatID = String.valueOf(eventCause.getCauseCode()) + "-"
+					+ String.valueOf(eventCause.getEventID());
 			hmpEventCauses.put(concatID.hashCode(), eventCause);
 		}
 		System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated EventCause");
@@ -145,12 +145,12 @@ public class ImportData {
 
 			failureClass.setFailureClassID((int) row.getCell(0).getNumericCellValue());
 			CellReference cellRef = new CellReference(row.getCell(0));
-			if(!validPK.getInvalidCellRef().contains(cellRef)){
-				failureClass.setDescription(row.getCell(1)
-						.getStringCellValue());
+			if (!validPK.getInvalidCellRef().contains(cellRef)) {
+				failureClass.setDescription(row.getCell(1).getStringCellValue());
 				PersistenceUtil.persist(failureClass);
 			}
-		}System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated FailureClass");
+		}
+		System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated FailureClass");
 
 	}
 
@@ -164,8 +164,8 @@ public class ImportData {
 
 			userEquipment.setTac((int) (row.getCell(0).getNumericCellValue()));
 			CellReference cellref = new CellReference(row.getCell(0));
-			if (!validPK.getInvalidCellRef().contains(cellref)){
-				if (row.getCell(1).getCellType() == Cell.CELL_TYPE_NUMERIC){
+			if (!validPK.getInvalidCellRef().contains(cellref)) {
+				if (row.getCell(1).getCellType() == Cell.CELL_TYPE_NUMERIC) {
 					userEquipment.setMarketingName(String.valueOf(row.getCell(1).getNumericCellValue()));
 
 				} else if (row.getCell(1).getCellType() == Cell.CELL_TYPE_STRING) {
@@ -174,8 +174,7 @@ public class ImportData {
 				userEquipment.setManufacturer(row.getCell(2).getStringCellValue());
 				if (row.getCell(4).getCellType() == Cell.CELL_TYPE_NUMERIC) {
 					userEquipment.setModel(String.valueOf(row.getCell(4).getNumericCellValue()));
-				}
-				else if(row.getCell(4).getCellType() == Cell.CELL_TYPE_STRING){
+				} else if (row.getCell(4).getCellType() == Cell.CELL_TYPE_STRING) {
 					userEquipment.setModel(row.getCell(4).getStringCellValue());
 				}
 				userEquipment.setVenderName(row.getCell(5).getStringCellValue());
@@ -224,12 +223,11 @@ public class ImportData {
 
 			String imsi = String.valueOf(((long) (row.getCell(10).getNumericCellValue())));
 			CellReference cellref = new CellReference(row.getCell(10));
-			if(!validPK.getInvalidCellRef().contains(cellref))
-			{
+			if (!validPK.getInvalidCellRef().contains(cellref)) {
 				device.setImsi(imsi);
 
-				UserEquipment thisUE = (UserEquipment) PersistenceUtil.findEntityByPK(UserEquipment.class, (int) row
-						.getCell(3).getNumericCellValue());
+				UserEquipment thisUE = (UserEquipment) PersistenceUtil.findEntityByPK(UserEquipment.class,
+						(int) row.getCell(3).getNumericCellValue());
 				device.setUserequipment(thisUE);
 
 				String idInExcelSheet = String.valueOf((int) row.getCell(4).getNumericCellValue()) + "-"
@@ -247,13 +245,13 @@ public class ImportData {
 					PersistenceUtil.persist(device);
 				}
 
-
 			}
 		}
 		System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated Device");
+
 	}
 
-	public void populateOperator(){
+	public void populateOperator() {
 		ChooseSheet("MCC - MNC Table");
 		for (int i = 1; i < currentSheet.getLastRowNum(); i++) {
 			Operator operator = new Operator();
@@ -285,8 +283,8 @@ public class ImportData {
 
 				UEAccessCapability ueac = new UEAccessCapability();
 
-				UserEquipment thisUE = (UserEquipment) PersistenceUtil.findEntityByPK(UserEquipment.class, (int) row
-						.getCell(0).getNumericCellValue());
+				UserEquipment thisUE = (UserEquipment) PersistenceUtil.findEntityByPK(UserEquipment.class,
+						(int) row.getCell(0).getNumericCellValue());
 				ueac.setUserequipment(thisUE);
 
 				if (accessCapabilities.contains(s)) {
@@ -296,12 +294,12 @@ public class ImportData {
 			}
 
 		}
-		System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated UEAccessCapability");
+		System.out.println((System.currentTimeMillis() - startTime) / 1000
+				+ "s: Populated UEAccessCapability");
 	}
 
-	private AccessCapability findAccessCapabilityByName(String name){
+	private AccessCapability findAccessCapabilityByName(String name) {
 		AccessCapability accessCapability = new AccessCapability();
-
 
 		for (int i = 0; i < accessCapabilities.size(); i++) {
 			String s = accessCapabilities.get(i);

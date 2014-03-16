@@ -162,6 +162,7 @@ function renderImsi(imsi) {
 
 $('#btnCauseCodes').click(function() {
 	if (dataValid(3)){
+		alert('hi');
 		findCauseCodes($('#txtImsi').val());
 	}
 	return false;
