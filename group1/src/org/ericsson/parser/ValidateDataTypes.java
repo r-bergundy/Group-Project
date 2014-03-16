@@ -13,7 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 public class ValidateDataTypes {
 
 	ReadFile readFile = new ReadFile();
-	IterateThroughFile iterateThroughFile  = new IterateThroughFile();
+	//IterateThroughFile iterateThroughFile  = new IterateThroughFile();
 	SimpleDateFormat dataTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private XSSFSheet excelSheet;
 	private ArrayList<CellReference> invalidCellRef = new ArrayList<CellReference>();
@@ -220,7 +220,7 @@ public class ValidateDataTypes {
 
 	public void ChooseSheet(String sheetName){ 
 		String sheetN  = sheetName;
-		setExcelSheet(iterateThroughFile.getWorkbook().getSheet(sheetName));
+		setExcelSheet(readFile.getWorkbook().getSheet(sheetName));
 		System.out.println(getExcelSheet().getSheetName() + "\n---------" );
 	}
 

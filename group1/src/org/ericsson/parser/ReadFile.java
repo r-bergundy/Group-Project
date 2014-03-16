@@ -13,23 +13,23 @@ public class ReadFile {
 
 	private FileInputStream xlsxfile;
 	private XSSFWorkbook workbook;
-	private int totalErrors;
-	IterateThroughFile workbookCreater;
 	private Boolean validFormat;
+	private ValidatePKFields pkerror;
+	private ValidateForeignKeys fkerrors;
+	StartValidation startValidationProcess;
+	private int totalNumberErrors;
 
 	public ReadFile(){
 
 	}	
- 
-	public IterateThroughFile getWorkbookCreater() {
-		return workbookCreater;
+
+	public int getTotalNumberErrors() {
+		return totalNumberErrors;
 	}
 
-	public void setWorkbookCreater(IterateThroughFile workbookCreater) {
-		this.workbookCreater = workbookCreater;
+	public void setTotalNumberErrors(int totalNumberErrors) {
+		this.totalNumberErrors = totalNumberErrors;
 	}
-
-
 
 	public Boolean getValidFormat() {
 		return validFormat;
@@ -47,13 +47,6 @@ public class ReadFile {
 		this.xlsxfile = xlsxfile;
 	}
 
-	public int getTotalErrors() {
-		return totalErrors;
-	}
-
-	public void setTotalErrors(int totalErrors) {
-		this.totalErrors = totalErrors;
-	}
 	
 	public void LoadXLSXFile(String filePath){
 		try {
@@ -66,21 +59,64 @@ public class ReadFile {
 			System.out.println("In correct file passed to create workbook");
 		}		
 		System.out.println(getXlsxfile().toString() + "             " + filePath);		
-		workbookCreater = new IterateThroughFile();
+		//workbookCreater = new IterateThroughFile();
 		String fileExtension = FilenameUtils.getExtension(filePath);
 		if(fileExtension.equals("xlsx")){
 			setValidFormat(true);
-			workbookCreater.CreateWorkBook(xlsxfile);
+			//workbookCreater.CreateWorkBook(xlsxfile);
+			CreateWorkBook(xlsxfile);
+			/*setWorkbook(workbookCreater.getWorkbook());
 			setTotalErrors(workbookCreater.getTotalNumberErrors());
+			setPkerror(workbookCreater.getPkerror());
+			setFkerrors(workbookCreater.getFkerrors());*/
 		}
 		else{
 			System.out.println("Wrong File Format");
 			setValidFormat(false);
 		}
 	}
+	
+	public void CreateWorkBook(FileInputStream file){
+		//readXLSXFile.LoadXLSXFile();
+		
+		try {
+			setWorkbook(new XSSFWorkbook(file));
+			System.out.println("WORKBOOK CREATED");
+			System.out.println(getWorkbook().getSheetName(0));
+			startValidationProcess = new StartValidation(getWorkbook());
+			totalNumberErrors = startValidationProcess.getTotalErrors();
+			setPkerror(startValidationProcess.getPkfields());
+			setFkerrors(startValidationProcess.getFkfields());
+			
+			file.close();
+		} catch (IOException e) {
+			System.out.println("IO Exception");
+		}
+
+	}
+
+	public void setWorkbook(XSSFWorkbook workbook) {
+		this.workbook = workbook;
+	}
 
 	public XSSFWorkbook getWorkbook() {
 		return workbook;
+	}
+	
+	public ValidatePKFields getPkerror() {
+		return pkerror;
+	}
+
+	public void setPkerror(ValidatePKFields pkerror) {
+		this.pkerror = pkerror;
+	}
+
+	public ValidateForeignKeys getFkerrors() {
+		return fkerrors;
+	}
+
+	public void setFkerrors(ValidateForeignKeys fkerrors) {
+		this.fkerrors = fkerrors;
 	}
 
 	

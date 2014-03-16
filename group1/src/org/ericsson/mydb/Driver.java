@@ -1,7 +1,6 @@
 package org.ericsson.mydb;
 
 import java.io.IOException;
-
 import org.ericsson.parser.ReadFile;
 
 import com.entities.User;
