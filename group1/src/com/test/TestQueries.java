@@ -16,7 +16,6 @@ import org.ericsson.mydb.PersistenceUtil;
 import org.ericsson.parser.ImportData;
 import org.ericsson.parser.ReadFile;
 import org.ericsson.parser.ValidateForeignKeys;
-import org.ericsson.parser.ValidatePKFields;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -37,21 +36,10 @@ public class TestQueries {
 	@BeforeClass
 	public static void setup() throws SQLException {
 		dao = new EntityDAO();
-		readFile.LoadXLSXFile("datasets/testDataset2.xlsx");
-		testWorkbook = readFile.getWorkbook();
 		PersistenceUtil.switchTestDatabase();
-//		ImportData importData = new ImportData(testWorkbook,new ValidateForeignKeys(), new ValidatePKFields());
-//		importData.populateDatabase();
+		
 		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "toor");
 		/*FOR RONAN*/ //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "");
-	}
-
-	@AfterClass
-	public static void afterClass() throws SQLException {
-
-//		Statement stmt = (Statement) connection.createStatement();
-//		stmt.execute("DROP DATABASE testdb");
-//		stmt.execute("CREATE DATABASE testdb");
 	}
 
 	@Test

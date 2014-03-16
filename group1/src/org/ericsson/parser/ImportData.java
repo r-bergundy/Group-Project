@@ -52,7 +52,6 @@ public class ImportData {
 		populateUEAccessCapability();
 		populateOperator();
 		populateDevice();
-		System.out.println("test");
 		populateCallFailure();
 
 	}

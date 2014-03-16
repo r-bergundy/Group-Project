@@ -21,10 +21,9 @@ public class Driver {
 //		importData.populateDatabase();
 //		persistUser();
 		ReadFile readFile = new ReadFile();
-		readFile.LoadXLSXFile("datasets/testDataset.xlsx");
+		readFile.LoadXLSXFile("datasets/dit group project - sample dataset.xlsx");
 		XSSFWorkbook testWorkbook = readFile.getWorkbook();
-		
-		PersistenceUtil.switchTestDatabase();
+
 		ImportData importData = new ImportData(testWorkbook,new ValidateForeignKeys(), new ValidatePKFields());
 		importData.populateDatabase();
 		

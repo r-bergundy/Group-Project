@@ -45,12 +45,12 @@ public class TestPopulateDatabase {
 	private static ImportData importData;
 	private static ReadFile readFile = new ReadFile();
 	private static ValidateForeignKeys testValidation;
-	static XSSFWorkbook testWorkbook;	
+	private static XSSFWorkbook testWorkbook;	
 
 	@BeforeClass
 	public static void setup() throws SQLException, InterruptedException {
 		dao = new EntityDAO();
-		
+
 //		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "");
 		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "toor");
 		Statement stmt = (Statement) connection.createStatement();
@@ -58,16 +58,10 @@ public class TestPopulateDatabase {
 			Thread.sleep(5000);
 		 stmt.execute("CREATE DATABASE testdb");
 
-		readFile.LoadXLSXFile("datasets/testDataset2.xlsx");
+		readFile.LoadXLSXFile("datasets/dit group project - sample dataset.xlsx");
 		testWorkbook = readFile.getWorkbook();
 		PersistenceUtil.switchTestDatabase();
 		importData = new ImportData(testWorkbook,new ValidateForeignKeys(), new ValidatePKFields());
-	}
-
-	@AfterClass
-	public static void afterClass() throws SQLException {
-
-
 	}
 
 	@Test
