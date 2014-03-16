@@ -10,9 +10,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ericsson.mydb.EntityDAO;
 import org.ericsson.mydb.PersistenceUtil;
 import org.ericsson.parser.ImportData;
+import org.ericsson.parser.ReadFile;
+import org.ericsson.parser.ValidateForeignKeys;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -26,15 +29,20 @@ public class TestQueries {
 
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:00");
 	private static Connection connection;
-
+	private static ReadFile readFile = new ReadFile();
+	private static ValidateForeignKeys testValidation;
+	static XSSFWorkbook testWorkbook;	
+	
 	@BeforeClass
 	public static void setup() throws SQLException {
 		dao = new EntityDAO();
-
+		readFile.LoadXLSXFile("datasets/testDataset.xlsx");
+		testWorkbook = readFile.getWorkbook();
 		PersistenceUtil.switchTestDatabase();
-		ImportData id = new ImportData("datasets/testdataset.xlsx");
+		ImportData id = new ImportData(testWorkbook);
 		id.populateDatabase();
-		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "toor");
+		//connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "toor");
+		/*FOR RONAN*/ //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "");
 	}
 
 	@AfterClass

@@ -49,15 +49,17 @@ public class TestPopulateDatabase {
 	@BeforeClass
 	public static void setup() {
 		dao = new EntityDAO();
-
+		readFile.LoadXLSXFile("datasets/testDataset.xlsx");
+		testWorkbook = readFile.getWorkbook();
 		PersistenceUtil.switchTestDatabase();
-		importData = new ImportData();
+		importData = new ImportData(testWorkbook);
 	}
 
 	@AfterClass
 	public static void afterClass() throws SQLException {
 
-		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "toor");
+		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "");
+		//connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "toor");
 		Statement stmt = (Statement) connection.createStatement();
 		 stmt.execute("DROP DATABASE testdb");
 		 stmt.execute("CREATE DATABASE testdb");

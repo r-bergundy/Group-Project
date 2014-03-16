@@ -17,7 +17,7 @@ import com.entities.UserEquipment;
 
 public class ValidatePKFields {
 
-	IterateThroughFile iterateThroughFile = new IterateThroughFile();
+	//IterateThroughFile iterateThroughFile = new IterateThroughFile();
 	ReadFile readFile = new ReadFile();
 	XSSFWorkbook workBook;
 	private XSSFSheet excelsheet;

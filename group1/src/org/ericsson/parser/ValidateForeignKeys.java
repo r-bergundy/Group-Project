@@ -11,7 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ValidateForeignKeys {
 
-	IterateThroughFile iterateThroughFile = new IterateThroughFile();
+	//IterateThroughFile iterateThroughFile = new IterateThroughFile();
 	ReadFile readFile = new ReadFile();
 	XSSFWorkbook workBook;
 	private XSSFSheet baseData;

@@ -11,12 +11,28 @@ public class StartValidation {
  	
 	private int totalErrors;
 	XSSFWorkbook workbook;
-	ValidatePKFields pkfields = new ValidatePKFields();
-	ValidateForeignKeys fkfields = new ValidateForeignKeys();
+	private ValidatePKFields pkfields = new ValidatePKFields();
+	private ValidateForeignKeys fkfields = new ValidateForeignKeys();
 	private ArrayList<CellReference> errorsList;
 	
 	
 	
+	public ValidatePKFields getPkfields() {
+		return pkfields;
+	}
+
+	public void setPkfields(ValidatePKFields pkfields) {
+		this.pkfields = pkfields;
+	}
+
+	public ValidateForeignKeys getFkfields() {
+		return fkfields;
+	}
+
+	public void setFkfields(ValidateForeignKeys fkfields) {
+		this.fkfields = fkfields;
+	}
+
 	public StartValidation(XSSFWorkbook workBook){
 		this.workbook = workBook;
 		
@@ -28,11 +44,11 @@ public class StartValidation {
 		
 		CalculateTotalNumberOfErrors(pkfields, fkfields);
 		
-		System.out.println("PK Errors");
-		pkfields.printArrayList();
+		//System.out.println("PK Errors");
+		//pkfields.printArrayList();
 		
-		System.out.println("\nFK ERRORS");
-		fkfields.printArrayList();		
+	//	System.out.println("\nFK ERRORS");
+		//fkfields.printArrayList();		
 		
 		//ImportData importData = new ImportData(workbook, fkfields, pkfields);
 		//importData.populateDatabase();

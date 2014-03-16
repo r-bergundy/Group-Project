@@ -37,16 +37,14 @@ public class ImportData {
 	public ImportData(XSSFWorkbook workBook, ValidateForeignKeys fkkeys, ValidatePKFields pkkeys) {
 		this.workbook = workBook;
 		this.validPK = pkkeys;
+		// for testdb<!-- <property name="hibernate.connection.password" value="toor" /> -->
+		// for mydb <property name="hibernate.connection.password" value="toor" />
+	}
+
+	public ImportData(XSSFWorkbook workBook) {
 
 	}
 
-	public ImportData() {
-
-	}
-
-	public ImportData(String filePath){
-		
-	}
 
 	public void populateDatabase() {
 

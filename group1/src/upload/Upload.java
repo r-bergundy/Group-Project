@@ -16,6 +16,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.ericsson.parser.ImportData;
 import org.ericsson.parser.ReadFile;
 import org.ericsson.parser.StartValidation;
 
@@ -88,8 +89,12 @@ public class Upload extends HttpServlet {
 
 					item.write(storeFile);
 					fileLoader.LoadXLSXFile(FilePath);
-					System.out.println(fileLoader.getTotalErrors());
-					totalErrors = fileLoader.getTotalErrors();
+					ImportData importData = new ImportData(fileLoader.getWorkbook(), fileLoader.getFkerrors(),
+						fileLoader.getPkerror());
+					importData.populateDatabase();
+					System.out.println("IMPORTING FROM SERVLET");
+					System.out.println(fileLoader.getTotalNumberErrors());
+					totalErrors = fileLoader.getTotalNumberErrors();
 				}
 			}
 			request.setAttribute("messageSuccess", "Upload has been successfully Completed!");
