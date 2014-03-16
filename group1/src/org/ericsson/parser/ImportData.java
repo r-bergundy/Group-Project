@@ -24,7 +24,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ericsson.mydb.PersistenceUtil;
 
 public class ImportData {
- 
+
 
 	private XSSFWorkbook workbook;
 	private XSSFSheet currentSheet;
@@ -45,7 +45,7 @@ public class ImportData {
 	}
 
 	public ImportData(String filePath){
-		
+
 	}
 
 	public void populateDatabase() {
@@ -153,8 +153,8 @@ public class ImportData {
 						.getStringCellValue());
 				PersistenceUtil.persist(failureClass);
 			}
-			System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated FailureClass");
-		}
+		}System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated FailureClass");
+
 	}
 
 	public void populateUserEquipment() {
@@ -252,8 +252,8 @@ public class ImportData {
 
 
 			}
-			System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated Device");
-		}
+		}System.out.println((System.currentTimeMillis() - startTime) / 1000 + "s: Populated Device");
+
 	}
 
 	public void populateOperator(){

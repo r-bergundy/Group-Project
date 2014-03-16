@@ -34,8 +34,8 @@ public class StartValidation {
 		System.out.println("\nFK ERRORS");
 		fkfields.printArrayList();		
 		
-		//ImportData importData = new ImportData(workbook, fkfields, pkfields);
-		//importData.populateDatabase();
+		ImportData importData = new ImportData(workbook, fkfields, pkfields);
+		importData.populateDatabase();
 		
 	}	
 	

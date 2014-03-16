@@ -24,15 +24,14 @@ public class EntityResource{
 	
 	@GET  @Path("findUser/{uname}")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public User findUser(@PathParam("uname") String userName) throws LoginException {
-        System.out.println(":( :(");
+    public User findUser(@PathParam("uname") String userName) throws Exception {
+
         User user = (User) PersistenceUtil.findEntityByPK(User.class, userName);
         if (user == null){
-            System.out.println("Blah blah");
-            throw new LoginException("User '" + userName + "' not found");
+            System.out.println("User not found");
+            throw new Exception("User '" + userName + "' not found");
             }
         else {
-            System.out.println(user.getPassword());
             return user;
         }
 	}
@@ -41,8 +40,7 @@ public class EntityResource{
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public User create(User user) {
-		System.out.println(user.getUserName());
-		System.out.println(user.getUserType()+"worked");
+
         PersistenceUtil.persistTrust(user);
         return user;
     }

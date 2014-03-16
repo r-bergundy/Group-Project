@@ -2,7 +2,6 @@ package org.ericsson.mydb;
 
 import java.io.IOException;
 
-import org.ericsson.parser.Import;
 import org.ericsson.parser.ReadFile;
 
 import com.entities.User;
@@ -18,7 +17,7 @@ public class Driver {
 //		importData.populateDatabase();
 //		persistUser();
 		ReadFile fileLoader = new ReadFile();
-		fileLoader.LoadXLSXFile("datasets/ronansTestDataset.xlsx");
+		fileLoader.LoadXLSXFile("datasets/dit group project - sample dataset.xlsx");
 		
 
 	}
@@ -31,7 +30,7 @@ public class Driver {
 		PersistenceUtil.persist(user);
 	}
 	
-	public static void main(String[] args){
+	public static void main(String[] args) throws IOException{
 		new Driver();
 	}
 
