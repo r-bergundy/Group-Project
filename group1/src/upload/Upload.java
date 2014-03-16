@@ -89,6 +89,7 @@ public class Upload extends HttpServlet {
 
 					item.write(storeFile);
 					fileLoader.LoadXLSXFile(FilePath);
+					fileLoader.StartProcess();
 					ImportData importData = new ImportData(fileLoader.getWorkbook(), fileLoader.getFkerrors(),
 						fileLoader.getPkerror());
 					importData.populateDatabase();
