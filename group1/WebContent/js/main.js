@@ -100,7 +100,19 @@ function logIn(user) {
 	currentUser = user;
 	// document.getElementById('user').innerHTML="getCookie(user)";
 	window.location.href = "http://localhost:8080/group1/index.html";
+	
+	hidePrivilegedElements();
 
+}
+
+function hidePrivilegedElements(){
+	var allElements = document.getElementsByTagName("*");
+
+	for (var i=0; i < allElements.length; i++) {
+	     if (hasClass(allElements[i], "si")){
+	    	 alert(allElements[i].id);
+	     }
+	}
 }
 
 $("#btnLogout").click(function() {

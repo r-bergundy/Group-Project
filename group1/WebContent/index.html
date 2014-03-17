@@ -37,7 +37,7 @@
 				onClick="window.location.reload()">RefreshPage</a> <a href="#"
 				id="btn_execute_query" class="buttons">ExecuteQuery</a> <a
 				href="javascript:hide(document.getElementById('mainBody'))"
-				id="btn_v1" class="buttons" onClick="showQueryDiv();">Add User</a>
+				id="btn_v1" class="buttons nme" onClick="showQueryDiv();">Add User</a>
 			&nbsp; <label>Select your Query:</label>
 			<!--  style="background-color:rgb(255,255,255)" -->
 			<select id="myList">
@@ -45,8 +45,8 @@
 				<option value="1">Query 1</option>
 				<option value="2">Query 2</option>
 				<option value="3">Query 3</option>
-				<option value="4">Query 4</option>
-				<option value="5">Query 5</option>
+				<option value="4" class="si">Query 4</option>
+				<option value="5" class="si">Query 5</option>
 			</select>
 			<!-- <a href="javascript:hideshow(document.getElementById('querybar'))" id="btn_v" class="buttons" onClick="showQueryDiv();">Show/Hide</a> &nbsp;
 		<a href="javascript:document.getElementById('header2').setAttribute('height:90px')" id="btn_v1" class="buttons" onClick="showQueryDiv();">Expand</a> &nbsp;
@@ -94,7 +94,7 @@
 				<option value="CUSTOMER_SERVICE_REP">Customer Service
 					Representative</option>
 				<option value="SUPPORT_ENGINEER">Support Engineer</option>
-				<option value="SYSTEM_ADMINISTRATOR">System Administrator</option>
+				<option value="NETWORK_MANAGEMENT_ENGINEER">System Administrator</option>
 			</select> <br> <label for="password">Password:</label> <input
 				id="regPassword" class="register" placeholder="******"
 				type="password"><br> <label for="confirmPassword">Confirm
