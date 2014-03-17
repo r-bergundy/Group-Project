@@ -12,8 +12,7 @@
 		<p><%=request.getAttribute("messageSuccess")%></p>
 		<p><%=request.getAttribute("messageFileName")%></p>
 		<p><%=request.getAttribute("messageErrors")%></p>
-		
-	</center>
+		</center>
 	<div>
 		<input type="button" value="Close this window" onclick="self.close()">
 	</div>

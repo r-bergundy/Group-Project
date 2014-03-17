@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ReadFile {
@@ -18,6 +20,7 @@ public class ReadFile {
 	private ValidateForeignKeys fkerrors;
 	StartValidation startValidationProcess;
 	private int totalNumberErrors;
+	private ArrayList<CellReference> allInvalidCellRef = new ArrayList<CellReference>();
 
 	public ReadFile(){
 
@@ -116,7 +119,28 @@ public class ReadFile {
 		totalNumberErrors = startValidationProcess.getTotalErrors();
 		setPkerror(startValidationProcess.getPkfields());
 		setFkerrors(startValidationProcess.getFkfields());
+		AddAllErrorstoList();
 	}
+	
+	public void AddAllErrorstoList(){
+		for (CellReference pkcells: getPkerror().getInvalidCellRef()){
+			allInvalidCellRef.add(pkcells);
+		}
+		
+		for(CellReference fkcells: getFkerrors().getInvlaidCellRef()){
+			allInvalidCellRef.add(fkcells);
+		}
+	}
+
+	public ArrayList<CellReference> getAllInvalidCellRef() {
+		return allInvalidCellRef;
+	}
+
+	public void setAllInvalidCellRef(ArrayList<CellReference> allInvalidCellRef) {
+		this.allInvalidCellRef = allInvalidCellRef;
+	}
+	
+	
 
 	
 
