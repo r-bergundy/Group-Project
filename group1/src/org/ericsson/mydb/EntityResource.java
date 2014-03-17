@@ -3,6 +3,7 @@ package org.ericsson.mydb;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.security.auth.login.LoginException;
 import javax.ws.rs.Consumes;
@@ -12,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
 import org.omg.CORBA.portable.ApplicationException;
 
 import com.entities.CallFailure;
@@ -90,6 +92,45 @@ public class EntityResource{
 
 	}
 
+	
+	@GET
+	@Path("query5/{imsiTimes}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public int query5(@PathParam("imsiTimes") String imsiTimes)
+			throws ParseException {
+		System.out.println("query5");
+		
+		String[] data = imsiTimes.split("|");
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+		Date startDate = null, endDate = null;
+		
+		startDate = sdf.parse(data[1]);
+		endDate = sdf.parse(data[2]);
+		
+		return dao.findCountFailuresForImsiInTime((data[0]),
+				startDate, endDate);
+	}
+	
+	@GET
+	@Path("Query7/{imsiWithFailures}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List Query7(@PathParam("imsiWithFailures") String imsiWithFailures)
+			throws ParseException {
+
+		System.out.println("Query7");
+		String[] data = imsiWithFailures.split("|");
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+		Date startDate = null, endDate = null;
+		
+		startDate = sdf.parse(data[0]);
+		endDate = sdf.parse(data[1]);
+
+		return dao.returnIMSIsWithFailureInTime(startDate, endDate);
+
+	}
+	
 	@GET
 	@Path("query8/{tacTimes}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

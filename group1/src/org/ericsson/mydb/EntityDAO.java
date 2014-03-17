@@ -50,6 +50,18 @@ public class EntityDAO {
     	return PersistenceUtil.findCountFailuresForTacInTime(tac, startTime, endTime);
     }
 
+    //Query 5
+    public int findCountFailuresForImsiInTime(String imsi, Date startTime, Date endTime){
+    	return PersistenceUtil.findCountFailuresForImsiInTime(imsi, startTime, endTime);
+    	}
+    
+    //Query 7
+    public List returnIMSIsWithFailureInTime(Date startTime, Date endTime){
+    	return PersistenceUtil.returnIMSIsWithFailureInTime(startTime, endTime);
+    	}
+    
+ 
+    
     
     public User addUser(User user){
     	

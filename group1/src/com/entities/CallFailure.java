@@ -34,8 +34,15 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 				+ " and d.imsi = :paramIMSI"),
 		@NamedQuery(name = "Find unique Cause Codes for IMSI", query = "SELECT cf, ec, d FROM "
 				+ "CallFailure cf, EventCause ec, Device d WHERE cf.eventcause = ec and cf.device = d"
-				+ " and d.imsi = :paramIMSI GROUP BY ec.causeCode") })
-public class CallFailure implements Serializable, IEntity{
+				+ " and d.imsi = :paramIMSI GROUP BY ec.causeCode"),
+		@NamedQuery(name = "Return IMSIs with Failure in Time", query = "SELECT distinct cf.device from CallFailure cf"
+				+ " WHERE cf.dateTime >= :startTime AND cf.dateTime <= :endTime"),
+		@NamedQuery(name = "Find Count Failures For IMSI in Time", query = "SELECT cf.device from CallFailure cf"
+				+ " WHERE cf.device =  :paramIMSI"
+				+ " AND cf.dateTime >= :startTime AND cf.dateTime <= :endTime")
+})
+
+public class CallFailure implements Serializable, IEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id

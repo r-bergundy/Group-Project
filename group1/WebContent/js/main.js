@@ -207,8 +207,22 @@ function findCallFailureById(id) {
 	});
 }
 
-// ---------------------Find unique Cause Codes for Imsi (query 6)
-// --------------------
+
+//------Find Count of Failures in a Given Time for an IMSI (Query 5) --------
+
+function queryCountFailuresForIMSIInTime(imsi, startTime, endTime) {
+	$.ajax({
+		type : 'GET',
+		url : rootURL + '/query5/' + imsi + "|" + startTime + "|" + endTime,
+		dataType : "json", // data type of response
+		success : function(data) {
+			renderList(data);
+		}
+	});
+}
+
+
+// ---------------------Find unique Cause Codes for Imsi (query 6) ---------
 
 function findCauseCodes(imsi) {
 	$.ajax({
@@ -220,6 +234,21 @@ function findCauseCodes(imsi) {
 		}
 	});
 
+}
+
+//--------Find IMSIs with Failures in Given Time (query 7) ---------
+
+
+function queryReturnIMSIsWithFailureInTime(startTime, endTime) {
+	$.ajax({
+		type : 'GET',
+		url : rootURL + '/query7/' + startTime + "|" + endTime,
+		dataType : "json", // data type of response
+		success : function(data) {
+
+			renderList(data);
+		}
+	});
 }
 
 // -----------Find EventIds and Cause Codes for Given Imsi(UserStory

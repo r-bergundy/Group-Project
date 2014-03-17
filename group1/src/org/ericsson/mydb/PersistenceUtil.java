@@ -97,6 +97,23 @@ public class PersistenceUtil implements Serializable {
 		return resultSet;
 	}
 	
+	//Query 5
+	public static int findCountFailuresForImsiInTime(String imsi, Date startTime, Date endTime){
+		EntityManager em = createEM(); 
+		int result = em.createNamedQuery("Find Count Failures For IMSI in Time").setParameter("imsi", imsi)
+		.setParameter("startTime", startTime).setParameter("endTime", endTime).getResultList().size();
+		em.close();
+		return result;
+		}
+	
+	//Query 7
+	public static List returnIMSIsWithFailureInTime(Date startTime, Date endTime){
+		EntityManager em = createEM(); 
+		List resultSet = (List)em.createNamedQuery("Return IMSIs with Failure in Time").setParameter("startTime", startTime).setParameter("endTime", endTime).getResultList();
+		em.close();
+		return resultSet;
+		}
+	
 	
 }
 
