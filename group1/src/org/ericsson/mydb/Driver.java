@@ -2,8 +2,11 @@ package org.ericsson.mydb;
 
 import java.io.IOException;
 
-
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.ericsson.parser.ImportData;
 import org.ericsson.parser.ReadFile;
+import org.ericsson.parser.ValidateForeignKeys;
+import org.ericsson.parser.ValidatePKFields;
 
 import com.entities.User;
 import com.entities.UserType;
@@ -17,8 +20,12 @@ public class Driver {
 //		ImportData importData = new ImportData("datasets/dit group project - sample dataset.xlsx");
 //		importData.populateDatabase();
 //		persistUser();
-		ReadFile fileLoader = new ReadFile();
-		fileLoader.LoadXLSXFile("datasets/ronansTestDataset.xlsx");
+		ReadFile readFile = new ReadFile();
+		readFile.LoadXLSXFile("datasets/dit group project - sample dataset.xlsx");
+		XSSFWorkbook testWorkbook = readFile.getWorkbook();
+
+		ImportData importData = new ImportData(testWorkbook,new ValidateForeignKeys(), new ValidatePKFields());
+		importData.populateDatabase();
 		
 
 	}

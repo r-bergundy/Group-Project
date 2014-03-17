@@ -36,21 +36,10 @@ public class TestQueries {
 	@BeforeClass
 	public static void setup() throws SQLException {
 		dao = new EntityDAO();
-		readFile.LoadXLSXFile("datasets/testDataset.xlsx");
-		testWorkbook = readFile.getWorkbook();
 		PersistenceUtil.switchTestDatabase();
-		ImportData id = new ImportData(testWorkbook);
-		id.populateDatabase();
-		//connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "toor");
+		
+		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "toor");
 		/*FOR RONAN*/ //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "");
-	}
-
-	@AfterClass
-	public static void afterClass() throws SQLException {
-
-		Statement stmt = (Statement) connection.createStatement();
-		stmt.execute("DROP DATABASE testdb");
-		stmt.execute("CREATE DATABASE testdb");
 	}
 
 	@Test
