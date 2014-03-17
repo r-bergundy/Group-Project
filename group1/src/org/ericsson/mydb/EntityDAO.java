@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.entities.CallFailure;
 import com.entities.EventCause;
+import com.entities.User;
 
 
 public class EntityDAO {
@@ -50,5 +51,16 @@ public class EntityDAO {
     }
 
     
+    public User addUser(User user){
+    	
+    	PersistenceUtil.persist(user);
+    	
+    	return findUser(user.getUserName());
+    }
+    
+    
+    public User findUser(String username){
+        return (User) PersistenceUtil.findEntityByPK(User.class, username);	
+    }
     
 }

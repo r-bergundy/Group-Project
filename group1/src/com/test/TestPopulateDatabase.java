@@ -44,14 +44,12 @@ public class TestPopulateDatabase {
 	private static Connection connection;
 	private static ImportData importData;
 	private static ReadFile readFile = new ReadFile();
-	private static ValidateForeignKeys testValidation;
 	private static XSSFWorkbook testWorkbook;	
 
 	@BeforeClass
 	public static void setup() throws SQLException, InterruptedException {
 		dao = new EntityDAO();
 
-//		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "");
 		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "toor");
 		Statement stmt = (Statement) connection.createStatement();
 		 stmt.execute("DROP DATABASE testdb");
@@ -156,7 +154,7 @@ public class TestPopulateDatabase {
 
 		System.out.println();
 		assertEquals("344930000000011", d.getImsi());
-		assertEquals("AT&T Wireless-Antigua AG", d.getOperator().getOperatorName());
+		assertEquals("AT&T Wireless-Antigua AG ", d.getOperator().getOperatorName());
 		assertEquals(21060800, d.getUserequipment().getTac());
 
 	}

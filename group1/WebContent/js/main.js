@@ -9,7 +9,7 @@ var loggingIn = false;
 
 // -------------- ExecuteQuery button--------------
 $('#btn_execute_query').click(function() {
-	selectQuery();
+	selectQuery(mylist.options[mylist.selectedIndex].value);
 	return false;
 });
 
@@ -35,28 +35,37 @@ function hasClass(elem, klass) {
 }
 
 // -------------- Select Query to execute--------------
-function selectQuery() {
+function selectQuery(query) {
 
-	// mylist.options[mylist.selectedIndex].addEventListener('change',
-	// function() { alert("TEST EventListener"); });
-
-	if (mylist.options[mylist.selectedIndex].value == "1") {
-		findEventIdsCauseCodes($('#txtImsi').val());
-		$('#tableColumns').show();
-		$('#results').hide();
-	} else if (mylist.options[mylist.selectedIndex].value == "2") {
-
-		document.getElementById("mainBody").innerHTML = "";
-		// ???????????????????
-	} else if (mylist.options[mylist.selectedIndex].value == "3") {
-		findCauseCodes($('#txtImsi').val());
-	} else if (mylist.options[mylist.selectedIndex].value == "4") {
+	switch (parseFloat(query)){
+	case 1: 
+		if (imsiValid()){
+			findEventIdsCauseCodes($('#txtImsi').val());
+			$('#tableColumns').show();
+			$('#results').hide();
+		}
+		break;
+	case 2:
+		if (imsiValid()){
+			document.getElementById("mainBody").innerHTML = "";
+			// ???????????????????
+		}
+		break;	
+	case 3:
+		if (imsiValid()){
+			findCauseCodes($('#txtImsi').val());
+		}
+		break;
+	case 4:
 		// ????????????????
-	} else if (mylist.options[mylist.selectedIndex].value == "5") {
-		queryCountFailuresForTacInTime($('#txtTac').val(), $('#dltStartTime')
-				.val(), $('#dltEndTime').val());
-	} else {
-		alert("the final else in selectQuery");
+		break;
+	case 5:
+		if (tacValid()){
+			queryCountFailuresForTacInTime($('#txtTac').val(), $('#dltStartTime')
+					.val(), $('#dltEndTime').val());
+		}
+		break;
+
 	}
 
 }
@@ -70,6 +79,7 @@ $("#btnLogin").click(function() {
 });
 
 function findUserByUserName(username) {
+
 	$.ajax({
 		type : 'GET',
 		url : rootURL + '/findUser/' + username,
@@ -89,6 +99,7 @@ function findUserByUserName(username) {
 			}
 		},
 		error : function() {
+			alert('hid');
 			if (loggingIn) {
 				alert('User not found');
 			}
@@ -98,21 +109,28 @@ function findUserByUserName(username) {
 
 function logIn(user) {
 	currentUser = user;
-	// document.getElementById('user').innerHTML="getCookie(user)";
 	window.location.href = "http://localhost:8080/group1/index.html";
-	
-	hidePrivilegedElements();
+//	document.getElementById('lblUser').innerHTML = getCookie('user');
+//	document.getElementById('lblUserType').innerHTML = getCookie('userType');	
 
 }
 
 function hidePrivilegedElements(){
-	var allElements = document.getElementsByTagName("*");
 
-	for (var i=0; i < allElements.length; i++) {
-	     if (hasClass(allElements[i], "si")){
-	    	 alert(allElements[i].id);
-	     }
+	if (getCookie("userType") != "NETWORK_MANAGEMENT_ENGINEER"){
+		var nmeElements = document.querySelectorAll('*.nme');
+		for (var i=0; i < nmeElements.length; i++) {
+			nmeElements[i].style.display='none';
+		}
+		if (getCookie("userType") != "SUPPORT_ENGINNER"){
+			var seElements = document.querySelectorAll('*.se');
+
+			for (var i=0; i < seElements.length; i++) {
+				seElements[i].style.display='none';
+			}
+		}
 	}
+
 }
 
 $("#btnLogout").click(function() {
@@ -127,7 +145,6 @@ function addCookie(user) {
 			+ "; path=http://localhost:8080/group1/index.html";
 	document.cookie = "userType=" + user.userType
 			+ "; path=http://localhost:8080/group1/index.html";
-	findUserByUserName(user.userName);
 }
 
 function getCookie(cname) {
@@ -144,70 +161,12 @@ function getCookie(cname) {
 // ---------------------Register User--------------------
 
 $("#btnRegister").click(function() {
-	if (dataValid() == true) {
+	if (dataValid()) {
 		addUser();
 	}
 
 	return false;
 });
-
-function dataValid() {
-	alert('yes');
-}
-
-function dataValid() {
-	var txtUser = document.getElementById('txtUsername');
-	var txtPwrd1 = document.getElementById('regPassword');
-	var txtPwrd2 = document.getElementById('confirmPassword');
-	if (notEmpty(txtUser, 'Username may not be blank')
-			&& notEmpty(txtPwrd1, 'Password may not be blank')) {
-		alert('2r');
-		if (passwordsMatch(txtPwrd1, txtPwrd2, 'Passwords do not match')
-				&& passwordValid(
-						txtPwrd1,
-						'Password must be at least 6 characters long and contain at least one number and one letter')) {
-
-			return true;
-		}
-		;
-
-	}
-
-	return false;
-
-}
-
-function passwordValid(elem, helperMsg) {
-
-	var re = /^.*(?=.{6,})(?=.*[a-zA-Z])(?=.*\d).*$/;
-	var OK = re.exec(elem.value);
-	if (!OK) {
-		alert(helperMsg);
-		elem.focus();
-		return false;
-	}
-
-	return true;
-
-}
-
-function passwordsMatch(elem1, elem2, helperMsg) {
-	if (elem1.value == elem2.value) {
-		return true;
-	}
-	alert(helperMsg);
-	elem1.focus();
-	return false;
-}
-
-function notEmpty(elem, helperMsg) {
-	if (elem.value.length == 0) {
-		alert(helperMsg);
-		elem.focus();
-		return false;
-	}
-	return true;
-}
 
 function addUser() {
 	$.ajax({
@@ -218,11 +177,10 @@ function addUser() {
 		data : formUserToJSON(),
 		success : function(data, textStatus, jqXHR) {
 			alert('Registered successfully');
-			logIn(data);
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
-			alert('User already exists');
-			$('#txtRegUsername').focus();
+			alert('User add failed');
+			$('#txtUsername').focus();
 		}
 	});
 }
@@ -231,43 +189,26 @@ function formUserToJSON() {
 	var e = document.getElementById("cbxUserType");
 	var strUser = e.options[e.selectedIndex].value;
 	return JSON.stringify({
-		"userName" : $('#username').val(),
+		"userName" : $('#txtUsername').val(),
 		"password" : $('#regPassword').val(),
 		"userType" : strUser
 	});
 }
 
 // ---------------------Find Call Failure with ID--------------------
-$('#btnFindImsi').click(function() {
-	findCallFailureById($('#txtCallFailureId').val());
-	return false;
-});
-
 function findCallFailureById(id) {
 	$.ajax({
 		type : 'GET',
 		url : rootURL + '/findimsi/' + id,
 		dataType : "json", // data type of response
-		success : function(data) {
-			renderImsi(data);
+		success : function(data){
+			alert('Connection present');
 		}
 	});
 }
 
-function renderImsi(imsi) {
-	$('#txtImsi').val(imsi);
-}
-
 // ---------------------Find unique Cause Codes for Imsi (query 6)
 // --------------------
-
-$('#btnCauseCodes').click(function() {
-
-	if (dataValid(3)) {
-		findCauseCodes($('#txtImsi').val());
-	}
-	return false;
-});
 
 function findCauseCodes(imsi) {
 	$.ajax({
@@ -333,39 +274,7 @@ function renderQuery8(data) {
 	alert(data);
 }
 
-function dataValid(query) {
-
-	switch (query) {
-	case 1:
-		if (!imsiValid()) {
-			alert('Invalid IMSI');
-			return false;
-		}
-	case 2:
-		if (!imsiValid()) {
-			alert('Invalid IMSI');
-			return false;
-		}
-	case 3:
-		if (!imsiValid()) {
-			alert('Invalid IMSI');
-			return false;
-		}
-	case 4:
-		if (!imsiValid()) {
-			alert('Invalid IMSI');
-			return false;
-		}
-	case 5:
-		if (!imsiValid()) {
-			alert('Invalid IMSI');
-			return false;
-		}
-	}
-
-	return true;
-
-}
+// -------------------------Validation ---------------------------------
 
 function tacValid() {
 	var tac = $('#txtTac').val();
@@ -373,6 +282,7 @@ function tacValid() {
 	if (IsNumeric(tac) && tac > 0) {
 		return true;
 	}
+	alert("Invalid TAC");
 	return false;
 }
 
@@ -380,12 +290,72 @@ function imsiValid() {
 
 	var imsi = $('#txtImsi').val();
 
-	if (imsi.length != 15) {
-		return false;
-	}
-	if (!IsNumeric(imsi)) {
+	if (imsi.length != 15 || !IsNumeric(imsi)) {
+		alert("Invalid IMSI");
 		return false;
 	}
 	return true;
 
 }
+
+
+function dataValid() {
+	var txtUser = document.getElementById('txtUsername');
+	var txtPwrd1 = document.getElementById('regPassword');
+	var txtPwrd2 = document.getElementById('confirmPassword');
+	if (notEmpty(txtUser, 'Username may not be blank')
+			&& notEmpty(txtPwrd1, 'Password may not be blank')) {
+		alert('2r');
+		if (passwordsMatch(txtPwrd1, txtPwrd2, 'Passwords do not match')
+				&& passwordValid(
+						txtPwrd1,
+						'Password must be at least 6 characters long and contain at least one number and one letter')) {
+
+			return true;
+		}
+		;
+
+	}
+
+	return false;
+
+}
+
+function passwordValid(elem, helperMsg) {
+
+	var re = /^.*(?=.{6,})(?=.*[a-zA-Z])(?=.*\d).*$/;
+	var OK = re.exec(elem.value);
+	if (!OK) {
+		alert(helperMsg);
+		elem.focus();
+		return false;
+	}
+
+	return true;
+
+}
+
+function passwordsMatch(elem1, elem2, helperMsg) {
+	if (elem1.value == elem2.value) {
+		return true;
+	}
+	alert(helperMsg);
+	elem1.focus();
+	return false;
+}
+
+function notEmpty(elem, helperMsg) {
+	if (elem.value.length == 0) {
+		alert(helperMsg);
+		elem.focus();
+		return false;
+	}
+	return true;
+}
+
+//----------------------------- Connectivity ----------------------------------
+
+$("#btn_check_connectivity").click(function() {
+	findCallFailureById(1);
+	return false;
+});

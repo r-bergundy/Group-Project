@@ -19,8 +19,8 @@
 							Application Server</font>&nbsp;&nbsp;&nbsp;
 					</td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font
-						color="white">User = $USER</td>
-					<td>&nbsp;<font color="white">View = $VIEW</td>
+						color="white"><label id="lblUser">User = $USER</label></font></td>
+					<td>&nbsp;<font color="white"><label id="lblUserType">View = $VIEW</label></td>
 					<input value="Logout" id="btnLogout" type="button"></input>
 				</tr>
 			</table>
@@ -45,8 +45,8 @@
 				<option value="1">Query 1</option>
 				<option value="2">Query 2</option>
 				<option value="3">Query 3</option>
-				<option value="4" class="si">Query 4</option>
-				<option value="5" class="si">Query 5</option>
+				<option value="4" class="se">Query 4</option>
+				<option value="5" class="se">Query 5</option>
 			</select>
 			<!-- <a href="javascript:hideshow(document.getElementById('querybar'))" id="btn_v" class="buttons" onClick="showQueryDiv();">Show/Hide</a> &nbsp;
 		<a href="javascript:document.getElementById('header2').setAttribute('height:90px')" id="btn_v1" class="buttons" onClick="showQueryDiv();">Expand</a> &nbsp;
@@ -110,8 +110,9 @@
 
 	<script language="javascript" type="text/javascript">
 	if (getCookie("user") == "") {
-		window.location.href = "http://localhost:8080/group1/login.html";
+		window.location.href = "http://localhost:8080/group1/login.html";		
 	}
+	hidePrivilegedElements();
 	</script>
 
 	<script>
@@ -134,20 +135,6 @@ function popitup(url) {
 	return false;
 }
 
-
-function hideshow(which){
-if (!document.getElementById)
-return
-if (which.style.display=="block")
-which.style.display="none"
-else
-which.style.display="block"
-}
-
-function hide(element){
-	element.style.display="none"
-	$('#regDisplay').show();
-}
 
 $('#regDisplay').hide();
 

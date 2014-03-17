@@ -26,9 +26,9 @@ public class EntityResource{
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public User findUser(@PathParam("uname") String userName) throws Exception {
 		
-		System.out.println("findUser!");
-        User user = (User) PersistenceUtil.findEntityByPK(User.class, userName);
-
+		System.out.println("findUser");
+        User user = dao.findUser(userName);
+      
         if (user == null){
             System.out.println("User not found");
             throw new Exception("User '" + userName + "' not found");
@@ -44,7 +44,9 @@ public class EntityResource{
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public User create(User user) {
 
-        PersistenceUtil.persistTrust(user);
+		System.out.println(user.getUserName());
+		System.out.println(user.getUserType());
+		User result = dao.addUser(user);
         return user;
     }
 

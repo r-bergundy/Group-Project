@@ -17,27 +17,15 @@ public class Driver {
 	
 	public Driver() throws IOException{
 
-//		ImportData importData = new ImportData("datasets/dit group project - sample dataset.xlsx");
-//		importData.populateDatabase();
-//		persistUser();
 		ReadFile readFile = new ReadFile();
 		readFile.LoadXLSXFile("datasets/dit group project - sample dataset.xlsx");
 		XSSFWorkbook testWorkbook = readFile.getWorkbook();
 
 		ImportData importData = new ImportData(testWorkbook,new ValidateForeignKeys(), new ValidatePKFields());
-		importData.populateDatabase();
-		
+		importData.populateFailureClass();
 
 	}
 
-	public void persistUser(){
-		User user = new User();
-		user.setUserType(UserType.CUSTOMER_SERVICE_REP);
-		user.setUserName("Mike");
-		user.setPassword("secret");
-		PersistenceUtil.persist(user);
-	}
-	
 	public static void main(String[] args) throws IOException{
 		new Driver();
 	}
