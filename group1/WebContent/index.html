@@ -21,7 +21,7 @@
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font
 						color="white">User = $USER</td>
 					<td>&nbsp;<font color="white">View = $VIEW</td>
-					<a href="http://localhost:8080/group1/login.html" id="btnlogout">&nbsp;<font color="white">Logout</a>
+					<input value="Logout" id="btnLogout" type="button"></input>
 				</tr>
 			</table>
 		</center>
@@ -34,44 +34,45 @@
 				href="#" id="btn_check_connectivity" class="buttons"
 				onclick="this.style.color='#04B404'">Check Connectivity</a> <a
 				href="#" id="btn_refresh_page" class="buttons"
-				onClick="window.location.reload()">Refresh Page</a> <a href="#"
-				id="btn_import_dataset" class="buttons">Execute Query</a> <a
-				href="#" id="btn_set_variables" class="buttons">Set Variables</a>
-			&nbsp; <a
-				href="javascript:hideshow(document.getElementById('querybar'))"
-				id="btn_v" class="buttons" onClick="showQueryDiv();">Show/Hide</a>
-			&nbsp; <a
-				href="javascript:document.getElementById('header2').setAttribute('height:90px')"
-				id="btn_v1" class="buttons" onClick="showQueryDiv();">Expand</a>
-			&nbsp; <a href="javascript:hide(document.getElementById('mainBody'))"
+				onClick="window.location.reload()">RefreshPage</a> <a href="#"
+				id="btn_execute_query" class="buttons">ExecuteQuery</a> <a
+				href="javascript:hide(document.getElementById('mainBody'))"
 				id="btn_v1" class="buttons" onClick="showQueryDiv();">Add User</a>
-			&nbsp;
-
+			&nbsp; <label>Select your Query:</label>
+			<!--  style="background-color:rgb(255,255,255)" -->
+			<select id="myList">
+				<option>----</option>
+				<option value="1">Query 1</option>
+				<option value="2">Query 2</option>
+				<option value="3">Query 3</option>
+				<option value="4">Query 4</option>
+				<option value="5">Query 5</option>
+			</select>
+			<!-- <a href="javascript:hideshow(document.getElementById('querybar'))" id="btn_v" class="buttons" onClick="showQueryDiv();">Show/Hide</a> &nbsp;
+		<a href="javascript:document.getElementById('header2').setAttribute('height:90px')" id="btn_v1" class="buttons" onClick="showQueryDiv();">Expand</a> &nbsp;
+ -->
 
 		</center>
+
 		</p>
 	</div>
 
 	<div class="queries" id="querybar" style="display: block">
 		<center>
-			<label>Call Failure ID</label> <input type="text"
-				id="txtCallFailureId" />
-			<button id="btnFindImsi">Find IMSI</button>
+			<form id="queryList">
+				<input class="1 2 3" type="text" id="txtImsi"
+					placeholder="Enter IMSI" /> <input class="5" type="text"
+					id="txtTAC" placeholder="Enter TAC" /> <label class="2 4 5"
+					id="lblFromDate">From Date:</label> <input class="2 4 5"
+					type="text" id="txtFromDate" /> <label class="2 4 5"
+					id="lblFromDate">To Date:</label> <input class="2 4 5" type="text"
+					id="txtToDate" />
+			</form>
 
-			<input type="text" id="txtImsi" />
-			<button id="btnCauseCodes">Unique cause codes</button>
-			<button id="btnEventIdCauseCode">EventId&CauseCode</button>
-			<input type="text" id="txtCauseCodes" />
 		</center>
-		<input type="text" id="txtImsi" />
-		<button id="btnCauseCodes">Unique cause codes</button>
-		<button id="‎btnEventIdCauseCode‬">EventId&CauseCode</button>
-		<input type="text" id="txtCauseCodes" />
-	</center>
 	</div>
 
 	<div class="cssBody" id="mainBody">
-
 
 		<table id="tblQueryData">
 			<col width="200px">
@@ -87,7 +88,7 @@
 	<div class="cssBody" id="regDisplay">
 
 		<form id="addUser">
-			<label id="uname">Username:</label> <input id="username"
+			<label id="uname">Username:</label> <input id="txtUsername"
 				class="register" placeholder="username" type="text"><br>
 			<label id="lblUserType">User Type:</label> <select id="cbxUserType">
 				<option value="CUSTOMER_SERVICE_REP">Customer Service
@@ -99,23 +100,36 @@
 				type="password"><br> <label for="confirmPassword">Confirm
 				Password:</label> <input id="confirmPassword" class="register"
 				placeholder="******" type="password"><br> <input
-				value="Add" id="btnregister" type="button">
+				value="Add" id="btnRegister" type="button">
 		</form>
 
 	</div>
-
-
 
 	<script src="js/jquery-2.1.0.js"></script>
 	<script src="js/main.js"></script>
 
 	<script language="javascript" type="text/javascript">
-	
-	
-	//This will need to go into main.js at some point...
+	if (getCookie("user") == "") {
+		window.location.href = "http://localhost:8080/group1/login.html";
+	}
+	</script>
 
+	<script>
+	
+	var mylist=document.getElementById("myList");
+	listOptions = mylist.childNodes;
+
+	mylist.addEventListener('change', function() { 
+
+	selectedQuery = mylist.options[mylist.selectedIndex].value;	//className
+	updateVisibility();
+	document.getElementById("queryList").reset();
+
+	});
+	
+	
 function popitup(url) {
-	newwindow=window.open(url,'name','height=155,width=500,toolbar=0,location=0,top=200,left=100');
+	newwindow=window.open(url,'name','height=200,width=250,toolbar=0,location=0,top=200,left=100');
 	if (window.focus) {newwindow.focus()}
 	return false;
 }
@@ -136,6 +150,7 @@ function hide(element){
 }
 
 $('#regDisplay').hide();
+
 
 </script>
 

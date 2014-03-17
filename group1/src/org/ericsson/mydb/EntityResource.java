@@ -25,8 +25,10 @@ public class EntityResource{
 	@GET  @Path("findUser/{uname}")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public User findUser(@PathParam("uname") String userName) throws Exception {
-
+		
+		System.out.println("findUser!");
         User user = (User) PersistenceUtil.findEntityByPK(User.class, userName);
+
         if (user == null){
             System.out.println("User not found");
             throw new Exception("User '" + userName + "' not found");
@@ -34,6 +36,7 @@ public class EntityResource{
         else {
             return user;
         }
+        
 	}
 	
 	@POST @Path("addUser/")
@@ -64,7 +67,7 @@ public class EntityResource{
 	@GET
 	@Path("findUniqueCauseCodes/{imsi}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public int[] query6(@PathParam("imsi") String imsi) throws ApplicationException {
+	public int[] query6(@PathParam("imsi") String imsi) {
 		
 		System.out.println("findUniqueCauseCodesee");
 		int[] resultSet = dao.findUniqueCauseCodesForImsi(imsi);
