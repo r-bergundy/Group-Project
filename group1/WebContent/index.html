@@ -5,8 +5,6 @@
 <link rel="stylesheet" href="css/server.css" />
 </head>
 
-
-
 <body bgcolor="#E6E6FA" onload="function(){$('#tableColumns').hide();}">
 	<div class="header">
 		<center>
@@ -21,7 +19,10 @@
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font
 						color="white"><label id="lblUser">User = $USER</label></font></td>
 					<td>&nbsp;<font color="white"><label id="lblUserType">View = $VIEW</label></td>
-					<input value="Logout" id="btnLogout" type="button"></input>
+					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="btnLogout" class="buttons">Logout</a> 
+					<td>
+								
+					
 				</tr>
 			</table>
 		</center>
@@ -30,25 +31,27 @@
 		<br>
 		<center>
 			<a href="import.html" id="btn_import_dataset" class="buttons"
-				onclick="return popitup('import.html')">Import Dataset</a> <a
-				href="#" id="btn_check_connectivity" class="buttons"
-				onclick="this.style.color='#04B404'">Check Connectivity</a> <a
-				href="#" id="btn_refresh_page" class="buttons"
-				onClick="window.location.reload()">RefreshPage</a> <a href="#"
-				id="btn_execute_query" class="buttons">ExecuteQuery</a> <a
-				href="javascript:hide(document.getElementById('mainBody'))"
-				id="btn_v1" class="buttons nme" onClick="showQueryDiv();">Add User</a>
-			&nbsp; <label>Select your Query:</label>
+				onclick="return popitup('import.html')">Import Dataset</a>
+				<a href="#" id="btn_check_connectivity" class="buttons"
+				onclick="this.style.color='#04B404'">Check Connectivity</a> 
+				<a href="#" id="btn_refresh_page" class="buttons"
+				onClick="window.location.reload()">RefreshPage</a> 
+				<a href="#" id="btn_execute_query" class="buttons">ExecuteQuery</a> 
+				<a href="javascript:hide(document.getElementById('mainBody'))"
+				id="btn_v1" class="buttons nme" onClick="showQueryDiv();">Add
+				User</a> &nbsp; <label>Select your Query:</label>
+				
 			<!--  style="background-color:rgb(255,255,255)" -->
 			<select id="myList">
 				<option>----</option>
-				<option value="1">Query 1</option>
-				<option value="2">Query 2</option>
-				<option value="3">Query 3</option>
-				<option value="4" class="se">Query 4</option>
-				<option value="5" class="se">Query 5</option>
+				<option value="1">IMSI: Event ID & Cause Code for Failures</option>
+				<option value="2">IMSI: Number of Failures in Time Period</option>
+				<option value="3">IMSI: Unique Cause Codes for Failures</option>
+				<option value="4" class="se">See IMSI of all Failures in Time Period</option>
+				<option value="5" class="se">MODEL: Numer of Failures in Time Period</option>
 			</select>
-			<!-- <a href="javascript:hideshow(document.getElementById('querybar'))" id="btn_v" class="buttons" onClick="showQueryDiv();">Show/Hide</a> &nbsp;
+			
+						<!-- <a href="javascript:hideshow(document.getElementById('querybar'))" id="btn_v" class="buttons" onClick="showQueryDiv();">Show/Hide</a> &nbsp;
 		<a href="javascript:document.getElementById('header2').setAttribute('height:90px')" id="btn_v1" class="buttons" onClick="showQueryDiv();">Expand</a> &nbsp;
  -->
 
@@ -73,15 +76,39 @@
 		</center>
 	</div>
 
-	<div class="cssBody" id="mainBody">
+	<div class="cssBody" id="mainBody" height="auto">
 
-		<table id="tblQueryData">
+<style type="text/css">
+	.tblQueryData{
+		width:100%; 
+		border-collapse:collapse; 
+	}
+	.tblQueryData td{ 
+		padding:7px; border:#4e95f4 1px solid;
+	}
+	/* provide some minimal visual accomodation for IE8 and below */
+	.tblQueryData tr{
+		background: #b8d1f3;
+	}
+	/*  Define the background color for all the ODD background rows  */
+	.tblQueryData tr:nth-child(odd){ 
+		background: #b8d1f3;
+	}
+	/*  Define the background color for all the EVEN background rows  */
+	.tblQueryData tr:nth-child(even){
+		background: #dae5f4;
+	}
+</style>
+
+		<table id="tblQueryData" class="tblQueryData">
 			<col width="200px">
 			<tr>
 				<th id="results">Results Table</th>
 				<th id="tableColumns">Event ID Cause Code</th>
 			</tr>
 		</table>
+		
+		<div id ="spacer"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></div>
 
 	</div>
 

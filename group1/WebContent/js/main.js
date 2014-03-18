@@ -6,9 +6,11 @@ $('#tableColumns').hide();
 
 // $('#results').hide();
 
-// -------------- ExecuteQuery button--------------
+//-------------- ExecuteQuery button--------------
 $('#btn_execute_query').click(function() {
 	selectQuery(mylist.options[mylist.selectedIndex].value);
+	$('#spacer').hide();
+	
 	return false;
 });
 
