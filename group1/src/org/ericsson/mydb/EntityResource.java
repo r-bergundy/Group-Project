@@ -73,7 +73,7 @@ public class EntityResource{
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public int[] query6(@PathParam("imsi") String imsi) {
 		
-		System.out.println("findUniqueCauseCodesee");
+		System.out.println("findUniqueCauseCodes!");
 		int[] resultSet = dao.findUniqueCauseCodesForImsi(imsi);
 
 		
@@ -113,19 +113,18 @@ public class EntityResource{
 	}
 	
 	@GET
-	@Path("query7/{imsiWithFailures}")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public String[] Query7(@PathParam("imsiWithFailures") String imsiWithFailures)
+	@Path("query7/{dates}")
+	@Produces({ MediaType.APPLICATION_JSON})
+	public String[] query7(@PathParam("dates") String dates)
 			throws ParseException {
 
-		System.out.println("Query7!");
-		String[] data = imsiWithFailures.split(",");
+		System.out.println("Query7!!");
+		String[] data = dates.split(",");
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 		
 		Date startDate = sdf.parse(data[0]);
 		Date endDate = sdf.parse(data[1]);
-
 		return dao.returnIMSIsWithFailureInTime(startDate, endDate);
 
 	}

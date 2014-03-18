@@ -45,8 +45,7 @@ function selectQuery(query) {
 			break;
 		}
 	case 2:
-		if (imsiValid()){
-			//document.getElementById("mainBody").innerHTML = "";
+		if (imsiValid() && datesValid()){
 			queryCountFailuresForIMSIInTime($('#txtImsi').val(), $('#dtlFromDate').val(),
 					$('#dtlToDate').val());
 		}
@@ -57,10 +56,12 @@ function selectQuery(query) {
 		}
 		break;
 	case 4:
-		queryReturnIMSIsWithFailureInTime($('#dtlFromDate').val(), $('#dtlToDate').val());
+		if (datesValid()){
+			queryReturnIMSIsWithFailureInTime($('#dtlFromDate').val(), $('#dtlToDate').val());
+		}
 		break;
 	case 5:
-		if (tacValid()){
+		if (tacValid() && datesValid()){
 			queryCountFailuresForTacInTime($('#txtTac').val(), $('#dtlFromDate').val(),
 					$('#dtlToDate').val());
 		}
@@ -206,35 +207,35 @@ function findCallFailureById(id) {
 //-----------Find EventIds and Cause Codes for Given Imsi (Query 1)--------------------
 
 function findEventIdsCauseCodes(imsi) {
-
 	$.ajax({
 		type : 'GET',
 		url : rootURL + '/findEventIdsCauseCodes/' + imsi,
 		dataType : "json",
 		success : function(data) {
 			renderQuery1(data);
-
 		}
 
 	});
-
 }
 
 function renderQuery1(data) {
 	var resultset = data == null ? [] : (data instanceof Array ? data
 			: [ data ]);
-	if ($("#tblQueryData tr").length > 1) {
-		$(this).parent().parent("tr").remove();
-	}
+
 	var rowCount = 0;
+	var new_tbody = document.createElement('tbody');
+	$(new_tbody).append('<th>Event ID</th><th>Cause Code</th>');
 	for (var i = 0; i < resultset.length; i++) {
-		alert(resultset[i]);
-		$("#tblQueryData").append('<tr><td>' + resultset[i] + '</td></tr>');
-
+		
+		var str = resultset[i];
+		var res = str.split(" ");
+		
+		$(new_tbody).append('<tr><td>' + res[0] + '</td><td>' + res[1] + '</td></tr>');
 		rowCount++;
-
 	}
 
+	$('#tblQueryData tbody').replaceWith(new_tbody);
+	
 }
 //------Find Count of Failures in a Given Time for an IMSI (Query 2) --------
 
@@ -251,7 +252,12 @@ function queryCountFailuresForIMSIInTime(imsi, startTime, endTime) {
 }
 
 function renderQuery2(data) {
-	renderQuery2(data);
+	var new_tbody = document.createElement('tbody');
+
+	$(new_tbody).append('<th>Number of Failures</th>');
+	$(new_tbody).append('<tr><td>' + data + '</td></tr>');
+	$('#tblQueryData tbody').replaceWith(new_tbody);
+
 }
 
 
@@ -270,14 +276,21 @@ function findCauseCodes(imsi) {
 }
 
 function renderQuery3(data) {
-	renderQuery3(data);
+
+	var new_tbody = document.createElement('tbody');
+
+	$(new_tbody).append('<th>Cause Code</th>');
+	for (var i = 0; i < data.length; i++) {		
+		$(new_tbody).append('<tr><td>' + data[i] + '</td></tr>');
+	}
+	$('#tblQueryData tbody').replaceWith(new_tbody);
 }
 
 //--------Find IMSIs with Failures in Given Time (query 4) ---------
 
 
 function queryReturnIMSIsWithFailureInTime(startTime, endTime) {
-alert( startTime + "," + endTime);
+
 	$.ajax({
 		type : 'GET',
 		url : rootURL + '/query7/' + startTime + "," + endTime,
@@ -288,8 +301,20 @@ alert( startTime + "," + endTime);
 	});
 }
 
-function renderQuery5(data) {
-	renderQuery4(data);
+function renderQuery4(data) {
+
+	var resultset = data == null ? [] : (data instanceof Array ? data
+			: [ data ]);
+	
+	var new_tbody = document.createElement('tbody');
+
+	$(new_tbody).append('<th>IMSI</th>');
+	for (var i = 0; i < resultset.length; i++) {	
+		$(new_tbody).append('<tr><td>' + resultset[i] + '</td></tr>');
+
+	}
+
+	$('#tblQueryData tbody').replaceWith(new_tbody);
 }
 
 
@@ -307,7 +332,11 @@ function queryCountFailuresForTacInTime(tac, startTime, endTime) {
 }
 
 function renderQuery5(data) {
-	alert(data);
+	var new_tbody = document.createElement('tbody');
+
+	$(new_tbody).append('<th>Number of Failures</th>');
+	$(new_tbody).append('<tr><td>' + data + '</td></tr>');
+	$('#tblQueryData tbody').replaceWith(new_tbody);
 }
 
 // -------------------------Validation ---------------------------------
@@ -333,6 +362,25 @@ function imsiValid() {
 	return false;
 
 
+}
+
+function datesValid(){
+	var fromDate = $('#dtlFromDate').val();
+
+	if (fromDate.length != 16) {
+		alert("Invalid Start Date");
+		return false;
+	}
+	
+	
+	var toDate = $('#dtlToDate').val();
+
+	if (toDate.length != 16) {
+		alert("Invalid To Date");
+		return false;
+	}
+
+	return true;
 }
 
 function isNumeric(n) {
@@ -393,6 +441,7 @@ function notEmpty(elem, helperMsg) {
 	}
 	return true;
 }
+
 
 //----------------------------- Connectivity ----------------------------------
 
