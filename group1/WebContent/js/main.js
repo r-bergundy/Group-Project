@@ -203,8 +203,7 @@ function findCallFailureById(id) {
 }
 
 
-//-----------Find EventIds and Cause Codes for Given Imsi(UserStory
-//4)--------------------
+//-----------Find EventIds and Cause Codes for Given Imsi (Query 1)--------------------
 
 function findEventIdsCauseCodes(imsi) {
 
@@ -213,7 +212,7 @@ function findEventIdsCauseCodes(imsi) {
 		url : rootURL + '/findEventIdsCauseCodes/' + imsi,
 		dataType : "json",
 		success : function(data) {
-			renderList(data);
+			renderQuery1(data);
 
 		}
 
@@ -221,7 +220,7 @@ function findEventIdsCauseCodes(imsi) {
 
 }
 
-function renderList(data) {
+function renderQuery1(data) {
 	var resultset = data == null ? [] : (data instanceof Array ? data
 			: [ data ]);
 	if ($("#tblQueryData tr").length > 1) {
@@ -229,7 +228,7 @@ function renderList(data) {
 	}
 	var rowCount = 0;
 	for (var i = 0; i < resultset.length; i++) {
-
+		alert(resultset[i]);
 		$("#tblQueryData").append('<tr><td>' + resultset[i] + '</td></tr>');
 
 		rowCount++;
@@ -237,21 +236,26 @@ function renderList(data) {
 	}
 
 }
-//------Find Count of Failures in a Given Time for an IMSI (Query 5) --------
+//------Find Count of Failures in a Given Time for an IMSI (Query 2) --------
 
 function queryCountFailuresForIMSIInTime(imsi, startTime, endTime) {
+
 	$.ajax({
 		type : 'GET',
 		url : rootURL + '/query5/' + imsi + "," + startTime + "," + endTime,
 		dataType : "json", // data type of response
 		success : function(data) {
-			renderList(data);
+			renderQuery2(data);
 		}
 	});
 }
 
+function renderQuery2(data) {
+	renderQuery2(data);
+}
 
-// ---------------------Find unique Cause Codes for Imsi (query 6) ---------
+
+// ---------------------Find unique Cause Codes for Imsi (query 3) ---------
 
 function findCauseCodes(imsi) {
 	$.ajax({
@@ -259,29 +263,37 @@ function findCauseCodes(imsi) {
 		url : rootURL + '/findUniqueCauseCodes/' + imsi,
 		dataType : "json", // data type of response
 		success : function(data) {
-			renderList(data);
+			renderQuery3(data);
 		}
 	});
 
 }
 
-//--------Find IMSIs with Failures in Given Time (query 7) ---------
+function renderQuery3(data) {
+	renderQuery3(data);
+}
+
+//--------Find IMSIs with Failures in Given Time (query 4) ---------
 
 
 function queryReturnIMSIsWithFailureInTime(startTime, endTime) {
-
+alert( startTime + "," + endTime);
 	$.ajax({
 		type : 'GET',
 		url : rootURL + '/query7/' + startTime + "," + endTime,
 		dataType : "json", // data type of response
 		success : function(data) {
-			renderList(data);
+			renderQuery4(data);
 		}
 	});
 }
 
+function renderQuery5(data) {
+	renderQuery4(data);
+}
 
-// ---------------------Find count of failures in given time for a tac (query 8)
+
+// ---------------------Find count of failures in given time for a tac (query 5)
 
 function queryCountFailuresForTacInTime(tac, startTime, endTime) {
 	$.ajax({
@@ -289,13 +301,13 @@ function queryCountFailuresForTacInTime(tac, startTime, endTime) {
 		url : rootURL + '/query8/' + tac + "," + startTime + "," + endTime,
 		dataType : "json", // data type of response
 		success : function(data) {
-			renderQuery8(data);
+			renderQuery5(data);
 		}
 	});
 }
 
-function renderQuery8(data) {
-	alert("ans" + data);
+function renderQuery5(data) {
+	alert(data);
 }
 
 // -------------------------Validation ---------------------------------

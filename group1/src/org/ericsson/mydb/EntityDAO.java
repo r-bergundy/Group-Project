@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.entities.CallFailure;
+import com.entities.Device;
 import com.entities.EventCause;
 import com.entities.User;
 
@@ -56,9 +57,19 @@ public class EntityDAO {
     	}
     
     //Query 7
-    public List returnIMSIsWithFailureInTime(Date startTime, Date endTime){
-    	return PersistenceUtil.returnIMSIsWithFailureInTime(startTime, endTime);
-    	}
+    public String[] returnIMSIsWithFailureInTime(Date startTime, Date endTime){
+    	
+		List resultSet = PersistenceUtil.returnIMSIsWithFailureInTime(startTime, endTime);
+    	
+    	String[] imsis = new String[resultSet.size()];
+    	int counter = 0;
+		for (Object ob : resultSet) {
+			Device d = (Device) ob;
+			imsis[counter++] = d.getImsi();
+		}
+    	
+    	return imsis;
+    }
     
  
     
