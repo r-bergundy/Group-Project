@@ -98,7 +98,7 @@ public class EntityResource{
 	@Produces({ MediaType.APPLICATION_JSON })
 	public int query5(@PathParam("imsiTimes") String imsiTimes)
 			throws ParseException {
-		System.out.println("query5");
+		System.out.println("query5!");
 		
 		String[] data = imsiTimes.split(",");
 		
@@ -113,19 +113,18 @@ public class EntityResource{
 	}
 	
 	@GET
-	@Path("Query7/{imsiWithFailures}")
+	@Path("query7/{imsiWithFailures}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public List Query7(@PathParam("imsiWithFailures") String imsiWithFailures)
+	public String[] Query7(@PathParam("imsiWithFailures") String imsiWithFailures)
 			throws ParseException {
 
-		System.out.println("Query7");
+		System.out.println("Query7!");
 		String[] data = imsiWithFailures.split(",");
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-		Date startDate = null, endDate = null;
 		
-		startDate = sdf.parse(data[0]);
-		endDate = sdf.parse(data[1]);
+		Date startDate = sdf.parse(data[0]);
+		Date endDate = sdf.parse(data[1]);
 
 		return dao.returnIMSIsWithFailureInTime(startDate, endDate);
 

@@ -38,7 +38,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 		@NamedQuery(name = "Return IMSIs with Failure in Time", query = "SELECT distinct cf.device from CallFailure cf"
 				+ " WHERE cf.dateTime >= :startTime AND cf.dateTime <= :endTime"),
 		@NamedQuery(name = "Find Count Failures For IMSI in Time", query = "SELECT cf.device from CallFailure cf"
-				+ " WHERE cf.device =  :paramIMSI"
+				+ " WHERE cf.device.imsi =  :imsi"
 				+ " AND cf.dateTime >= :startTime AND cf.dateTime <= :endTime")
 })
 
