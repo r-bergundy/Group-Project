@@ -33,13 +33,27 @@ public class TestQueries {
 	private static ReadFile readFile = new ReadFile();
 	private static ValidateForeignKeys testValidation;
 	static XSSFWorkbook testWorkbook;	
-	
+
 	@BeforeClass
 	public static void setup() throws SQLException {
 		dao = new EntityDAO();
 		PersistenceUtil.switchTestDatabase();
-		
+
 		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "toor");
+		/*dao = new EntityDAO();
+		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "toor");
+		Statement stmt = (Statement) connection.createStatement();
+		 stmt.execute("DROP DATABASE testdb");
+			Thread.sleep(5000);
+		 stmt.execute("CREATE DATABASE testdb");
+
+
+		readFile.LoadXLSXFile("datasets/dit group project - sample dataset.xlsx");
+		testWorkbook = readFile.getWorkbook();
+				PersistenceUtil.switchTestDatabase();
+		importData = new ImportData(testWorkbook,new ValidateForeignKeys(), new ValidatePKFields());
+		importData.populateDatabase();/*
+
 		/*FOR RONAN*/ //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb", "root", "");
 	}
 
@@ -86,26 +100,24 @@ public class TestQueries {
 		Date startDate = sdf.parse("2013-01-11 17:00:00");
 		Date endDate = sdf.parse("2013-01-11 18:00:00");
 		testSingleQuery5("344930000000001", startDate, endDate);
-		testSingleQuery5("344930000000001", new Date(), endDate);
-		testSingleQuery5("344930000000001", startDate, new Date());
+		testSingleQuery5("344930000000001", startDate, endDate);
+		testSingleQuery5("344930000000001", startDate, endDate);
 		testSingleQuery5("310560000000012", startDate, endDate);
 		testSingleQuery5("-1", startDate, endDate);
 	}
 
-	public void testSingleQuery5(String imsi, Date startTime, Date endTime) throws SQLException{
-	Statement stmt = (Statement) connection.createStatement() ;
-	String query = "SELECT COUNT(*) from CallFailure cf"
-	+ "WHERE cf.imsi =" + imsi
-	+ "AND cf.dateTime >= :startTime AND cf.dateTime <= :endTime;";
 
-	ResultSet rs = (ResultSet) stmt.executeQuery(query) ;
-	rs.next();
-	int actualResult = dao.findCountFailuresForImsiInTime(imsi, startTime, endTime);
-	assertEquals(rs.getInt(1), actualResult);
+	public void testSingleQuery5(String imsi, Date startTime, Date endTime) throws SQLException{
+		Statement stmt = (Statement) connection.createStatement() ;
+		String query = "SELECT distinct imsi from callfailure cf WHERE cf.dateTime >='"+ startTime +"' AND cf.dateTime <='"+ endTime + "';";
+		ResultSet rs = (ResultSet) stmt.executeQuery(query) ;
+		rs.next();
+		int actualResult = dao.findCountFailuresForImsiInTime(imsi, startTime, endTime);
+		assertEquals(rs.getInt(1), actualResult);
 	}
-	
-	
-	
+
+
+
 	@Test
 	public void testQuery6() throws SQLException {
 
@@ -143,38 +155,44 @@ public class TestQueries {
 
 	}
 
-	
+
 	@Test
 	public void testQuery7() throws SQLException, ParseException{
 
-	Date startDate = sdf.parse("2013-01-11 17:00:00");
-	Date endDate = sdf.parse("2013-01-11 18:00:00");
+		Date startDate = sdf.parse("2013-01-11 17:00:00");
+		Date endDate = sdf.parse("2013-01-11 18:00:00");
 
-	testSingleQuery7(startDate, endDate);
-	testSingleQuery7(new Date(), endDate);
-	testSingleQuery7(startDate, new Date());
-	testSingleQuery7(startDate, startDate);
-	testSingleQuery7(endDate, endDate);
+		testSingleQuery7(startDate, endDate);
+		testSingleQuery7(new Date(), endDate);
+		testSingleQuery7(startDate, new Date());
+		testSingleQuery7(startDate, startDate);
+		testSingleQuery7(endDate, endDate);
 	}
 
 	public void testSingleQuery7(Date startTime, Date endTime) throws SQLException{ 
 
-	Statement stmt = (Statement) connection.createStatement() ;
-
-	String query = "SELECT distinct imsi from CallFailure cf"
-	+ "WHERE cf.dateTime >= :startTime AND cf.dateTime <= :endTime;";
-
-
-	ResultSet rs = (ResultSet) stmt.executeQuery(query) ;
-	rs.next();
-
-	List actualResult = dao.returnIMSIsWithFailureInTime(startTime, endTime);
-
-	assertEquals(rs.getInt(1), actualResult);
+		Statement stmt = (Statement) connection.createStatement() ;
+		String query = "SELECT distinct imsi from callfailure cf WHERE cf.dateTime >='"+ startTime +"' AND cf.dateTime <='"+ endTime + "';";
+		ResultSet rs = (ResultSet) stmt.executeQuery(query) ;
+		rs.next();	
+		int size = 0;
+		if (rs != null) {
+			rs.beforeFirst();
+			rs.last();
+			size = rs.getRow();
+		}
+		String[] expectedResults = new String[size];
+		int index = 0;
+		rs.beforeFirst();
+		while (rs.next()) {
+			expectedResults[index++] = rs.getString(1);
+		}
+		String[] actualResult = dao.returnIMSIsWithFailureInTime(startTime, endTime);
+		assertEquals(expectedResults, actualResult);
 
 	}
-	
-	
+
+
 	@Test
 	public void testQuery8() throws SQLException, ParseException {
 

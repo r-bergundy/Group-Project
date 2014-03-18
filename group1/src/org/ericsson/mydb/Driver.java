@@ -20,10 +20,10 @@ public class Driver {
 
 		EntityResource res = new EntityResource();
 
-		List resultSet = res.Query7("2013-01-01T00:00,2014-01-01T00:00");
+		String[] resultSet = res.Query7("2013-01-01T00:00,2014-01-01T00:00");
 		
 		
-    	String[] imsis = new String[resultSet.size()];
+    	String[] imsis = new String[resultSet.length];
 
 		for (Object ob : resultSet) {
 			Device d = (Device) ob;
