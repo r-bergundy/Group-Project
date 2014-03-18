@@ -4,7 +4,7 @@ html, body, {
 }
 
 .header {
-    position:   absolute;
+   position:   relative;
     top:        2%;
     height:     15%;
     width:      97.5%;
@@ -16,7 +16,7 @@ html, body, {
 }
 
 .header2 {
-    position:   absolute;
+    position:   relative;
 	top:		20%;
     height:     8%;
     width:      97.5%;
@@ -28,7 +28,7 @@ html, body, {
 }
 
 .queries {
-    position:   absolute;
+   position:   relative;
 	top:		31%;
     height:     3%;
     width:      97.5%;
@@ -40,10 +40,14 @@ html, body, {
 }
 
 .cssBody {
-    position:   absolute;
+   position:   relative;
+   	min-height: 70%;
     top:        37%;
-    bottom:     5px;
+    height:		62%;
     width:      97.5%;
+    
+    
+    
     background: #6C8CD5;
 	padding: 5px;
 	border-style: ridge;
@@ -51,6 +55,32 @@ html, body, {
 	border-width: 5px;
 }
 
+.tblQueryData{
+		width:100%; 
+		border-collapse:collapse; 
+	}
+	.tblQueryData td{ 
+		padding:7px; border:#4e95f4 1px solid;
+	}
+	/* provide some minimal visual accomodation for IE8 and below */
+	.tblQueryData tr{
+		background: #b8d1f3;
+	}
+	/*  Define the background color for all the ODD background rows  */
+	.tblQueryData th:nth-child(odd){ 
+		background: #b8d1f3;
+	}
+	/*  Define the background color for all the EVEN background rows  */
+	.tblQueryData th:nth-child(even){
+		background: #dae5f4;
+	}
+
+.tableheader{
+
+    text-align:center; 
+    vertical-align:middle;
+
+}
 
 .buttons {
 	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -107,10 +137,4 @@ html, body, {
       width: 100px;            /    *Width of select dropdown to give space for arrow image*/
       text-indent: 0.01px;          /* Removes default arrow from firefox*/
       text-overflow: "";               /*Removes default arrow from firefox*/
-}#btnLogout
-{
-position:fixed;
-top:30px;
-right:20px;
-text-decoration: none
 }
