@@ -83,7 +83,7 @@ public class EntityResource{
 
 	@GET
 	@Path("findEventIdsCauseCodes/{imsi}")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON})
 	public String[] findEventIdsCauseCodes(@PathParam("imsi") String imsi) {
 
 		System.out.println("findEventIdsCauseCodes");
@@ -95,12 +95,12 @@ public class EntityResource{
 	
 	@GET
 	@Path("query5/{imsiTimes}")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON })
 	public int query5(@PathParam("imsiTimes") String imsiTimes)
 			throws ParseException {
 		System.out.println("query5");
 		
-		String[] data = imsiTimes.split("|");
+		String[] data = imsiTimes.split(",");
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 		Date startDate = null, endDate = null;
@@ -119,7 +119,7 @@ public class EntityResource{
 			throws ParseException {
 
 		System.out.println("Query7");
-		String[] data = imsiWithFailures.split("|");
+		String[] data = imsiWithFailures.split(",");
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 		Date startDate = null, endDate = null;

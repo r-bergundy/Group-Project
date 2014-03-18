@@ -3,7 +3,6 @@ var rootURL = "http://localhost:8080/group1/rest/custservrep";
 
 $('#querybar').hide();
 $('#tableColumns').hide();
-var loggingIn = false;
 
 // $('#results').hide();
 
@@ -43,12 +42,13 @@ function selectQuery(query) {
 			findEventIdsCauseCodes($('#txtImsi').val());
 			$('#tableColumns').show();
 			$('#results').hide();
+			break;
 		}
-		break;
 	case 2:
 		if (imsiValid()){
-			document.getElementById("mainBody").innerHTML = "";
-			// ???????????????????
+			//document.getElementById("mainBody").innerHTML = "";
+			queryCountFailuresForIMSIInTime($('#txtImsi').val(), $('#dtlFromDate').val(),
+					$('#dtlToDate').val());
 		}
 		break;	
 	case 3:
@@ -57,12 +57,12 @@ function selectQuery(query) {
 		}
 		break;
 	case 4:
-		// ????????????????
+		queryReturnIMSIsWithFailureInTime($('#dtlFromDate').val(), $('#dtlToDate').val());
 		break;
 	case 5:
 		if (tacValid()){
-			queryCountFailuresForTacInTime($('#txtTac').val(), $('#dltStartTime')
-					.val(), $('#dltEndTime').val());
+			queryCountFailuresForTacInTime($('#txtTac').val(), $('#dtlFromDate').val(),
+					$('#dtlToDate').val());
 		}
 		break;
 
@@ -85,7 +85,6 @@ function findUserByUserName(username) {
 		url : rootURL + '/findUser/' + username,
 		dataType : "json", // data type of response
 		success : function(data) {
-			if (loggingIn) {
 				if (data.password == $("#loginfield").val()) {
 					addCookie(data);
 					logIn(data);
@@ -93,10 +92,6 @@ function findUserByUserName(username) {
 					alert('Incorrect Password');
 					$('#username').focus();
 				}
-				loggingIn = false;
-			} else {
-				logIn(data);
-			}
 		},
 		error : function() {
 			alert('hid');
@@ -108,7 +103,7 @@ function findUserByUserName(username) {
 }
 
 function logIn(user) {
-	currentUser = user;
+
 	window.location.href = "http://localhost:8080/group1/index.html";
 //	document.getElementById('lblUser').innerHTML = getCookie('user');
 //	document.getElementById('lblUserType').innerHTML = getCookie('userType');	
@@ -117,14 +112,14 @@ function logIn(user) {
 
 function hidePrivilegedElements(){
 
-	if (getCookie("userType") != "NETWORK_MANAGEMENT_ENGINEER"){
+	if (getCookie("userType") != "NETWORK_MANAGEMENT_ENGINEER"){	
 		var nmeElements = document.querySelectorAll('*.nme');
 		for (var i=0; i < nmeElements.length; i++) {
 			nmeElements[i].style.display='none';
 		}
+		
 		if (getCookie("userType") != "SUPPORT_ENGINNER"){
 			var seElements = document.querySelectorAll('*.se');
-
 			for (var i=0; i < seElements.length; i++) {
 				seElements[i].style.display='none';
 			}
@@ -208,51 +203,8 @@ function findCallFailureById(id) {
 }
 
 
-//------Find Count of Failures in a Given Time for an IMSI (Query 5) --------
-
-function queryCountFailuresForIMSIInTime(imsi, startTime, endTime) {
-	$.ajax({
-		type : 'GET',
-		url : rootURL + '/query5/' + imsi + "|" + startTime + "|" + endTime,
-		dataType : "json", // data type of response
-		success : function(data) {
-			renderList(data);
-		}
-	});
-}
-
-
-// ---------------------Find unique Cause Codes for Imsi (query 6) ---------
-
-function findCauseCodes(imsi) {
-	$.ajax({
-		type : 'GET',
-		url : rootURL + '/findUniqueCauseCodes/' + imsi,
-		dataType : "json", // data type of response
-		success : function(data) {
-			renderList(data);
-		}
-	});
-
-}
-
-//--------Find IMSIs with Failures in Given Time (query 7) ---------
-
-
-function queryReturnIMSIsWithFailureInTime(startTime, endTime) {
-	$.ajax({
-		type : 'GET',
-		url : rootURL + '/query7/' + startTime + "|" + endTime,
-		dataType : "json", // data type of response
-		success : function(data) {
-
-			renderList(data);
-		}
-	});
-}
-
-// -----------Find EventIds and Cause Codes for Given Imsi(UserStory
-// 4)--------------------
+//-----------Find EventIds and Cause Codes for Given Imsi(UserStory
+//4)--------------------
 
 function findEventIdsCauseCodes(imsi) {
 
@@ -285,6 +237,49 @@ function renderList(data) {
 	}
 
 }
+//------Find Count of Failures in a Given Time for an IMSI (Query 5) --------
+
+function queryCountFailuresForIMSIInTime(imsi, startTime, endTime) {
+	$.ajax({
+		type : 'GET',
+		url : rootURL + '/query5/' + imsi + "," + startTime + "," + endTime,
+		dataType : "json", // data type of response
+		success : function(data) {
+			renderList(data);
+		}
+	});
+}
+
+
+// ---------------------Find unique Cause Codes for Imsi (query 6) ---------
+
+function findCauseCodes(imsi) {
+	$.ajax({
+		type : 'GET',
+		url : rootURL + '/findUniqueCauseCodes/' + imsi,
+		dataType : "json", // data type of response
+		success : function(data) {
+			renderList(data);
+		}
+	});
+
+}
+
+//--------Find IMSIs with Failures in Given Time (query 7) ---------
+
+
+function queryReturnIMSIsWithFailureInTime(startTime, endTime) {
+
+	$.ajax({
+		type : 'GET',
+		url : rootURL + '/query7/' + startTime + "," + endTime,
+		dataType : "json", // data type of response
+		success : function(data) {
+			renderList(data);
+		}
+	});
+}
+
 
 // ---------------------Find count of failures in given time for a tac (query 8)
 
@@ -300,7 +295,7 @@ function queryCountFailuresForTacInTime(tac, startTime, endTime) {
 }
 
 function renderQuery8(data) {
-	alert(data);
+	alert("ans" + data);
 }
 
 // -------------------------Validation ---------------------------------
@@ -308,7 +303,7 @@ function renderQuery8(data) {
 function tacValid() {
 	var tac = $('#txtTac').val();
 
-	if (IsNumeric(tac) && tac > 0) {
+	if (isNumeric(tac) && tac > 0) {
 		return true;
 	}
 	alert("Invalid TAC");
@@ -319,13 +314,18 @@ function imsiValid() {
 
 	var imsi = $('#txtImsi').val();
 
-	if (imsi.length != 15 || !IsNumeric(imsi)) {
-		alert("Invalid IMSI");
-		return false;
+	if (imsi.length == 15 && isNumeric(imsi)) {
+		return true;
 	}
-	return true;
+	alert("Invalid IMSI");
+	return false;
+
 
 }
+
+function isNumeric(n) {
+	  return !isNaN(parseFloat(n)) && isFinite(n);
+	}
 
 
 function dataValid() {
