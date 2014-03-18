@@ -32,6 +32,7 @@ public class Upload extends HttpServlet {
 	private String FileName;
 	private int totalErrors;
 	ReadFile fileLoader = new ReadFile();
+	private boolean isValidFormat;
 	private static final String UPLOAD_DIRECTORY = "upload";
 	private static final int THRESHOLD_SIZE     = 1024 * 1024 * 3;  // 3MB
 	private static final int MAX_FILE_SIZE      = 1024 * 1024 * 40; // 40MB
@@ -95,9 +96,7 @@ public class Upload extends HttpServlet {
 					//ImportData importData = new ImportData(fileLoader.getWorkbook(), fileLoader.getFkerrors(),
 					//fileLoader.getPkerror());
 					//importData.populateDatabase();
-					System.out.println("IMPORTING FROM SERVLET");
-					System.out.println(fileLoader.getTotalNumberErrors());
-					totalErrors = fileLoader.getTotalNumberErrors();
+
 				}
 			}
 			request.setAttribute("messageSuccess", "Upload has been successfully Completed!");
@@ -105,12 +104,19 @@ public class Upload extends HttpServlet {
 			request.setAttribute("messageErrors", "\nTotal Numbers of Errors found in Dataset = " + totalErrors);
 			request.setAttribute("messageFail", "No File/Wrong Fileformat Selected. Please select .xlsx files only");
 			request.setAttribute("messageAllErrors", fileLoader.getAllInvalidCellRef());
-			
+
 
 		} catch (Exception ex) {
 			request.setAttribute("message", "There was an error: " + ex.getMessage());
 		}
-		if(fileLoader.getValidFormat()){
+		if(fileLoader.getValidFormat().booleanValue()){
+			System.out.println("IMPORTING FROM SERVLET NEW");
+			System.out.println(fileLoader.getTotalNumberErrors());
+			totalErrors = fileLoader.getTotalNumberErrors();
+			ImportData importData = new ImportData(fileLoader.getWorkbook(), fileLoader.getFkerrors(),
+					fileLoader.getPkerror());
+			importData.populateDatabase();
+			System.out.println(fileLoader.getAllInvalidCellRef().size());
 			PrintWriter output = response.getWriter();
 			//getServletContext().getRequestDispatcher("/successMessage.jsp").forward(request, response);
 			output.println("<HTML><BODY>");
@@ -130,14 +136,18 @@ public class Upload extends HttpServlet {
 			}
 			output.println("</ul>");
 			output.println("</p>");	
-			
+
 			output.println("<div>");
 			output.println("<input type=\"button\" value=\"Close this window\" onclick=\"self.close()\">");
 			output.println("</div>");
 			output.println("</BODY></HTML>");
 		}
-		else if(!fileLoader.getValidFormat()){
-			getServletContext().getRequestDispatcher("/failedMessage.jsp").forward(request, response);
+		else if(!fileLoader.getValidFormat().booleanValue()){
+			System.out.println("Invalid!!!!!!!!!!!!!!!!!!!!!!!!!");
+			//getServletContext().getRequestDispatcher("/failedMessage.jsp").forward(request, response);
+			PrintWriter output = response.getWriter();
+			output.println("<p>No File/Wrong Fileformat Selected. Please select .xlsx files only UPLOAD OUT</p>");
+			output.println("<input type=\"button\" value=\"Close this window\" onclick=\"self.close()\">");
 		}
 	}
 
