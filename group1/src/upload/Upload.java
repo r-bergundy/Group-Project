@@ -113,9 +113,9 @@ public class Upload extends HttpServlet {
 			System.out.println("IMPORTING FROM SERVLET NEW");
 			System.out.println(fileLoader.getTotalNumberErrors());
 			totalErrors = fileLoader.getTotalNumberErrors();
-			//ImportData importData = new ImportData(fileLoader.getWorkbook(), fileLoader.getFkerrors(),
-			//		fileLoader.getPkerror());
-			//importData.populateDatabase();
+			ImportData importData = new ImportData(fileLoader.getWorkbook(), fileLoader.getFkerrors(),
+				fileLoader.getPkerror());
+			importData.populateDatabase();
 			System.out.println(fileLoader.getAllInvalidCellRef().size());
 			PrintWriter output = response.getWriter();
 			//getServletContext().getRequestDispatcher("/successMessage.jsp").forward(request, response);
