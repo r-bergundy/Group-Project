@@ -113,9 +113,9 @@ public class Upload extends HttpServlet {
 			System.out.println("IMPORTING FROM SERVLET NEW");
 			System.out.println(fileLoader.getTotalNumberErrors());
 			totalErrors = fileLoader.getTotalNumberErrors();
-			ImportData importData = new ImportData(fileLoader.getWorkbook(), fileLoader.getFkerrors(),
-					fileLoader.getPkerror());
-			importData.populateDatabase();
+			//ImportData importData = new ImportData(fileLoader.getWorkbook(), fileLoader.getFkerrors(),
+			//		fileLoader.getPkerror());
+			//importData.populateDatabase();
 			System.out.println(fileLoader.getAllInvalidCellRef().size());
 			PrintWriter output = response.getWriter();
 			//getServletContext().getRequestDispatcher("/successMessage.jsp").forward(request, response);
@@ -128,15 +128,44 @@ public class Upload extends HttpServlet {
 			output.println("<p>");
 			output.println("See Invalid CellReferences Found Below:");
 			output.println("</center>");
-			output.println("<ul>");
-			for (CellReference invalidCells: fileLoader.getAllInvalidCellRef()){
-				System.out.println(invalidCells.formatAsString());
-				output.println("<li>"+invalidCells.formatAsString()+"</li>");
-				//request.setAttribute("messageAllErrors", invalidCells.formatAsString());
+		
+			output.println("</p>");
+			if(fileLoader.getPkerror().getInvalidCellRef().size() > 0){
+				output.println("<div>");
+				output.println("<p>The following are invalid Primary Key Values</p>");
+				output.println("<ul>");
+				for (CellReference invalidCells: fileLoader.getPkerror().getInvalidCellRef()){
+					System.out.println(invalidCells.formatAsString());
+					output.println("<li>"+invalidCells.formatAsString()+"</li>");
+					//request.setAttribute("messageAllErrors", invalidCells.formatAsString());
+				}
+				output.println("</ul>");
+				output.println("</div>");
 			}
-			output.println("</ul>");
-			output.println("</p>");	
-
+			if(fileLoader.getFkerrors().getInvlaidCellRef().size() > 0){
+				output.println("<div>");
+				output.println("<p>The following are invalid Foreign Key value found in  the Base Data Sheet</p>");
+				output.println("<ul>");
+				for (CellReference invalidCells: fileLoader.getFkerrors().getInvlaidCellRef()){
+					System.out.println(invalidCells.formatAsString());
+					output.println("<li>"+invalidCells.formatAsString()+"</li>");
+					//request.setAttribute("messageAllErrors", invalidCells.formatAsString());
+				}
+				output.println("</ul>");
+				output.println("</div>");
+			}
+			if(fileLoader.getInvalidMNCMCCCombination().size() > 0){
+				output.println("<div>");
+				output.println("<p>The following MNC-MCC combination found in Base Data is invalid</p>");
+				output.println("<ul>");
+				for (String invalidCombos: fileLoader.getInvalidMNCMCCCombination()){
+					System.out.println(invalidCombos);
+					output.println("<li>"+invalidCombos + "</li>");
+					//request.setAttribute("messageAllErrors", invalidCells.formatAsString());
+				}
+				output.println("</ul>");
+				output.println("</div>");
+			}
 			output.println("<div>");
 			output.println("<input type=\"button\" value=\"Close this window\" onclick=\"self.close()\">");
 			output.println("</div>");

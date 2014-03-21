@@ -13,13 +13,26 @@ public class StartValidation {
 	XSSFWorkbook workbook;
 	private ValidatePKFields pkfields = new ValidatePKFields();
 	private ValidateForeignKeys fkfields = new ValidateForeignKeys();
+	private ValidateMNC_MCC_Combination mncmccCombo = new ValidateMNC_MCC_Combination();
 	private ArrayList<CellReference> errorsList;
 	
 	
 	
 	public ValidatePKFields getPkfields() {
 		return pkfields;
+	}	
+	
+
+	public ValidateMNC_MCC_Combination getMncmccCombo() {
+		return mncmccCombo;
 	}
+
+
+	public void setMncmccCombo(ValidateMNC_MCC_Combination mncmccCombo) {
+		this.mncmccCombo = mncmccCombo;
+	}
+
+
 
 	public void setPkfields(ValidatePKFields pkfields) {
 		this.pkfields = pkfields;
@@ -43,6 +56,10 @@ public class StartValidation {
 		fkfields = new ValidateForeignKeys(workbook);		
 		
 		CalculateTotalNumberOfErrors(pkfields, fkfields);
+		
+		System.out.println("----------------------------NEW CHECK-----------------------------------------");
+		mncmccCombo = new ValidateMNC_MCC_Combination(workbook);
+		
 		
 		//System.out.println("PK Errors");
 		//pkfields.printArrayList();

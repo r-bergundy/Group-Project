@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
+import org.ericsson.parser.ReadFile;
+
 import com.entities.Device;
 
 public class Driver {
@@ -12,13 +14,17 @@ public class Driver {
 	
 	public Driver() throws IOException, ParseException{
 
-//		ReadFile readFile = new ReadFile();
-//		readFile.LoadXLSXFile("datasets/dit group project - sample dataset.xlsx");
+		ReadFile readFile = new ReadFile();
+		readFile.LoadXLSXFile("datasets/dit group project - sample dataset.xlsx");
+		//readFile.LoadXLSXFile("datasets/DIT Group Project - Dataset 3A 2014.xlsx");
+		//readFile.LoadXLSXFile("datasets/DIT Group Project - Dataset 3B 2014.xlsx");
+		readFile.StartProcess();
 //		XSSFWorkbook testWorkbook = readFile.getWorkbook();
 //
 //		ImportData importData = new ImportData(testWorkbook,new ValidateForeignKeys(), new ValidatePKFields());
 
-		EntityResource res = new EntityResource();
+		//EntityResource res = new EntityResource();
+
 
 
 		

@@ -21,6 +21,7 @@ public class ReadFile {
 	StartValidation startValidationProcess;
 	private int totalNumberErrors;
 	private ArrayList<CellReference> allInvalidCellRef = new ArrayList<CellReference>();
+	private ArrayList<String> invalidMNCMCCCombination = new ArrayList<String>();
 
 	public ReadFile(){
 
@@ -120,6 +121,7 @@ public class ReadFile {
 		setPkerror(startValidationProcess.getPkfields());
 		setFkerrors(startValidationProcess.getFkfields());
 		AddAllErrorstoList();
+		setInvalidMNCMCCCombination(startValidationProcess.getMncmccCombo().getInValidOperatorsList());
 	}
 	
 	public void AddAllErrorstoList(){
@@ -138,6 +140,15 @@ public class ReadFile {
 
 	public void setAllInvalidCellRef(ArrayList<CellReference> allInvalidCellRef) {
 		this.allInvalidCellRef = allInvalidCellRef;
+	}
+
+	public ArrayList<String> getInvalidMNCMCCCombination() {
+		return invalidMNCMCCCombination;
+	}
+
+	public void setInvalidMNCMCCCombination(
+			ArrayList<String> invalidMNCMCCCombination) {
+		this.invalidMNCMCCCombination = invalidMNCMCCCombination;
 	}
 	
 	
